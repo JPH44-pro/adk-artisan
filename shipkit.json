@@ -1,0 +1,29 @@
+{
+  "templateName": "adk-agent-saas",
+  "version": "2.0.6",
+  "generatedAt": "2026-04-05T20:06:07.536Z",
+  "cliVersion": "3.1.2",
+  "description": "ADK Agent SaaS template for building Chat-Copilot - AI-powered intelligent inbox management for busy professionals",
+  "features": [
+    "supabase-auth",
+    "drizzle-orm",
+    "next-app-router",
+    "openrouter-ai",
+    "tailwind-ui",
+    "stripe-billing",
+    "subscription-management",
+    "usage-tracking",
+    "admin-panel",
+    "agent-development"
+  ],
+  "changelog": {
+    "2.0.0": "Initial release with ADK agent development and SaaS functionality for Chat-Copilot",
+    "2.0.1": "Add Windsurf and Claude Code rule variants.",
+    "2.0.2": "Add MCP support for context7 and time in mcp.json for Claude Code.",
+    "2.0.3": "Windows-Compatible Template Update Workflow.",
+    "2.0.4": "Add Claude command support for all prep and dev templates",
+    "2.0.5": "Enhanced Claude Code Integration & Developer Documentation",
+    "2.0.6": "Add development workflow documentation (task_review.md, worktree.md)"
+  },
+  "generatedBy": "shipkit-ai"
+}
