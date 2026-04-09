@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { Menu } from "lucide-react";
 import Logo from "@/components/Logo";
@@ -7,7 +8,6 @@ import Logo from "@/components/Logo";
 export function MobileHeaderContent() {
   const { isMobile } = useSidebar();
 
-  // This header should only be rendered on mobile.
   if (!isMobile) {
     return null;
   }
@@ -17,9 +17,9 @@ export function MobileHeaderContent() {
       <SidebarTrigger className="p-2 rounded-md hover:bg-muted flex items-center justify-center">
         <Menu className="h-5 w-5" />
       </SidebarTrigger>
-      <div className="ml-4">
+      <Link href="/dashboard" className="ml-4 flex items-center">
         <Logo width={26} height={26} />
-      </div>
+      </Link>
     </div>
   );
 }

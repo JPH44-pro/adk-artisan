@@ -22,14 +22,14 @@ export function LogoutButton({ variant = "default" }: LogoutButtonProps) {
       const result = await logoutAction();
 
       if (result.success) {
-        toast.success("Successfully logged out!");
+        toast.success("Déconnexion réussie.");
         router.push("/");
       } else {
-        toast.error(result.error || "Logout failed");
+        toast.error(result.error || "Échec de la déconnexion");
       }
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "Logout failed";
+        error instanceof Error ? error.message : "Échec de la déconnexion";
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -51,7 +51,7 @@ export function LogoutButton({ variant = "default" }: LogoutButtonProps) {
 
   return (
     <Button onClick={handleLogout} disabled={isLoading}>
-      {isLoading ? "Logging out..." : "Logout"}
+      {isLoading ? "Déconnexion…" : "Déconnexion"}
     </Button>
   );
 }

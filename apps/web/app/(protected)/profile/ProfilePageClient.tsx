@@ -50,11 +50,11 @@ function ProfilePageContent() {
       // Show appropriate toast based on message
       switch (message) {
         case "cancelled":
-          toast.success("✅ Subscription cancelled successfully!");
+          toast.success("Abonnement résilié.");
           break;
         case "portal_error":
           toast.error(
-            "Unable to load subscription management. Please try again."
+            "Impossible d’ouvrir la gestion d’abonnement. Réessayez."
           );
           break;
       }
@@ -68,7 +68,7 @@ function ProfilePageContent() {
     // Handle Stripe success/cancel returns (existing behavior)
     if (sessionId) {
       toast.success(
-        "🎉 Payment successful! Your Pro subscription is now active."
+        "Paiement confirmé : votre abonnement Pro est actif."
       );
       // Clean up URL parameters
       const url = new URL(window.location.href);
@@ -85,9 +85,9 @@ function ProfilePageContent() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Profile</h1>
+        <h1 className="text-3xl font-bold mb-2">Profil</h1>
         <p className="text-muted-foreground">
-          Manage your account, subscription, and billing preferences.
+          Compte ReglePro, abonnement et facturation (Stripe).
         </p>
       </div>
 

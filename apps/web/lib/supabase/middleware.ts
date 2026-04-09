@@ -50,7 +50,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Define public routes that don't require authentication
+  // Public routes only; all other paths require a session (including new app routes under /dashboard, /clients, etc.)
   const publicRoutes = ["/", "/cookies", "/privacy", "/terms"];
   const publicPatterns = ["/auth"];
 

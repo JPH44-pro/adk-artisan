@@ -17,7 +17,7 @@ export function UsageTracker() {
     return (
       <Card className="w-full">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm">Monthly Usage</CardTitle>
+          <CardTitle className="text-sm">Usage du mois</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-3">
@@ -64,14 +64,14 @@ export function UsageTracker() {
     <Card className="w-full">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm">Monthly Usage</CardTitle>
+          <CardTitle className="text-sm">Usage du mois</CardTitle>
           <Badge
             className={cn(
               "text-xs text-white capitalize",
               getTierBadgeColor(subscriptionTier)
             )}
           >
-            {subscriptionTier === "paid" ? "Pro" : "Free"}
+            {subscriptionTier === "paid" ? "Pro" : "Gratuit"}
           </Badge>
         </div>
       </CardHeader>
@@ -82,7 +82,7 @@ export function UsageTracker() {
             <div className="flex items-center justify-between text-xs mb-2">
               <div className="flex items-center gap-1">
                 <Users className="h-3 w-3 text-primary" />
-                <span className="font-medium">Sessions</span>
+                <span className="font-medium">Sessions assistant</span>
               </div>
               <span className="font-mono">
                 {sessions.used}/{sessions.limit.toLocaleString()}
@@ -123,10 +123,10 @@ export function UsageTracker() {
           <>
             <div className="space-y-2">
               <div className="text-xs text-center text-primary font-medium dark:text-primary">
-                ✓ Unlimited Sessions
+                ✓ Sessions illimitées
               </div>
               <div className="text-xs text-center text-primary font-medium dark:text-primary">
-                ✓ Unlimited Messages
+                ✓ Messages illimités
               </div>
             </div>
           </>
@@ -144,11 +144,11 @@ export function UsageTracker() {
                   variant="outline"
                 >
                   <Users className="h-3 w-3" />
-                  Upgrade to Pro
+                  Passer à Pro
                 </Button>
               </Link>
               <div className="text-xs text-center text-muted-foreground">
-                Upgrade for unlimited sessions and messages
+                Passez à Pro pour un usage illimité de l’assistant
               </div>
             </div>
           </>

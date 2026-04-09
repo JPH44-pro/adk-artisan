@@ -171,7 +171,7 @@ export function ReportWithDownload({ content }: ReportWithDownloadProps) {
                   padding: "0",
                 }}
               >
-                CompetitorAI
+                ReglePro
               </span>
             </div>
           </div>
@@ -283,7 +283,7 @@ export function ReportWithDownload({ content }: ReportWithDownloadProps) {
                   display: "inline-block",
                 }}
               >
-                CompetitorAI
+                ReglePro
               </span>
             </div>
           </div>

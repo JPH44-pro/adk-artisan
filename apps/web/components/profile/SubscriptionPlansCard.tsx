@@ -15,16 +15,16 @@ const PLANS = [
     sessions: 1,
     messages: 20,
     price: 0,
-    support: "Basic support",
-    description: "Perfect for getting started",
+    support: "Assistance de base",
+    description: "Découvrir ReglePro et l’assistant (limites d’usage)",
   },
   {
     name: "Pro",
     sessions: -1,
     messages: -1,
     price: 9.99,
-    support: "Priority support",
-    description: "For serious agents and power users",
+    support: "Assistance prioritaire",
+    description: "Usage illimité de l’assistant et fonctionnalités Pro",
   },
 ];
 
@@ -33,9 +33,9 @@ export function SubscriptionPlansCard() {
     <>
       <Card className="md:col-span-2" data-section="plans">
         <CardHeader>
-          <CardTitle>Available Plans</CardTitle>
+          <CardTitle>Formules</CardTitle>
           <CardDescription>
-            Choose the plan that best fits your needs
+            Gratuit ou Pro — même tarif équitable pour tous les artisans
           </CardDescription>
         </CardHeader>
         <CardContent>

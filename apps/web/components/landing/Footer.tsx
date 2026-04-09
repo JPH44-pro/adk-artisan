@@ -1,7 +1,8 @@
 import { SocialIcon } from "react-social-icons";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Brain } from "lucide-react";
+import { Mail } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -12,37 +13,42 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="text-center md:text-left">
             <div className="flex items-center space-x-3 mb-6 justify-center md:justify-start">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                <Brain className="h-6 w-6 text-white" />
-              </div>
+              <Image
+                src="/logo.png"
+                alt="ReglePro"
+                width={40}
+                height={40}
+                className="flex-shrink-0 rounded-xl"
+              />
               <div className="text-2xl font-bold text-slate-800 dark:text-white">
-                CompetitorAI
+                ReglePro
               </div>
             </div>
             <p className="text-slate-600 dark:text-slate-400 mb-4 max-w-md mx-auto md:mx-0">
-              Validate your startup idea in 10 minutes with AI-powered
-              competitive intelligence.
+              Le poste de pilotage pour artisans et TPE du bâtiment : devis,
+              factures, dossier client et agenda. Un abonnement clair, pas une
+              commission cachée sur vos chantiers.
             </p>
             <div className="flex gap-3 justify-center md:justify-start">
               <SocialIcon
                 url="https://twitter.com"
                 className="h-9 w-9 hover:opacity-80 transition-opacity duration-200"
                 bgColor="transparent"
-                fgColor="white"
+                fgColor="currentColor"
                 style={{ height: 40, width: 40 }}
               />
               <SocialIcon
                 url="https://linkedin.com"
                 className="p-0 hover:opacity-80 transition-opacity duration-200"
                 bgColor="transparent"
-                fgColor="white"
+                fgColor="currentColor"
                 style={{ height: 40, width: 40 }}
               />
               <SocialIcon
                 url="https://github.com"
                 className="h-9 w-9 hover:opacity-80 transition-opacity duration-200"
                 bgColor="transparent"
-                fgColor="white"
+                fgColor="currentColor"
                 style={{ height: 40, width: 40 }}
               />
             </div>
@@ -53,7 +59,7 @@ const Footer = () => {
             {/* Product Links */}
             <div>
               <h4 className="font-semibold text-slate-800 dark:text-white text-lg mb-4">
-                Product
+                Produit
               </h4>
               <ul className="space-y-3">
                 <li>
@@ -61,7 +67,7 @@ const Footer = () => {
                     href="#features"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Features
+                    Fonctionnalités
                   </Link>
                 </li>
                 <li>
@@ -69,7 +75,7 @@ const Footer = () => {
                     href="#pricing"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Pricing
+                    Tarifs
                   </Link>
                 </li>
                 <li>
@@ -85,7 +91,7 @@ const Footer = () => {
                     href="#demo"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Sample Report
+                    Aperçu
                   </Link>
                 </li>
               </ul>
@@ -94,16 +100,16 @@ const Footer = () => {
             {/* Support Links */}
             <div>
               <h4 className="font-semibold text-slate-800 dark:text-white text-lg mb-4">
-                Support
+                Légal
               </h4>
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="mailto:support@competitorai.com"
+                    href="mailto:contact@reglepro.io"
                     className="flex items-center justify-center md:justify-start gap-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
                     <Mail className="w-4 h-4" />
-                    Email Support
+                    Contact
                   </Link>
                 </li>
                 <li>
@@ -111,7 +117,7 @@ const Footer = () => {
                     href="/privacy"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Privacy Policy
+                    Confidentialité
                   </Link>
                 </li>
                 <li>
@@ -119,15 +125,15 @@ const Footer = () => {
                     href="/terms"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Terms of Service
+                    Conditions d&apos;utilisation
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/terms"
+                    href="/cookies"
                     className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
                   >
-                    Cookie Policy
+                    Cookies
                   </Link>
                 </li>
               </ul>
@@ -139,12 +145,12 @@ const Footer = () => {
         <div className="pt-8 border-t border-slate-200 dark:border-slate-800">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 dark:text-slate-500 text-sm">
-              © 2025 CompetitorAI. All rights reserved.
+              © {new Date().getFullYear()} ReglePro. Tous droits réservés.
             </p>
             <Badge className="bg-primary/10 hover:bg-primary/10 border-primary/20 text-primary text-xs">
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-primary rounded-full"></div>
-                All systems operational
+                Service opérationnel
               </div>
             </Badge>
           </div>

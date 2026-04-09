@@ -3,11 +3,11 @@ import LegalPageWrapper from "@/components/legal/LegalPageWrapper";
 import { generateLegalMetadata } from "@/lib/metadata";
 import TableOfContents from "@/components/legal/TableOfContents";
 
-const lastUpdated = "2025-06-30";
+const lastUpdated = "2026-04-06";
 
 export const metadata: Metadata = generateLegalMetadata(
   "Cookie Policy",
-  "Cookie Policy for ShipKit.ai - Information about cookies and tracking technologies we use to enhance your experience."
+  "Cookie Policy for ReglePro — cookies and similar technologies used on our SaaS for tradespeople."
 );
 
 const tocSections = [
@@ -30,7 +30,7 @@ export default function CookiePolicy() {
         <LegalPageWrapper
           title="Cookie Policy"
           lastUpdated={lastUpdated}
-          description="This Cookie Policy explains how ShipKit.ai uses cookies and similar tracking technologies to enhance your experience and improve our services."
+          description="This Cookie Policy explains how ReglePro uses cookies and similar tracking technologies when you use our website and application."
         >
           <section id="introduction">
             <h2>1. What Are Cookies</h2>
@@ -47,9 +47,9 @@ export default function CookiePolicy() {
               &ldquo;cookies.&rdquo;
             </p>
             <p>
-              ShipKit.ai uses cookies to provide essential functionality,
+              ReglePro uses cookies to provide essential functionality,
               remember your preferences, analyze usage patterns, and improve our
-              AI chat platform service.
+              service for tradespeople.
             </p>
           </section>
 
@@ -69,10 +69,10 @@ export default function CookiePolicy() {
               <span className="text-muted-foreground">
                 Contact:{" "}
                 <a
-                  href="mailto:privacy@shipkit.ai"
+                  href="mailto:privacy@reglepro.io"
                   className="text-primary hover:underline"
                 >
-                  privacy@shipkit.ai
+                  privacy@reglepro.io
                 </a>
               </span>
             </div>
@@ -145,8 +145,8 @@ export default function CookiePolicy() {
                 preferences, and display options
               </li>
               <li>
-                <strong>Model Preferences:</strong> Your preferred AI models and
-                conversation settings
+                <strong>App preferences:</strong> Display options and optional
+                assistant settings where applicable
               </li>
             </ul>
             <div className="bg-muted/30 p-4 rounded-lg border mt-4">
@@ -157,8 +157,8 @@ export default function CookiePolicy() {
                   interaction preferences
                 </li>
                 <li>
-                  <strong>model-settings:</strong> Preferred AI models and
-                  conversation configurations
+                  <strong>locale / theme:</strong> Language and display theme
+                  where stored client-side
                 </li>
               </ul>
             </div>
@@ -227,11 +227,12 @@ export default function CookiePolicy() {
               </li>
             </ul>
 
-            <h3>3.3 AI Model Providers</h3>
+            <h3>3.3 Optional AI providers</h3>
             <ul>
               <li>
-                <strong>OpenAI, Anthropic, Google:</strong> AI model access and
-                processing
+                <strong>Google (Vertex AI / Gemini):</strong> When you use
+                optional assistant features, requests may be processed as
+                described in our Privacy Policy
               </li>
             </ul>
 
@@ -387,10 +388,10 @@ export default function CookiePolicy() {
             </p>
             <div className="bg-muted/30 p-4 rounded-lg border">
               <p>
-                <strong>Privacy Officer:</strong> privacy@shipkit.ai
+                <strong>Privacy Officer:</strong> privacy@reglepro.io
               </p>
               <p>
-                <strong>General Support:</strong> support@shipkit.ai
+                <strong>General Support:</strong> contact@reglepro.io
               </p>
               <p>
                 <strong>Address:</strong> [Your Company Address]

@@ -1,271 +1,226 @@
-## 🚀 System Architecture Blueprint
+## System Architecture Blueprint
 
-### High-Level Architecture
-```text
-[Frontend – Next.js (React + Tailwind CSS)]
-                  ↓↑ REST APIs + Polling
-[Supabase – Auth | PostgreSQL | Blob Storage]
-                  ↓↑ Research Coordination
-[ADK Root Agent – Multi-Agent Coordinator]
-    ├── Planner Agent (Research Planning)
-    ├── Researcher Agent (Web Search)
-    ├── Critic Agent (Quality Assessment)
-    ├── Composer Agent (Report Generation)
-    └── Canvas Editor Agent (Document Editing)
-                  ↓↑ Search Integration
-[Google Search API – Built into ADK]
-                  ↓↑ Cloud Deployment
-[Google Cloud Agent Engine – Auto-scaling]
+### App Summary
+
+**End Goal:** Donner aux artisans et TPE du bâtiment en France un poste de pilotage pour devis, facturation, dossier client et agenda, avec abonnement équitable (pas de commission cachée sur les chantiers).
+
+**Template Foundation:** **adk-agent-saas** : Next.js (App Router), Supabase (Auth, PostgreSQL, stockage objet), Drizzle ORM, Stripe (abonnement, webhooks), assistant **ADK** en Python déployé séparément du front.
+
+**Required Extensions:** Écrans et logique métier **ReglePro** (tableau de bord, clients, devis, factures, agenda) via **Server Actions** et schéma Postgres étendu ; **stockage objet** pour pièces jointes et PDF ; trajectoire future pour **assistant métier** (réutilisation ou remplacement du graphe d’agents « analyse concurrentielle » hérité).
+
+---
+
+## System Architecture
+
+### Template Foundation
+
+**Chosen template:** adk-agent-saas
+
+**Built-in capabilities:**
+
+- **Auth et session** : Supabase Auth, middleware Next.js, profil `/profile`
+- **Données applicatives** : PostgreSQL via Drizzle, tables `users`, `session_names`, `user_usage_events`
+- **Monétisation** : Stripe Customer, webhooks, portail client, tiers free / paid côté app
+- **Assistant IA** : service Python ADK (`apps/competitor-analysis-agent`), session ADK, persistance des titres de session côté web, flux type **SSE** entre le navigateur et l’agent
+- **Usage** : événements horodatés pour plafonds messages / sessions (chat)
+
+### Architecture Diagram
+
+```mermaid
+flowchart TB
+    subgraph UIL["User Interface Layer"]
+        P1["Pages publiques et légal / /privacy /terms"]
+        P2["Flux auth /auth"]
+        P3["App protégée ReglePro dashboard clients devis factures agenda profil"]
+        P4["Assistant héritage /chat /history"]
+    end
+
+    subgraph ALTF["Application Layer - Template Foundation"]
+        MW["Middleware auth et routes protégées"]
+        SA0["Server Actions existantes profil billing usage"]
+        APIW["Route API webhooks Stripe"]
+        APIADK["Routes ou handlers reliant le chat au service ADK"]
+    end
+
+    subgraph ALE["Application Layer - Extensions ReglePro"]
+        SAM["Server Actions métier devis factures clients agenda"]
+        VAL["Validation et règles métier côté serveur"]
+    end
+
+    subgraph ADK["ADK Agent Server - héritage analyse concurrentielle"]
+        subgraph ROOT["Root Agent"]
+            RA["competitor_analysis_agent LlmAgent"]
+        end
+        subgraph TOOLS["Outils et sous-pipeline"]
+            PG["plan_generator_agent LlmAgent"]
+            RP["research_pipeline SequentialAgent"]
+            SR["section_researcher LlmAgent"]
+            RC["report_composer LlmAgent"]
+            LOOP["iterative_refinement_loop LoopAgent"]
+        end
+        subgraph ADKINF["ADK Infrastructure"]
+            SES["Sessions ADK état et callbacks"]
+            VTX["Vertex AI Gemini via ADK"]
+        end
+    end
+
+    subgraph DLT["Data Layer - Template Foundation"]
+        TUsers["Table users"]
+        TSess["Table session_names"]
+        TUse["Table user_usage_events"]
+    end
+
+    subgraph DLE["Data Layer - Extensions"]
+        M1["Futur schéma clients quotes invoices agenda_events"]
+    end
+
+    subgraph STG["Storage Layer"]
+        SBLOB["Supabase Storage buckets PDF PJ photos"]
+    end
+
+    subgraph EXT["External Services"]
+        STR["Stripe API et webhooks"]
+        SUPA["Supabase Auth et Postgres"]
+        GSRCH["Google Search intégré ADK si activé"]
+    end
+
+    P1 --> MW
+    P2 --> MW
+    P3 --> MW
+    P4 --> MW
+    P3 --> SAM
+    P3 --> SA0
+    P4 --> APIADK
+    SA0 --> APIW
+    SAM --> VAL
+    VAL --> M1
+    SA0 --> TUsers
+    SAM --> M1
+    APIW --> STR
+    MW --> SUPA
+    SAM --> SUPA
+    SA0 --> SUPA
+    APIADK -.->|HTTP SSE session| RA
+    RA --> PG
+    RA --> RP
+    RP --> SR
+    RP --> RC
+    RP --> LOOP
+    RA --> SES
+    PG --> SES
+    RP --> VTX
+    APIADK --> TSess
+    APIADK --> TUse
+    SAM --> SBLOB
+    RA -.-> GSRCH
+
+    classDef userInterface fill:#1E88E5,stroke:#1565C0,stroke-width:2px,color:#fff
+    classDef frontend fill:#42A5F5,stroke:#1976D2,stroke-width:2px,color:#fff
+    classDef backend fill:#66BB6A,stroke:#388E3C,stroke-width:2px,color:#fff
+    classDef database fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
+    classDef aiServices fill:#AB47BC,stroke:#7B1FA2,stroke-width:2px,color:#fff
+    classDef adkAgent fill:#9C27B0,stroke:#6A1B9A,stroke-width:3px,color:#fff
+    classDef external fill:#FF7043,stroke:#D84315,stroke-width:2px,color:#fff
+    classDef payment fill:#FFA726,stroke:#F57C00,stroke-width:2px,color:#fff
+    classDef storage fill:#26A69A,stroke:#00695C,stroke-width:2px,color:#fff
+
+    class P1,P2,P3,P4 userInterface
+    class MW,SA0,APIW,APIADK,SAM,VAL frontend
+    class RA,PG,RP,SR,RC,LOOP,SES,VTX adkAgent
+    class TUsers,TSess,TUse,M1 database
+    class SBLOB storage
+    class STR payment
+    class SUPA,GSRCH external
 ```
 
-### Application Structure
-```
-adk-agent-saas/
-├── apps/
-│   ├── web/                    # Next.js frontend application
-│   │   ├── app/               # Next.js 13+ app router
-│   │   │   ├── (protected)/
-│   │   │   │   └── chat/      # Unified interface with three modes
-│   │   │   └── ...
-│   │   ├── components/        # React components
-│   │   │   ├── chat/         # Chat interface components
-│   │   │   ├── research/     # Research workflow components
-│   │   │   ├── canvas/       # Canvas editing components
-│   │   │   └── shared/       # Shared state components
-│   │   ├── lib/               # Utilities, Supabase client
-│   │   └── ...
-│   └── research-agent/        # ADK Python agent
-│       ├── agent.py           # Root agent coordinator
-│       ├── agents/            # Specialized agent implementations
-│       │   ├── planner.py     # Research planning agent
-│       │   ├── researcher.py  # Web search agent
-│       │   ├── critic.py      # Quality assessment agent
-│       │   ├── composer.py    # Report generation agent
-│       │   └── canvas_editor.py # Document editing agent
-│       ├── pyproject.toml     # Dependencies (UV-managed)
-│       └── ...
-```
+### Extension Strategy
 
-### Technology Stack
+**Why these extensions:** Le blueprint produit et le schéma stratégique imposent des **entités métier** persistantes que le template chat ne modélise pas. Les **Server Actions** restent le mode privilégié pour mutations et lecture serveur sans exposer une API JSON métier généraliste, aligné avec `app_pages_and_functionality.md`.
 
-#### Frontend (Web App)
-- **Framework:** Next.js 13+ with App Router
-- **Styling:** Tailwind CSS + Shadcn/ui components
-- **State Management:** React hooks + Context (shared chat/canvas state)
-- **Real-time:** Polling-based progress updates (no WebSockets)
-- **Auth:** Supabase Auth with social providers
+**Integration points:** Les extensions **lisent et écrivent le même Postgres** que le template via Drizzle, avec **RLS Supabase** par `user_id` sur les nouvelles tables. Stripe et l’**usage chat** restent inchangés tant que le parcours assistant est conservé.
 
-#### Backend Services
-- **Database:** Supabase PostgreSQL with optimized queries
-- **Authentication:** Supabase Auth (email, Google, GitHub)
-- **File Storage:** Supabase Blob Storage for documents
-- **Agent Service:** Google ADK (Python) deployed to Agent Engine
+**Avoided complexity (MVP):** Pas de file d’attente dédiée type Redis, pas de microservices métier séparés, pas de GraphQL public, pas de temps réel WebSocket pour l’agenda tant que le rechargement ou le polling léger suffit. Pas de second cluster base avant besoin multi-région avéré.
 
-#### AI & Integrations
-- **Agent Framework:** Google Agent Development Kit (ADK)
-- **Model Provider:** Gemini 2.5 Pro (single model for all agents)
-- **Search Integration:** Google Search API (built into ADK)
-- **Multi-Agent:** Root agent coordinates 5 specialized agents
+### System Flow Explanation
 
-#### Deployment & Infrastructure
-- **Web App:** Vercel (Next.js)
-- **Agent Service:** Google Cloud Agent Engine
-- **Database:** Supabase Cloud
-- **Document Storage:** Supabase Blob Storage
+**Template foundation flow:** L’utilisateur s’authentifie via Supabase, le middleware protège `(protected)`, le profil et Stripe utilisent `users` et les webhooks. Le chat crée des sessions ADK, enregistre les titres dans `session_names`, et les quotas via `user_usage_events`.
 
-### Unified Interface with Three Modes
+**Extension integration:** Les écrans ReglePro appellent des **Server Actions** qui appliquent les règles métier puis des requêtes Drizzle sur les **nouvelles tables** (après migrations). Les PDF et PJ passent par **Supabase Storage** avec des références en base.
 
-#### Single Page Architecture
-```
-Unified Chat Interface
-├── Chat Mode (Default)
-│   ├── Regular conversation flow
-│   ├── Deep research trigger button
-│   └── Canvas trigger button
-├── Research Mode (Overlay/Sidebar)
-│   ├── Research plan approval
-│   ├── Progress tracking
-│   └── Results integration
-└── Canvas Mode (Side-by-side)
-    ├── Document editing panel
-    ├── Version control
-    └── AI collaboration
-```
+**Data flow:** **UI** vers **actions serveur** vers **Postgres** pour le métier. **UI chat** vers **couche ADK** (pointillés) vers **Gemini / sous-agents** et retour **flux temps réel** vers l’interface, en parallèle des écritures `session_names` / usage.
 
-#### 1. Chat Mode (Regular AI Assistant)
-```
-User Input → Chat API → Root Agent → Gemini 2.5 Pro → Response
-     ↓           ↓          ↓            ↓              ↓
-  Chat UI     Next.js     ADK Agent    AI Model      Database
-  State       API Route   Processing   Generation    Storage
-```
+---
 
-#### 2. Deep Research Mode (Triggered from Chat)
-```
-Research Trigger → Planner Agent → Plan Approval → Research Pipeline
-        ↓               ↓              ↓               ↓
-    Chat UI          Plan Gen.      User Review    Auto Research
-    + Research       (Gemini)       (Same Page)    (Multi-Agent)
-    Overlay             ↓              ↓               ↓
-        ↓           Plan Storage   Approval        Findings
-    Same Page       (Supabase)     Update         Storage
-```
+## Technical Risk Assessment
 
-#### 3. Canvas Mode (Side-by-side with Chat)
-```
-Canvas Trigger → Canvas Editor Agent → Document Creation → Version Control
-      ↓                ↓                     ↓                ↓
-  Chat UI +        Document Gen.        Blob Storage      Version
-  Canvas Panel     (Gemini)             (Supabase)        Tracking
-      ↓                ↓                     ↓                ↓
-  Shared State     Document            Document           Database
-  Management       Updates             Retrieval          Updates
-```
+### Template Foundation Strengths (Low Risk)
 
-### Multi-Agent Architecture
+- **Auth et Postgres managés** par Supabase, patterns déjà éprouvés dans le dépôt
+- **Stripe** déjà câblé pour abonnement et webhooks
+- **Séparation nette** entre app Next.js et **runtime ADK Python**, ce qui limite les effets de bord lors de l’ajout du métier
 
-#### Root Agent (Coordinator)
-- **Role:** Receives all requests and delegates to specialized agents
-- **Functions:** 
-  - Route chat requests to appropriate agents
-  - Coordinate multi-step research workflows
-  - Manage agent communication and handoffs
-  - Handle error recovery and fallbacks
+### Extension Integration Points (Monitor These)
 
-#### Specialized Agents
-```
-Planner Agent:
-├── Creates research plans from user requests
-├── Generates structured research goals
-└── Handles plan revision based on user feedback
+- **Cohérence produit chat vs ReglePro:** deux « mondes » (assistant hérité et gestion) partagent auth et facturation mais pas les mêmes tables ; risque de dette UX et de duplication d’usage. **Mitigation:** traiter le chat comme **module optionnel** dans la navigation et documenter la cible **assistant métier** dans une itération ultérieure
+- **RLS et multi-tenant:** erreurs de politique sur les nouvelles tables exposeraient des données entre comptes. **Mitigation:** définir RLS en même temps que la première migration métier, tests de requêtes par `user_id`
+- **Stockage et RGPD:** factures et PJ impliquent des données personnelles client. **Mitigation:** politiques bucket, rétention, mentions légales déjà amorcées dans les pages légal
 
-Researcher Agent:
-├── Executes web searches using Google Search API
-├── Extracts relevant information from sources
-└── Stores findings with source citations
+### Smart Architecture Decisions
 
-Critic Agent:
-├── Evaluates research quality and completeness
-├── Identifies gaps in research findings
-└── Provides feedback for additional searches
+- **Monolithe Next.js** pour UI et orchestration serveur : simplicité pour une TPE cible
+- **Pas d’API métier REST publique** au départ : surface d’attaque réduite
+- **Réutilisation du déploiement ADK** existant pour tout parcours IA jusqu’à remplacement par des agents **métier** si la roadmap le demande
 
-Composer Agent:
-├── Synthesizes research findings into reports
-├── Generates proper citations and references
-└── Creates structured, comprehensive outputs
+---
 
-Canvas Editor Agent:
-├── Creates and edits documents based on requests
-├── Handles document versioning and updates
-└── Manages collaborative editing workflows
-```
+## Implementation Strategy
 
-### Data Flow Architecture
+### Phase 1 (Leverage Template Foundation)
 
-#### Research Workflow Pipeline
-```
-1. User Request → Root Agent → Planner Agent
-2. Research Plan → Database → Frontend (User Approval)
-3. Plan Approved → Researcher Agent → Search Loop
-4. Search Results → Critic Agent → Quality Check
-5. Quality Pass → Composer Agent → Final Report
-6. Report Ready → Frontend Notification → User Review
-```
+- Stabiliser **auth**, **profil**, **Stripe**, **middleware**
+- Livrer les **premiers écrans métier** derrière les mêmes garde-fous avec migrations **clients** puis **devis** ou **factures** selon priorité sprint
+- Garder **ADK** tel quel pour le parcours `/chat` si l’assistant reste visible
 
-#### Canvas Collaboration Flow
-```
-1. Canvas Request → Root Agent → Canvas Editor Agent
-2. Document Creation → Blob Storage → Database Metadata
-3. User Edits → Frontend State → API Updates
-4. AI Suggestions → Canvas Editor Agent → Document Updates
-5. Version Control → Database → Blob Storage Sync
-```
+### Phase 2 (Add Required Extensions)
 
-#### Progress Tracking (Polling-Based)
-```
-Frontend Polling → API Endpoint → Database Status Check
-     ↓                ↓                  ↓
-  Every 2-3s      Research Session    Current Phase
-  HTTP Request    Status Query        (planning, researching, etc.)
-     ↓                ↓                  ↓
-  UI Updates      JSON Response       Progress Display
-```
+- **Agenda** et synthèse **tableau de bord** une fois les entités sources en base
+- **Pièces jointes** structurées et génération **PDF** si hors MVP initial
+- **Évolution assistant:** nouveau graphe d’agents ou simplification du graphe actuel pour tâches relances et rédaction métier
 
-### Shared State Management
+### Integration Guidelines
 
-#### Chat + Canvas Integration
-- **Shared Context:** Research results accessible in canvas
-- **State Synchronization:** React Context for cross-component state
-- **Navigation:** Seamless switching between chat and canvas modes
-- **Document References:** Research findings linkable in documents
+- Étendre le schéma **par migrations Drizzle** (`npm run db:generate` après modification des fichiers schema)
+- Ne pas court-circuiter **Supabase** pour l’auth : toujours passer par le client serveur attendu
+- Pour toute nouvelle intégration externe (signature, SMS), préférer **webhooks** vers routes API dédiées plutôt que logique dans les Server Actions lourdes
 
-#### Frontend State Architecture
-```
-App Level State:
-├── Current Conversation (chat messages)
-├── Active Research Session (if any)
-├── Open Documents (canvas state)
-└── User Preferences (model settings, etc.)
+---
 
-Component Level State:
-├── Chat Interface (message input, history)
-├── Research Interface (plan approval, progress)
-└── Canvas Interface (document editing, versions)
-```
+## Development Approach
 
-### Document Storage Strategy
+### Template-First Development
 
-#### Supabase Blob Storage
-- **Document Content:** Stored as blobs for efficient retrieval
-- **Metadata:** Document info in PostgreSQL (title, type, versions)
-- **Citations:** Embedded in documents with source references
-- **Version Control:** Separate blob per version with diff tracking
+Implémenter chaque écran métier en **réutilisant** les layouts, le design system et les patterns de `apps/web` existants avant d’ajouter des services externes.
 
-#### Citation Management
-- **Source References:** Store original URL and access timestamp
-- **Citation Format:** Website name and URL for user reference
-- **Example:** "According to OpenAI's documentation (https://openai.com/docs)"
+### Minimal Viable Extensions
 
-### Performance Considerations
+Ajouter uniquement les tables et actions nécessaires à l’écran courant (par exemple **liste clients** avant **fiche client** complète si le découpage lean est retenu).
 
-#### Research Session Management
-- **Long-running Sessions:** Tracked in database with status updates
-- **User Disconnections:** Sessions continue running, resumable on reconnect
-- **Progress Indicators:** Polling-based updates every 2-3 seconds
-- **Timeout Handling:** Configurable research session timeouts
+### Extension Integration Patterns
 
-#### Document Collaboration
-- **Version Control:** Simple version numbering without complex diffs
-- **Conflict Resolution:** Last-write-wins with version history
-- **Performance:** Lazy loading for large documents
-- **Caching:** Frontend caching for frequently accessed documents
+- **Lecture:** requêtes Drizzle dans les Server Actions ou loaders serveur
+- **Écriture:** mutations dans des Server Actions avec validation Zod alignée sur les schémas Drizzle
+- **IA:** uniquement via le **service ADK** existant ou son successeur, pas d’appels directs généralistes dispersés dans le front
 
-### Security & Scalability
+---
 
-#### Authentication & Authorization
-- **Supabase Auth** with Row-Level Security
-- **API key management** for Google Search API
-- **User data isolation** across all services
-- **Agent access control** via service authentication
+## Success Metrics
 
-#### Auto-scaling Strategy
-- **Agent Engine:** Auto-scales based on research request volume
-- **Database:** Supabase connection pooling for concurrent users
-- **Blob Storage:** Auto-scaling for document storage needs
-- **Frontend:** Vercel edge functions for API routes
+Cette architecture supporte la proposition de valeur centrale : **un poste de pilotage artisan fiable (devis, factures, clients, agenda) avec un modèle d’abonnement transparent.**
 
-### Technical Implementation Notes
+**Optimisation du template:** Réutilise auth, Postgres, Stripe, assistant ADK et suivi d’usage chat.
 
-#### ADK Agent Deployment
-- **Single Project:** All agents deployed as one cohesive service
-- **Root Agent Pattern:** Central coordinator delegates to specialists
-- **Model Consistency:** Gemini 2.5 Pro across all agent functions
-- **Error Handling:** Graceful degradation and retry logic
+**Extensions ciblées:** Ajoute seulement la persistance métier et le stockage nécessaires au blueprint ReglePro.
 
-#### Frontend Architecture Updates
-- **Existing Chat Interface:** Extend with research/canvas triggers
-- **New Components:** Research workflow and canvas editing components
-- **State Management:** Implement shared state between chat and canvas
-- **Navigation:** Seamless mode switching within same interface
+**Complexité maîtrisée:** Évite files, microservices et APIs publiques superflues au MVP.
 
-This architecture provides a robust foundation for ChatGPT-competing research and canvas functionality while maintaining simplicity and scalability for MVP development.
+> **Next Steps:** Implémenter les migrations et RLS du domaine **clients / devis (ou factures)** en premier lot, puis enchaîner agenda et tableau de bord. Paralléliser la clarification produit sur le **rôle futur de l’assistant** par rapport au cœur gestion.

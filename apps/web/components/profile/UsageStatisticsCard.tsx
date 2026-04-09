@@ -31,10 +31,10 @@ export function UsageStatisticsCard() {
       <CardHeader>
         <div className="flex items-center gap-2">
           <CalendarDays className="h-5 w-5" />
-          <CardTitle>Usage This Month</CardTitle>
+          <CardTitle>Usage ce mois-ci</CardTitle>
         </div>
         <CardDescription>
-          Your AI agent usage for the current billing period
+          Consommation de l’assistant pour la période de facturation en cours
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -43,16 +43,16 @@ export function UsageStatisticsCard() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Crown className="h-4 w-4 text-primary" />
-              <h4 className="font-medium">AI Agent Sessions</h4>
+              <h4 className="font-medium">Sessions assistant</h4>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>
-                  {subscriptionTier === "paid" ? "Usage" : "Used / Limit"}
+                  {subscriptionTier === "paid" ? "Usage" : "Utilisé / plafond"}
                 </span>
                 <span className="font-medium">
                   {subscriptionTier === "paid"
-                    ? "Unlimited"
+                    ? "Illimité"
                     : sessionsUsed + "/" + sessionsLimit}
                 </span>
               </div>
@@ -77,11 +77,11 @@ export function UsageStatisticsCard() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>
-                  {subscriptionTier === "paid" ? "Usage" : "Used / Limit"}
+                  {subscriptionTier === "paid" ? "Usage" : "Utilisé / plafond"}
                 </span>
                 <span className="font-medium">
                   {subscriptionTier === "paid"
-                    ? "Unlimited"
+                    ? "Illimité"
                     : messagesUsed + "/" + messagesLimit}
                 </span>
               </div>
@@ -104,10 +104,10 @@ export function UsageStatisticsCard() {
               <ArrowUpRight className="h-5 w-5 text-primary mt-0.5" />
               <div className="space-y-2">
                 <h4 className="font-medium text-primary">
-                  Need more sessions?
+                  Besoin de plus de sessions ?
                 </h4>
                 <p className="text-sm text-primary">
-                  Upgrade to Pro for unlimited sessions and messages.
+                  Passez à Pro pour des sessions et messages illimités.
                 </p>
               </div>
             </div>

@@ -83,11 +83,11 @@ export function BillingManagementCard({
   const getTierLabel = (tier: SubscriptionTier) => {
     switch (tier) {
       case "free":
-        return "Free";
+        return "Gratuit";
       case "paid":
         return "Pro";
       default:
-        return "Free";
+        return "Gratuit";
     }
   };
 
@@ -105,9 +105,9 @@ export function BillingManagementCard({
   const getPricing = (tier: SubscriptionTier) => {
     switch (tier) {
       case "paid":
-        return "$9.99/month";
+        return "9,99 €/mois";
       default:
-        return null; // Don't show pricing for free
+        return null;
     }
   };
 
@@ -116,7 +116,7 @@ export function BillingManagementCard({
     if (subscriptionTier !== "free" && cancelAtPeriodEnd) {
       return {
         icon: <Clock className="h-4 w-4 text-muted-foreground" />,
-        label: "Cancelling",
+        label: "Résiliation en cours",
         color: "bg-muted-foreground",
       };
     }
@@ -124,7 +124,7 @@ export function BillingManagementCard({
     // Default to active for any non-free tier or free tier
     return {
       icon: <CheckCircle className="h-4 w-4 text-primary" />,
-      label: "Active",
+      label: "Actif",
       color: "bg-primary",
     };
   };
@@ -140,14 +140,14 @@ export function BillingManagementCard({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CreditCard className="h-5 w-5" />
-            <CardTitle className="text-lg">Billing & Subscription</CardTitle>
+            <CardTitle className="text-lg">Abonnement et facturation</CardTitle>
           </div>
           {subscriptionTier === "paid" && (
             <Crown className="h-5 w-5 text-primary" />
           )}
         </div>
         <CardDescription>
-          Manage your subscription and billing preferences
+          Gérer votre abonnement ReglePro via Stripe
         </CardDescription>
       </CardHeader>
 
@@ -155,7 +155,7 @@ export function BillingManagementCard({
         {/* Current Plan */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Current Plan</span>
+            <span className="text-sm font-medium">Formule actuelle</span>
             <div className="flex items-center gap-2">
               <Badge className={`${getTierColor(subscriptionTier)} text-white`}>
                 {getTierLabel(subscriptionTier)}
@@ -168,7 +168,7 @@ export function BillingManagementCard({
 
           {/* Status */}
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Status</span>
+            <span className="text-sm font-medium">Statut</span>
             <div className="flex items-center gap-2">
               {statusDisplay.icon}
               <Badge
@@ -186,11 +186,11 @@ export function BillingManagementCard({
               <AlertTriangle className="h-4 w-4 text-destructive dark:text-red-300 mt-0.5 flex-shrink-0" />
               <div className="text-sm">
                 <p className="font-medium text-destructive dark:text-red-300">
-                  Subscription Canceled
+                  Abonnement résilié
                 </p>
                 <p className="text-destructive dark:text-red-300">
-                  Your subscription will end on {formatDate(currentPeriodEnd)}.
-                  You&rsquo;ll still have access to premium features until then.
+                  Votre abonnement prend fin le {formatDate(currentPeriodEnd)}.
+                  Vous conservez l’accès aux fonctionnalités Pro jusqu’à cette date.
                 </p>
               </div>
             </div>
@@ -204,15 +204,15 @@ export function BillingManagementCard({
             <div className="space-y-3">
               <h4 className="text-sm font-medium flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                Billing Period
+                Période de facturation
               </h4>
               <div className="text-sm space-y-1">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Current period:</span>
+                  <span className="text-muted-foreground">Période en cours :</span>
                   <span>{formatDate(currentPeriodStart)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Renews on:</span>
+                  <span className="text-muted-foreground">Prochain renouvellement :</span>
                   <span>{formatDate(currentPeriodEnd)}</span>
                 </div>
               </div>
@@ -233,26 +233,26 @@ export function BillingManagementCard({
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Opening...
+                    Ouverture…
                   </>
                 ) : (
                   <>
                     <Settings className="mr-2 h-4 w-4" />
-                    Manage Billing & Subscription
+                    Gérer l’abonnement et la facturation
                     <ExternalLink className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>
 
               <p className="text-xs text-center text-muted-foreground">
-                Secure billing management through Stripe
+                Paiement sécurisé via Stripe
               </p>
             </div>
           ) : (
             <div className="text-center space-y-3">
               <p className="text-sm text-muted-foreground">
-                You&rsquo;re on the free plan. Upgrade to access premium
-                features!
+                Vous êtes sur la formule gratuite. Passez à Pro pour un usage
+                illimité de l’assistant.
               </p>
               <Button
                 variant="outline"
@@ -270,7 +270,7 @@ export function BillingManagementCard({
                   }
                 }}
               >
-                View Upgrade Options
+                Voir les formules
               </Button>
             </div>
           )}
@@ -280,13 +280,13 @@ export function BillingManagementCard({
         {subscriptionTier !== "free" && currentPeriodEnd && (
           <div className="grid grid-cols-2 gap-2 text-xs text-center">
             <div className="p-2 bg-muted/50 rounded">
-              <p className="font-medium">Next Bill</p>
+              <p className="font-medium">Prochain prélèvement</p>
               <p className="text-muted-foreground">
                 {formatDate(currentPeriodEnd)}
               </p>
             </div>
             <div className="p-2 bg-muted/50 rounded">
-              <p className="font-medium">Amount</p>
+              <p className="font-medium">Montant</p>
               <p className="text-muted-foreground">{pricing || "N/A"}</p>
             </div>
           </div>

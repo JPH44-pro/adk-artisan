@@ -3,11 +3,11 @@ import LegalPageWrapper from "@/components/legal/LegalPageWrapper";
 import { generateLegalMetadata } from "@/lib/metadata";
 import TableOfContents from "@/components/legal/TableOfContents";
 
-const lastUpdated = "2025-06-30";
+const lastUpdated = "2026-04-06";
 
 export const metadata: Metadata = generateLegalMetadata(
   "Terms of Service",
-  "Terms of Service for ShipKit.ai - AI chat platform with subscription services and payment processing through Stripe."
+  "Terms of Service for ReglePro — SaaS for tradespeople (quotes, invoices, clients, calendar) with subscription billing via Stripe."
 );
 
 const tocSections = [
@@ -35,13 +35,13 @@ export default function TermsOfService() {
         <LegalPageWrapper
           title="Terms of Service"
           lastUpdated={lastUpdated}
-          description="These Terms of Service govern your use of ShipKit.ai, an AI chat platform offering subscription-based access to multiple AI models."
+          description="These Terms of Service govern your use of ReglePro, a subscription-based business management service for tradespeople."
         >
           {/* Acceptance of Terms */}
           <section id="acceptance">
             <h2>1. Acceptance of Terms</h2>
             <p>
-              By accessing or using ShipKit.ai (&ldquo;Service&rdquo;), you
+              By accessing or using ReglePro (&ldquo;Service&rdquo;), you
               agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;).
               If you disagree with any part of these terms, then you may not
               access the Service.
@@ -64,26 +64,21 @@ export default function TermsOfService() {
           <section id="description">
             <h2>2. Service Description</h2>
             <p>
-              ShipKit.ai is a unified chat interface that provides access to
-              multiple AI models including but not limited to:
-            </p>
-            <ul>
-              <li>OpenAI GPT models (GPT-4, GPT-3.5-turbo, and others)</li>
-              <li>Anthropic Claude models</li>
-              <li>Google Gemini models</li>
-              <li>Meta LLaMA models</li>
-              <li>Other AI models as they become available</li>
-            </ul>
-            <p>
-              The Service allows users to interact with these AI models through
-              a single, consistent interface, with features including
-              conversation history, model switching, and subscription-based
-              access controls.
+              ReglePro is a SaaS application for independent tradespeople and
+              small businesses to manage quotes, invoices, clients, and
+              scheduling, with optional automated reminders and optional
+              AI-assisted features to help draft or organize content.
             </p>
             <p>
-              We offer both free and paid subscription tiers with different
-              usage limits and feature access. The availability of specific
-              models and features may vary by subscription tier.
+              You are responsible for the accuracy of data you enter (including
+              client and tax-related information) and for compliance with
+              applicable regulations in your jurisdiction. The Service does not
+              replace professional accounting or legal advice.
+            </p>
+            <p>
+              We offer free and paid subscription tiers with different
+              limits and feature access. Specific features may vary by tier and
+              may change over time with reasonable notice where required.
             </p>
           </section>
 
@@ -125,19 +120,15 @@ export default function TermsOfService() {
             <h2>4. Subscription and Billing</h2>
 
             <h3>4.1 Subscription Tiers</h3>
-            <p>We offer the following subscription tiers:</p>
+            <p>We offer subscription tiers (for example a free tier and a paid tier):</p>
             <ul>
               <li>
-                <strong>Free Tier:</strong> Limited access to select AI models
-                with usage restrictions
+                <strong>Free tier:</strong> Limited features as described on our
+                pricing page
               </li>
               <li>
-                <strong>Basic Tier:</strong> Expanded access with higher usage
-                limits
-              </li>
-              <li>
-                <strong>Pro Tier:</strong> Full access to all available models
-                with premium features
+                <strong>Paid tier:</strong> Expanded or full access to features
+                included in your plan, billed as advertised
               </li>
             </ul>
 
@@ -217,8 +208,8 @@ export default function TermsOfService() {
               </li>
               <li>Distribute spam, malware, or other malicious content</li>
               <li>
-                Use the Service for any commercial purpose without our written
-                consent
+                Resell, sublicense, or share account access in ways that violate
+                these Terms or circumvent fair use
               </li>
               <li>
                 Reverse engineer, decompile, or disassemble any part of the
@@ -246,7 +237,7 @@ export default function TermsOfService() {
             </p>
             <ul>
               <li>A license to process your content to provide the Service</li>
-              <li>The right to store conversation history for your account</li>
+              <li>The right to store your business data and history for your account</li>
               <li>
                 Permission to use aggregated, anonymized data for service
                 improvement
@@ -258,8 +249,9 @@ export default function TermsOfService() {
               accuracy, quality, or legality of User Content.
             </p>
             <p>
-              AI-generated responses are not considered User Content and may be
-              used by us for service improvement, subject to our Privacy Policy.
+              Suggestions from optional AI-assisted features are provided for
+              convenience; you remain responsible for reviewing and using them.
+              Processing of such output is described in our Privacy Policy.
             </p>
           </section>
 
@@ -375,7 +367,7 @@ export default function TermsOfService() {
             <h2>12. Limitation of Liability</h2>
             <p>
               To the maximum extent permitted by applicable law, in no event
-              shall ShipKit.ai be liable for any indirect, punitive, incidental,
+              shall ReglePro be liable for any indirect, punitive, incidental,
               special, consequential, or exemplary damages, including without
               limitation damages for loss of profits, goodwill, use, data, or
               other intangible losses.
@@ -398,7 +390,7 @@ export default function TermsOfService() {
           <section id="indemnification">
             <h2>13. Indemnification</h2>
             <p>
-              You agree to defend, indemnify, and hold harmless ShipKit.ai and
+              You agree to defend, indemnify, and hold harmless ReglePro and
               its officers, directors, employees, and agents from and against
               any and all claims, damages, obligations, losses, liabilities,
               costs, and expenses (including attorney&rsquo;s fees) arising
@@ -428,7 +420,7 @@ export default function TermsOfService() {
               the rules of the American Arbitration Association.
             </p>
             <p>
-              You and ShipKit.ai agree that any dispute resolution proceedings
+              You and ReglePro agree that any dispute resolution proceedings
               will be conducted only on an individual basis and not in a class,
               consolidated, or representative action.
             </p>
@@ -449,7 +441,7 @@ export default function TermsOfService() {
             </p>
             <div className="bg-muted/30 p-4 rounded-lg border">
               <p>
-                <strong>Email:</strong> legal@shipkit.ai
+                <strong>Email:</strong> contact@reglepro.io
               </p>
               <p>
                 <strong>Address:</strong> [Your Company Address]

@@ -46,16 +46,16 @@ export function PlanCard({ plan, loading }: PlanCardProps) {
 
   let sessionsText = "";
   if (plan.sessions === -1) {
-    sessionsText = "Unlimited sessions";
+    sessionsText = "Sessions assistant illimitées";
   } else {
-    sessionsText = `${plan.sessions} agent session${
+    sessionsText = `${plan.sessions} session${
       plan.sessions !== 1 ? "s" : ""
-    }`;
+    } assistant`;
   }
 
   let messagesText = "";
   if (plan.messages === -1) {
-    messagesText = "Unlimited messages";
+    messagesText = "Messages illimités";
   } else {
     messagesText = `${plan.messages} messages`;
   }
@@ -70,7 +70,7 @@ export function PlanCard({ plan, loading }: PlanCardProps) {
       return (
         <form action={createCheckoutSession}>
           <Button type="submit" size="sm" className="w-full" disabled={loading}>
-            Upgrade
+            Passer à Pro
           </Button>
         </form>
       );
@@ -91,10 +91,10 @@ export function PlanCard({ plan, loading }: PlanCardProps) {
           onClick={handleCancelSubscription}
         >
           {usageStats?.stripeData?.cancelAtPeriodEnd
-            ? "Cancellation Scheduled"
+            ? "Résiliation programmée"
             : checkoutLoading
-            ? "Loading..."
-            : "Cancel"}
+            ? "Chargement…"
+            : "Résilier"}
         </Button>
       );
     }
@@ -114,12 +114,14 @@ export function PlanCard({ plan, loading }: PlanCardProps) {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold">{plan.name}</h3>
-          {isCurrentPlan && <Badge variant="outline">Current</Badge>}
+          {isCurrentPlan && <Badge variant="outline">Actuel</Badge>}
         </div>
         <div className="text-2xl font-bold">
-          ${plan.price}
+          {plan.price === 0
+            ? "0 €"
+            : `${plan.price.toFixed(2).replace(".", ",")} €`}
           <span className="text-sm font-normal text-muted-foreground">
-            /month
+            /mois
           </span>
         </div>
         <ul className="space-y-1 text-sm">

@@ -1,179 +1,216 @@
-# App Name Analysis Report
+# Rapport d’analyse de nom d’application
 
-## 📌 Summary of Your App Idea
+## Résumé de votre idée applicative
 
-Based on your Master Idea Document: **Your app provides entrepreneurs and business owners with comprehensive competitive intelligence and market analysis using Google's ADK multi-agent architecture, eliminating expensive consultant fees and manual research while delivering strategic insights for informed business decisions.**
+D’après le **document maître** (`master_idea.md`) : la solution vise les **artisans et TPE du bâtiment en France** avec une **plateforme SaaS centrée sur l’exploitation** (devis, facturation, dossier client, agenda, rappels), sur le modèle de la **valeur opérationnelle** plutôt que d’une marketplace à commissions. La promesse inclut une **économie équitable** (pas de commission prédatrice sur les chantiers), une **confiance** institutionnelle (CMA, réseaux), et des **fonctions avancées** (réservation publique, avis vérifiés) **après** ancrage quotidien sur le cœur métier.
 
-**Key Value Props to Emphasize in Naming:**
-- Comprehensive competitive intelligence across all industries
-- Multi-agent research pipeline with strategic recommendations
-- Business decision support for entrepreneurs and market researchers
-- Professional market analysis replacing expensive consulting services
-
----
-
-# **PHASE 1: Locally Generated Names (Best Practices)**
-
-## 🏷️ Short Evocative Names (Domain Fragments Only)
-*Skipped - no realistic fragments available that meet professional naming criteria*
-
-## 🚀 Metaphorical Names (Always Include Domain)  
-- **MarketScout.ai** *(Professional scout metaphor for discovering competitive intelligence in business markets)*
-- **CompetitorRadar.io** *(Military radar metaphor for detecting and tracking competitive threats)*
-- **MarketLens.co** *(Lens metaphor for providing clear focus and insight into competitive landscapes)*
-- **CompetitorCompass.io** *(Navigation metaphor guiding business decisions through competitive terrain)*
-- **MarketWatchTower.ai** *(Watchtower metaphor for elevated strategic view of competitive landscape)*
-
-## 🎩 Compound Names (Always Include Domain)
-- **CompetitorAI.io** *(Clear competitive intelligence focus with AI-powered analysis)*
-- **MarketIntel.co** *(Direct value proposition of market intelligence)*
-- **CompetitorFlow.ai** *(Clear functionality - streamlined competitor research workflow)*
-- **BusinessScout.io** *(Business-focused competitive scouting and analysis)*
-- **MarketResearch.co** *(Professional market research platform for business decisions)*
-- **CompetitorEdge.ai** *(Competitive edge through intelligent market analysis)*
-
-## 🏗️ Extended Descriptive Names (Premium Domain Availability)
-- **AICompetitorAnalysis.com** *(Combines AI focus, competitor research, and analysis functionality)*
-- **BusinessMarketIntel.com** *(Clear business market intelligence positioning)*
-- **SmartCompetitorResearch.com** *(Intelligent competitor research with AI capabilities)*
-- **ProMarketAnalysis.com** *(Professional positioning with market analysis focus)*
-- **CompetitiveIntelligenceAI.com** *(Clear positioning as AI-powered competitive intelligence)*
-- **BusinessCompetitorTool.com** *(Professional business tool for competitor analysis)*
-- **MarketResearchAI.com** *(AI-powered market research solution)*
-
-## 🏆 Y Combinator Style Names (Brandable & Memorable)
-- **Rivalz.ai** *(Creative spelling of "rivals" - emphasizes competitor analysis and competitive intelligence)*
-- **Scowt.co** *(Creative spelling of "scout" - suggests intelligently scouting competitive landscapes)*
-- **Radar.io** *(Repurposed common word - positions as competitive radar for market detection)*
-- **Compex.ai** *(Invented brandable word - sounds like "compete" + "complex" analysis with professional AI suffix)*
-- **Rivex.co** *(Invented brandable word - combines "rival" concept with short, memorable, professional sound)*
+**Propositions de valeur à refléter dans le nom :**
+- Gain de temps sur **devis / factures / relances** et réduction des impayés
+- **Centralisation** chantier–client (dossier unique, usage quotidien)
+- **Crédibilité pro** et **équité** (transparence tarifaire, pas de « lead factory »)
+- Ancrage **France / métiers de la main** sans se confondre avec les intermédiaires à leads
 
 ---
 
-# **PHASE 2: Deep Competitive Research**
+# Phase 1 : Noms générés localement (bonnes pratiques)
 
-## 🔍 Existing Business Intelligence & Market Research Competitors
+## Noms courts évocateurs (fragments de domaine uniquement)
 
-**Major Players You Should Know:**
+*Section omise : les fragments type `unif.ai` peinent à rendre le positionnement « artisan BTP France » sans risque de confusion.*
 
-**Crunchbase** - crunchbase.com
-- *What they do:* Database platform for business information, funding data, and competitor discovery
-- *Naming strategy:* Compound name combining "crunch" (data analysis) with "base" (database) and premium .com domain
-- *Positioning:* Enterprise/professional focused with subscription tiers for investors and business development
-- *Gap for you:* Limited AI-powered analysis and strategic recommendations
+## Noms métaphoriques (domaine systématiquement indiqué)
 
-**SEMrush** - semrush.com  
-- *What they do:* Digital marketing competitive intelligence platform analyzing websites, SEO, and advertising strategies
-- *Naming strategy:* Compound name combining "SEM" (search engine marketing) with "rush" (speed/action) and premium .com
-- *Positioning:* Marketing professional focused with comprehensive competitive analysis tools
-- *Gap for you:* Limited to digital marketing, doesn't cover broader business competitive intelligence
+- **Echafaud.io** *(métaphore de la structure et du chantier ; évoque le BTP sans mot générique « travaux »)*
+- **Truelle.tech** *(outil du métier ; mémorable pour le secteur maçonnerie / finition, extensible à tout artisan)*
+- **ComptoirArtisan.io** *(lieu d’échange pro, registre et relation client)*
+- **GaragePro.io** *(atelier / espace de travail ; attention : collision possible avec l’automobile, à valider en recherche)*
+- **CadranChantier.io** *(temps, rendez-vous, agenda, rappels)*
 
-**SimilarWeb** - similarweb.com
-- *What they do:* Website analytics and competitive intelligence platform for digital market research
-- *Naming strategy:* Compound descriptive name clearly communicating functionality with premium .com domain
-- *Positioning:* Digital analysts and marketers focused on web traffic and online competitive analysis
-- *Gap for you:* Narrow focus on digital metrics, lacks comprehensive business strategy analysis
+## Noms composés (domaine systématiquement indiqué)
 
-**Lesser-Known Competitors (Wow Factor):**
+- **DevisPulse.io** *(rythme et rapidité des devis ; cœur du MVP)*
+- **ArtisanDesk.ai** *(bureau de gestion artisan ; clair pour un SaaS)*
+- **RelanceSereine.io** *(relances et trésorerie sans agressivité commerciale)*
+- **FactureFair.io** *(équité et paiement ; nom partiellement anglais pour .io international)*
+- **MainStack.io** *(« main » + stack : métier manuel et outillage numérique)*
+- **ReglePro.io** *(jeu de mots : règle du métier / outil de mesure ; professionnalisme)*
 
-**Owler** - owler.com
-- *What they do:* Competitive intelligence platform providing company news, insights, and alerts for sales teams
-- *Naming strategy:* Owl metaphor (wisdom/watching) with premium .com domain
-- *Positioning:* Sales-focused competitive intelligence with news aggregation and company tracking
-- *Gap for you:* Limited strategic analysis and lacks comprehensive multi-agent research approach
+## Noms descriptifs étendus (bonne disponibilité .com typique)
 
-**Kompyte** - kompyte.com
-- *What they do:* Real-time competitive intelligence platform monitoring competitor activities across digital channels
-- *Naming strategy:* Creative spelling of "compete" with premium .com domain  
-- *Positioning:* Marketing teams focused on real-time competitor monitoring and alerts
-- *Gap for you:* Reactive monitoring vs. proactive strategic analysis and business consultation
+- **LogicielDevisArtisan.com** *(très explicite, SEO local, souvent disponible en .com long)*
+- **GestionChantierFacile.com** *(promesse accessibilité ; à vérifier en conflit)*
+- **ProDevisFactureBTP.com** *(triplet métier + BTP)*
+- **ArtisanCaisseNumerique.com** *(encaissement et conformité ; long mais lisible)*
+- **MonAtelierNumerique.com** *(onboarding artisan solo)*
 
-## 📊 Competitor Naming Patterns Analysis
-**What Works:** 
-- Animal metaphors (Owler - owl wisdom) signal intelligence and watching
-- Compound names with clear functionality (SimilarWeb, Crunchbase) communicate value
-- Premium .com domains establish credibility and trust
-- Industry-specific terms (SEMrush with "SEM") target specific audiences effectively
+## Style « start-up » (marques mémorables)
 
-**Positioning Gaps:** 
-- No major player emphasizes "AI-powered strategic consultation" specifically
-- "Entrepreneur/startup" positioning is underserved vs. enterprise/marketing focus
-- Multi-agent research approach isn't emphasized in existing competitive intelligence brands
-- Proactive business consultation vs. reactive data monitoring is missing
-
-## ✅ **Domain Availability Assessment**
-
-- ✅ **CompetitorAI.io** - Available (Clean search results, direct competitive intelligence positioning)
-- ✅ **MarketScout.ai** - Available (Professional positioning, clear differentiation from existing players)
-- ✅ **CompetitorFlow.ai** - Available (Clear functionality, workflow emphasis)
-- ⚠️ **MarketLens.co** - Potentially Conflicted (Generic "lens" term used by other analysis tools)
-- ⚠️ **BusinessScout.io** - Potentially Conflicted (Generic "scout" positioning in business space)
-- ❌ **MarketResearch.co** - Taken (Existing market research platforms using similar names)
+- **Artifo.io** *(contraction « artisan » + suffixe tech)*
+- **Devisly.io** *(suffixe type Lyft ; rapide à prononcer)*
+- **Mainsy.co** *(« mains » + son moderne ; vérifier homonymie)*
+- **Plinzo.io** *(mot inventé bref, son professionnel)*
+- **Tivra.io** *(inventé, 5 lettres, type Figma)*
 
 ---
 
-# **PHASE 3: Research-Informed New Names**
-*Based on competitive insights, here are names that strategically differentiate from existing players:*
+# Phase 2 : Recherche concurrentielle approfondie
 
-## 🎯 **Entrepreneur-Focused Names**
-*Names that position for startup/entrepreneur segment vs. enterprise competitors*
+## Acteurs du marché français (gestion artisan / BTP)
 
-- **StartupScout.co** *(Entrepreneur emphasis vs. Crunchbase's enterprise focus)*
-- **FounderIntel.io** *(Direct founder-focused positioning missing from competitors)*
-- **EntrepreneurAI.ai** *(Direct targeting of underserved entrepreneur segment)*
+**Travaux.com** : travaux.com  
+- *Activité :* Mise en relation et leads travaux, grande notoriété.  
+- *Stratégie de nom :* Nom générique + .com historique.  
+- *Positionnement :* Particuliers vers artisans, modèle souvent lié aux leads.  
+- *Écart pour vous :* Vous vous distinguez par le **SaaS de gestion d’abord**, pas l’intermédiation à commission.
 
-## 🚀 **AI-Powered Consultation Names**  
-*Names that emphasize AI strategic consultation gaps competitors miss*
+**Habitatpresto** : habitatpresto.fr  
+- *Activité :* Mise en relation et réseau d’artisans pour particuliers.  
+- *Stratégie de nom :* Marque composée « habitat » + promesse de rapidité.  
+- *Positionnement :* Grand public, volume.  
+- *Écart pour vous :* Même lecture : vous n’êtes pas une vitrine de leads mais un **outil de pilotage quotidien**.
 
-- **ConsultantAI.co** *(AI consultation focus missing from data-only competitors)*
-- **StrategyScout.io** *(Strategic focus vs. competitors' reactive monitoring)*
-- **IntelligentCompetitor.ai** *(AI intelligence emphasis vs. basic data aggregation)*
+**Tolteck** : tolteck.com  
+- *Activité :* Logiciel devis / facturation BTP, hors ligne, usage terrain.  
+- *Stratégie de nom :* Marque inventée courte, .com.  
+- *Positionnement :* Artisans, abonnement, fort ancrage produit.  
+- *Écart pour vous :* Insister sur **équité tarifaire**, **CMA / confiance**, ou **parcours client** intégré différenciant.
 
-## ⚡ **Proactive Analysis Differentiation Names**
-*Names that emphasize proactive strategic analysis vs. reactive monitoring*
+**Obat** : obat.fr  
+- *Activité :* Logiciel BTP, bibliothèque d’ouvrages, signature.  
+- *Stratégie de nom :* Très court, mémorable, .fr.  
+- *Positionnement :* Pro BTP, prix milieu de gamme.  
+- *Écart pour vous :* Storytelling **anti-commission** et **transparence** si vous restez sur un modèle abonnement vertueux.
 
-- **ProactiveIntel.ai** *(Proactive focus vs. reactive competitor monitoring)*
-- **StrategicAI.co** *(Strategic analysis positioning)*
-- **BusinessIntelligence.ai** *(Comprehensive business intelligence vs. narrow digital focus)*
+**ArtisanPro** : artisanpro.app  
+- *Activité :* Gestion moderne, IA, devis rapides, mobile.  
+- *Stratégie de nom :* **Artisan + Pro** + TLD **.app**.  
+- *Positionnement :* Large spectre métiers, essai gratuit.  
+- *Écart pour vous :* Éviter toute variante trop proche du couple **Artisan + Pro** ; privilégier métaphore ou promesse **équité / atelier / relance**.
+
+**ArtisanSmart** : artisansmart.fr  
+- *Activité :* SmartChiffrage, Factur-X 2026, métiers ciblés.  
+- *Stratégie de nom :* Anglais « Smart » + artisan, .fr.  
+- *Positionnement :* Conformité réglementaire forte.  
+- *Écart pour vous :* Nommer la **relation client** et l’**agenda** comme différenciateurs, pas seulement la conformité.
+
+**ChantierFlow** : chantierflow.com  
+- *Activité :* Devis, facturation, IA, signature, agenda.  
+- *Stratégie de nom :* Chantier + Flow, .com.  
+- *Positionnement :* SaaS artisan, milieu de gamme.  
+- *Écart pour vous :* **Ne pas réutiliser « ChantierFlow »** comme marque : concurrent direct et risque de confusion. Préférer d’autres métaphores (atelier, main, règle, échafaudage).
+
+**Orgapro** : orgapro.fr  
+- *Activité :* Devis, factures, gestion, entrée de gamme accessible.  
+- *Stratégie de nom :* Orga + pro, .fr.  
+- *Positionnement :* TPE, prix bas.  
+- *Écart pour vous :* Monter en **image pro** et **différenciation éthique** (sans commission).
+
+**Intia (INFast)** : intia.fr  
+- *Activité :* Devis / facturation, anti-fraude TVA, mobile.  
+- *Stratégie de nom :* Marque mère + produit.  
+- *Positionnement :* Artisans, conformité.  
+- *Écart pour vous :* Mettre en avant le **volet rendez-vous / no-shows** et **avis vérifiés** en feuille de route claire.
+
+**OrgaVision** : orgavision.fr  
+- *Activité :* Gestion PME et artisans, agenda.  
+- *Stratégie de nom :* Vision organisationnelle.  
+- *Positionnement :* Transversal PME / artisan.  
+- *Écart pour vous :* Ciblage **artisan seul** et message **équitable vs marketplaces**.
+
+## Références internationales (YC / construction tech)
+
+**Trayd** : trayd.com  
+- *Activité :* OS back-office pour sous-traitants spécialisés (paie, RH, conformité).  
+- *Stratégie de nom :* Nom court inventé, .com.  
+- *Positionnement :* US, levées importantes 2025–2026.  
+- *Écart pour vous :* Inspiration **« OS métier »** sans copier le nom ; votre cible est l’**artisan français** et le **devis client**.
+
+**Brickanta** : (YC)  
+- *Activité :* Préconstruction, enchères, estimation IA.  
+- *Stratégie de nom :* Brique + suffixe inventé.  
+- *Positionnement :* Grands projets / estimateurs.  
+- *Écart pour vous :* Vous restez sur TPE artisanales et cycle devis–chantier–paiement.
+
+## Analyse des schémas de nommage
+
+**Ce qui fonctionne :** noms **courts inventés** (Tolteck, Obat) ; couples **métier + promesse** (ArtisanSmart, ChantierFlow) ; **TLD .fr** pour la confiance locale ; mots **outil / chantier** immédiatement compris.
+
+**Positionnement encore peu saturé :** la **fairness** explicite (abonnement vs commission), le **partenariat CMA / institutionnel**, et le récit **« logiciel d’abord, mise en relation ensuite »** dans le nom ou le slogan (le nom peut rester neutre pro si le slogan porte l’éthique).
+
+## Évaluation rapide de disponibilité (indicatif, non juridique)
+
+| Nom | Évaluation indicative |
+|-----|----------------------|
+| **MainStack.io** | À vérifier : combinaison relativement rare ; bonne distinctivité. |
+| **ReglePro.io** | À vérifier : risque de termes génériques « règle pro » en SEO. |
+| **ArtisanDesk.ai** | À vérifier : « ArtisanDesk » peut être imité ; recherche Google conseillée. |
+| **Echafaud.io** | À vérifier : mot français fort ; possible connotation « provisoire » à compenser par branding. |
+| **ChantierFlow** | Déjà une marque active (chantierflow.com) : **ne pas retenir comme nom produit**. |
+| **LogicielDevisArtisan.com** | Souvent libre en .com long ; peu de valeur de marque seule. |
 
 ---
 
-# **PHASE 4: Final Strategic Recommendations**
+# Phase 3 : Noms informés par la recherche (différenciation)
 
-## 🥇 **FIRST PICK: CompetitorAI.io**
+## Noms « power user » pro
 
-**Why This Wins:**
-- **Clear Differentiation:** Direct "CompetitorAI" naming immediately communicates AI-powered competitive intelligence, which none of the major competitors (Crunchbase, SEMrush, SimilarWeb) emphasize in their brand positioning
-- **Professional Positioning:** "AI" signals advanced technology and strategic intelligence vs. traditional data-focused competitors like Crunchbase  
-- **Domain Strategy:** .io extension ($50/year) is widely trusted in tech, available, and signals technical innovation over traditional .com competitors
-- **SEO Advantage:** "Competitor" + "AI" combines high-search business terms with AI concepts, avoiding direct competition with established players focused on data/analytics
-- **Scalable Brand:** Can expand beyond basic competitive analysis to AI-powered market research, strategic consulting, and enterprise business intelligence
+- **AtelierRun.io** *(cours de l’atelier : production et gestion ; différenciant vs intitulés génériques « smart »)*
+- **TiersConfiance.fr** *(ancrage confiance et tiers payant / relation de confiance ; à valider juridiquement si proche d’un terme réglementé)*
+- **CadranPro.io** *(agenda et professionnalisme)*
 
-## 🥈 **SECOND PICK: MarketScout.ai**
+## Noms « workflow avancé »
 
-**Why This Works:**
-- **Unique Value Prop:** "Scout" metaphor emphasizes proactive intelligence gathering missing from reactive monitoring competitors like Kompyte
-- **Tech Credibility:** .ai domain signals AI-powered analysis vs. traditional business intelligence platforms
-- **Memorable Metaphor:** Scout resonates with entrepreneurs who need to "scout" competitive terrain before entering markets
-- **Differentiated Positioning:** Avoids generic "analytics" or "intelligence" terms used by most competitors, positioning as active market exploration tool
-- **Professional Sound:** Appeals directly to entrepreneur/founder segment underserved by enterprise-focused naming of major competitors
+- **DevisRelance.io** *(boucle devis → relance ; douleur centrale)*
+- **UnSeulDossier.io** *(centralisation type « dossier patient » ; nom long mais narrative fort)*
 
-## 🎯 **Strategic Reasoning**
+## Noms vitesse / efficacité
 
-**Market Positioning:** Both names position against the data-heavy/enterprise-focused branding of major competitors (Crunchbase, SEMrush) while emphasizing the AI-powered strategic consultation that entrepreneurs and business owners value most.
-
-**Domain Economics:** Both recommended domains are available at reasonable cost (.io ~$50/year, .ai ~$200/year) vs. premium alternatives that could cost $50k+. This allows budget allocation toward product development rather than domain acquisition.
-
-**Competitive Differentiation:** Names avoid direct functional competition with established business intelligence platforms while carving out the underserved "AI-powered business consultation" positioning that aligns perfectly with your target user's strategic decision-making needs.
+- **DevisMinute.io** *(aligné promesse rapidité ; vérifier concurrence sémantique)*
+- **ChantierZen.io** *(réduction du chaos agenda / impayés)*
 
 ---
 
-# **FINAL DECISION**
+# Phase 4 : Recommandations stratégiques finales
 
-**Selected App Name:** CompetitorAI
+## Premier choix : **MainStack.io**
 
-**Domain:** CompetitorAI (built as internal reference name)
+**Pourquoi ce nom tient la route :**
+- **Différenciation :** Ne ressemble pas aux marques « Artisan + adjectif » déjà saturées (ArtisanPro, ArtisanSmart) ; évoque **la main d’œuvre** et une **stack** d’outils, ce qui colle au positionnement **SaaS d’exploitation**.
+- **Positionnement pro :** Son **.io** est cohérent avec un produit tech B2B ; court et mémorable.
+- **Stratégie de domaine :** Budget type **~50 €/an** pour un .io selon registrar ; à confirmer par recherche WHOIS et marques (INPI / EUIPO).
+- **SEO :** Requêtes « main stack » peu pertinentes seules en français ; le **slogan** portera le métier (« la stack de gestion des artisans »).
+- **Évolutivité :** Supporte extension vers paiement, agenda public, avis, sans verrouiller sur « devis » seul.
 
-**Selection Date:** Based on built application analysis
+## Second choix : **ReglePro.io**
 
-**Rationale:** The name directly communicates the core value proposition of AI-powered competitive intelligence. It differentiates from data-heavy traditional competitors by emphasizing the AI consultation aspect, appeals to the entrepreneur target market, and clearly positions the platform as an intelligent business decision support tool rather than just another analytics dashboard.
+**Pourquoi ce nom fonctionne :**
+- **Proposition :** « Règle » = **norme du métier** et **outil** ; **Pro** = sérieux, aligné TPE / artisans.
+- **Crédibilité tech :** .io lisible pour un logiciel.
+- **Métaphore :** Parle aux métiers de précision et à la **régularité** (relances, règlements).
+- **Positionnement :** Moins international que MainStack ; très **francophone**, cohérent avec CMA et discours local.
+- **Son :** Deux syllabes + pro, facile à prononcer sur le terrain.
+
+## Raisonnement stratégique global
+
+Le marché français des logiciels artisans est **dense** (Tolteck, Obat, ChantierFlow, etc.). La différenciation du document maître est **économique et éthique** (abonnement vs commission) et **opérationnelle** (valeur stockée dans le produit). Un nom **ni trop descriptif** (« devis-facile ») ni **copie** d’« Artisan + X » réduit les collisions ; **MainStack** et **ReglePro** restent **distincts** tout en laissant le **storytelling** (sous-titre, page d’accueil) porter la promesse « pas une marketplace à commissions ».
+
+**Économie des noms de domaine :** compter **10 à 200 €/an** selon extension (.com, .io, .fr) et registrar ; les noms **longs en .com** sont souvent peu chers mais faibles en marque.
+
+---
+
+## Prochaines étapes et action domaine
+
+- **Enregistrer** `ReglePro.io` chez un registrar (OVH, Gandi, Namecheap, etc.) si ce n’est pas déjà fait ; conserver la preuve d’achat.
+- **Marques :** déposer ou vérifier la disponibilité **INPI** / **EUIPO** selon votre stratégie (conseil juridique recommandé).
+- **Budget indicatif :** extensions .io en général **~50 €/an** selon registrar.
+
+---
+
+## Décision finale
+
+**Statut :** *Validé.*
+
+- **Nom de marque retenu :** ReglePro  
+- **Domaine complet :** https://reglepro.io  
+- **Date de décision :** 2026-04-05  
+- **Note :** disponibilité du domaine **confirmée** par le porteur de projet avant enregistrement définitif.

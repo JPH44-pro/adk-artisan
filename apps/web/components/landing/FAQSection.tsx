@@ -7,39 +7,39 @@ import {
 
 const faqs = [
   {
-    question: "How accurate is the competitive analysis?",
+    question: "ReglePro est-il une marketplace qui prend un pourcentage sur mes chantiers ?",
     answer:
-      "Our AI agent uses multiple data sources including public company information, market research databases, and real-time web analysis to provide comprehensive insights. While no analysis is 100% complete, our reports typically identify 90%+ of relevant competitors and provide market-validated data points.",
+      "Non. Le positionnement est un abonnement SaaS pour votre gestion (devis, factures, clients, agenda). Pas de commission cachée sur les chantiers obtenus via la plateforme, contrairement à beaucoup de places de marché à leads.",
   },
   {
-    question: "How is this different from doing Google research myself?",
+    question: "Quelles données sont traitées ?",
     answer:
-      "Our AI agent processes hundreds of sources simultaneously, analyzes market data systematically, and presents insights in a structured format. What would take you weeks of manual research, we deliver in minutes with professional-grade analysis and strategic recommendations.",
+      "Données de compte, données métier que vous saisissez (clients, devis, factures, agenda) et données techniques nécessaires au service (connexion, facturation Stripe). Voir la politique de confidentialité pour le détail RGPD.",
   },
   {
-    question: "What if my idea is really new or unique?",
+    question: "Puis-je utiliser ReglePro uniquement depuis le chantier ?",
     answer:
-      "Even for innovative ideas, competitive analysis is crucial. We look beyond direct competitors to analyze adjacent markets, substitute solutions, and potential future competitors. This helps you understand the broader competitive landscape and identify opportunities for differentiation.",
+      "L’interface est pensée mobile first : objectif d’usage terrain pour consulter et saisir l’essentiel, avec une expérience complète au bureau.",
   },
   {
-    question: "Is my business idea kept confidential?",
+    question: "Y a-t-il un assistant IA inclus ?",
     answer:
-      "Absolutely. We take privacy seriously. Your business ideas, analysis results, and any data you share are completely confidential and never shared with third parties. We use enterprise-grade security to protect your information.",
+      "Le dépôt technique inclut un module d’assistant (héritage template) évolutif vers un assistant métier (relances, rédaction). Le cœur produit reste la gestion artisan.",
   },
   {
-    question: "What if I'm not satisfied with the report?",
+    question: "Comment fonctionne la facturation ?",
     answer:
-      "We offer a 30-day money-back guarantee. If the analysis doesn't provide valuable insights for your startup idea, we'll refund your subscription fee, no questions asked.",
+      "Les abonnements passent par Stripe (paiement récurrent, portail client). Les montants affichés sur la landing sont indicatifs : alignez-les sur votre grille tarifaire dans le tableau de bord Stripe.",
   },
   {
-    question: "How often can I run new analyses?",
+    question: "Puis-je résilier quand je veux ?",
     answer:
-      "With your subscription, you can analyze as many different ideas as you want. Many founders use it to evaluate multiple concepts before deciding which one to pursue, or to analyze different market segments for the same idea.",
+      "Les conditions exactes figurent dans les conditions d’utilisation et au moment du souscription Stripe. En général, vous gérez l’abonnement depuis votre espace ou le portail client Stripe.",
   },
   {
-    question: "What format do I receive the analysis in?",
+    question: "Le produit est-il conforme Factur-X ou aux obligations françaises ?",
     answer:
-      "You'll receive a comprehensive PDF report (typically 15-20 pages) that includes an executive summary, competitor profiles, market analysis, differentiation opportunities, risk assessment, and strategic recommendations. Perfect for sharing with co-founders or investors.",
+      "La roadmap prévoit la montée en conformité (Factur-X, numérotation) selon les priorités. Le MVP se concentre sur la valeur quotidienne avant les options les plus réglementaires.",
   },
 ];
 
@@ -49,28 +49,24 @@ export default function FAQSection() {
       id="faq"
       className="py-32 px-4 bg-slate-50 dark:bg-slate-900 relative"
     >
-      {/* Background Pattern */}
       <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" aria-hidden="true" />
       <div className="absolute top-20 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
       <div className="absolute bottom-20 right-10 w-48 h-48 sm:w-72 sm:h-72 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
 
       <div className="container mx-auto max-w-5xl relative z-10">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-800 dark:text-white mb-8">
-            {"Frequently "}
+            Questions{" "}
             <span className="text-primary">
-              {"asked questions"}
+              fréquentes
             </span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {
-              "Got questions? We've got answers. Here are the most common questions from startup founders."
-            }
+            Réponses courtes sur l’offre ReglePro. Pour le détail juridique,
+            consultez les pages légales.
           </p>
         </div>
 
-        {/* FAQ Accordion */}
         <div className="space-y-6 mb-20">
           <Accordion type="single" collapsible className="w-full space-y-6">
             {faqs.map((faq, index) => (
@@ -94,17 +90,16 @@ export default function FAQSection() {
           </Accordion>
         </div>
 
-        {/* Still have questions CTA */}
         <div className="text-center">
           <p className="text-slate-600 dark:text-slate-400 text-lg">
-            {"Still have questions? "}
+            Une autre question ?{" "}
             <a
-              href="mailto:support@competitorai.com"
+              href="mailto:contact@reglepro.io"
               className="text-primary hover:underline font-medium"
             >
-              Contact us
+              Écrivez-nous
             </a>
-            {" - we'll get back to you within 24 hours."}
+            .
           </p>
         </div>
       </div>

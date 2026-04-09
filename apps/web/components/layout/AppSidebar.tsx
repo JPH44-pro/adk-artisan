@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
-  Clock,
+  Calendar,
   User,
   LogIn,
   Menu,
@@ -25,6 +25,11 @@ import {
   LogOut,
   MessageCirclePlus,
   Shield,
+  LayoutDashboard,
+  Users,
+  FileText,
+  Receipt,
+  History,
 } from "lucide-react";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { useUser } from "@/contexts/UserContext";
@@ -36,6 +41,19 @@ import { SidebarThemeSwitcher } from "@/components/SidebarThemeSwitcher";
 import { UsageTracker } from "@/components/chat/UsageTracker";
 import Logo from "../Logo";
 
+function isNavActive(pathname: string, href: string): boolean {
+  if (href === "/chat") {
+    return pathname.startsWith("/chat");
+  }
+  if (href.startsWith("/admin")) {
+    return pathname.startsWith("/admin");
+  }
+  if (href === "/history") {
+    return pathname.startsWith("/history");
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -43,11 +61,15 @@ export default function AppSidebar() {
   const { id: userId, role: userRole } = useUser();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Build navigation items based on user role
   const navItems = [
-    { href: "/chat", label: "Chat", icon: MessageCirclePlus },
-    { href: "/history", label: "History", icon: Clock },
-    { href: "/profile", label: "Profile", icon: User },
+    { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+    { href: "/clients", label: "Clients", icon: Users },
+    { href: "/devis", label: "Devis", icon: FileText },
+    { href: "/factures", label: "Factures", icon: Receipt },
+    { href: "/agenda", label: "Agenda", icon: Calendar },
+    { href: "/chat", label: "Assistant", icon: MessageCirclePlus },
+    { href: "/history", label: "Historique", icon: History },
+    { href: "/profile", label: "Profil", icon: User },
     ...(userRole === "admin"
       ? [{ href: "/admin/models", label: "Admin", icon: Shield }]
       : []),
@@ -62,14 +84,14 @@ export default function AppSidebar() {
       const result = await logoutAction();
 
       if (result.success) {
-        toast.success("Successfully logged out!");
+        toast.success("Déconnexion réussie.");
         router.push("/");
       } else {
         toast.error(result.error);
       }
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : "Logout failed";
+        error instanceof Error ? error.message : "Échec de la déconnexion";
       toast.error(errorMessage);
     } finally {
       setIsLoggingOut(false);
@@ -77,7 +99,6 @@ export default function AppSidebar() {
   };
 
   const handleNavClick = () => {
-    // On mobile, collapse the sidebar when a nav item is clicked
     if (isMobile) {
       toggleSidebar();
     }
@@ -86,22 +107,14 @@ export default function AppSidebar() {
   const handleChatClick = (e: React.MouseEvent) => {
     e.preventDefault();
     handleNavClick();
-
-    // Force hard navigation to ensure complete state reset
-    // This bypasses React caching and guarantees fresh data
     window.location.href = "/chat";
   };
 
   const getLinkClasses = (href: string) => {
-    const isActive =
-      href === "/chat"
-        ? pathname.startsWith("/chat")
-        : href.startsWith("/admin")
-          ? pathname.startsWith("/admin")
-          : pathname === href;
+    const active = isNavActive(pathname, href);
     return cn(
       "flex items-center w-full rounded-md text-base font-medium transition-colors",
-      isActive
+      active
         ? "bg-primary text-white [&>*]:text-white"
         : "hover:bg-white dark:hover:bg-gray-800",
       renderContentAsOpen ? "px-3 py-2" : "h-9 w-9 justify-center p-0"
@@ -118,15 +131,19 @@ export default function AppSidebar() {
             : "justify-center px-2"
         )}
       >
-        {/* Only show logo when expanded */}
         {renderContentAsOpen && (
-          <Logo className="pl-2 text-xl" width={26} height={26} />
+          <Link
+            href="/dashboard"
+            className="pl-2 flex items-center"
+            onClick={handleNavClick}
+          >
+            <Logo className="text-xl" width={26} height={26} />
+          </Link>
         )}
 
-        {/* Desktop collapse button */}
         {!isMobile && (
           <SidebarTrigger
-            aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+            aria-label={open ? "Réduire le menu" : "Agrandir le menu"}
             aria-expanded={open}
             className="p-1 rounded-md hover:bg-muted transition-colors"
           >
@@ -138,7 +155,6 @@ export default function AppSidebar() {
           </SidebarTrigger>
         )}
 
-        {/* Mobile close button - only show on mobile when sidebar is open */}
         {isMobile && (
           <Button
             variant="ghost"
@@ -147,7 +163,7 @@ export default function AppSidebar() {
             onClick={() => toggleSidebar()}
           >
             <PanelLeftIcon className="h-6 w-6" />
-            <span className="sr-only">Close sidebar</span>
+            <span className="sr-only">Fermer le menu</span>
           </Button>
         )}
       </SidebarHeader>
@@ -181,13 +197,11 @@ export default function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
 
-        {/* Bottom-aligned Usage Tracker wrapper to avoid hydration mismatches */}
         <div className="mt-auto px-2 pb-2">
           {renderContentAsOpen && userId ? <UsageTracker /> : null}
         </div>
       </SidebarContent>
       <SidebarFooter className="py-4 border-t flex flex-col space-y-2">
-        {/* Theme switcher */}
         <div
           className={cn(
             "flex w-full",
@@ -197,7 +211,6 @@ export default function AppSidebar() {
           <SidebarThemeSwitcher />
         </div>
 
-        {/* Logout/Login */}
         {userId ? (
           renderContentAsOpen ? (
             <LogoutButton />
@@ -212,7 +225,7 @@ export default function AppSidebar() {
               >
                 <LogOut className="h-5 w-5" />
                 <span className="sr-only">
-                  {isLoggingOut ? "Logging out..." : "Logout"}
+                  {isLoggingOut ? "Déconnexion…" : "Déconnexion"}
                 </span>
               </Button>
             </div>
@@ -231,8 +244,8 @@ export default function AppSidebar() {
               <LogIn
                 className={cn(renderContentAsOpen ? "h-5 w-5 mr-3" : "h-5 w-5")}
               />
-              {renderContentAsOpen && "Login"}
-              {!renderContentAsOpen && <span className="sr-only">Login</span>}
+              {renderContentAsOpen && "Connexion"}
+              {!renderContentAsOpen && <span className="sr-only">Connexion</span>}
             </Button>
           </Link>
         )}

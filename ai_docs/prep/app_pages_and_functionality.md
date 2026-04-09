@@ -1,164 +1,220 @@
 ## App Pages & Functionality Blueprint
 
-### App Summary  
-**End Goal:** Help entrepreneurs and business owners achieve comprehensive competitive intelligence and market analysis to make informed strategic decisions
-**Core Value Proposition:** Stop flying blind in the market by discovering what competitors are really doing - get comprehensive competitor analysis in minutes instead of expensive consultant fees
-**Target Users:** Entrepreneurs, business owners, market researchers, and strategic decision makers
-**Template Type:** adk-agent-saas
+### App Summary
+
+**End Goal:** Donner aux artisans et TPE du bâtiment en France un **poste de pilotage** pour **devis, facturation, dossier client et agenda**, avec une promesse **d’équité** (abonnement, pas commission cachée sur les chantiers).
+
+**Core Value Proposition:** Gagner du temps sur l’admin, réduire les impayés et les oublis, centraliser l’historique chantier par client, depuis le terrain ou le bureau.
+
+**Target Users:** Artisans indépendants et micro-entreprises (BTP, entretien, espaces verts), clients finaux en accès limité selon les phases produit.
+
+**Template technique du dépôt:** base **adk-agent-saas** (Next.js, Supabase, Stripe). La **vision produit** cible ReglePro (gestion artisan) : certaines routes du template (**chat**, **history**) restent des **héritages** à remplacer ou réorienter quand les écrans métier seront livrés.
 
 ---
 
-## 🌐 Universal SaaS Foundation
+## Universal SaaS Foundation
 
 ### Public Marketing Pages
-- **Landing Page** — `/` 
-  - Hero: "Stop Flying Blind. Discover What Your Competitors Are Really Doing"
-  - Problem highlight: "Get comprehensive competitor analysis in minutes instead of expensive consultant fees"
-  - Feature showcase: AI-powered competitive intelligence, market gap discovery, strategic insights
-  - Pricing: Free (3 analyses) → Basic ($19.99/month, 25 analyses) → Pro ($49.99/month, unlimited)
-  - CTA: "Start Your Competitive Analysis" driving to competitive intelligence chat interface
 
-- **Legal Pages** — `/privacy`, `/terms`, `/cookies`
-  - Privacy policy, Terms of service, Cookie policy
-  - Essential for GDPR compliance and SaaS operations
+- **Landing Page** : `/`
+  - Hero aligné ReglePro : gestion pro, devis rapides, confiance (pas une marketplace à leads)
+  - Fonctions clés : devis et factures, dossier client, relances, agenda (MVP)
+  - Offres : rappel des paliers d’abonnement (gratuit, standard, pro) cohérents avec le document maître
+  - CTA vers inscription puis **tableau de bord** (ou parcours actuel `/chat` tant que le dashboard métier n’existe pas)
+
+- **Legal Pages** : `/privacy`, `/terms`, `/cookies`
+  - Politique de confidentialité, CGU, cookies (RGPD, données clients et facturation)
 
 ### Authentication Flow
-- **Login** — `/auth/login` (Email/password, OAuth options including GitHub, Google)
-- **Sign Up** — `/auth/sign-up` (Account creation)  
-- **Forgot Password** — `/auth/forgot-password` (Password reset flow)
-- **Sign Up Success** — `/auth/sign-up-success` (Confirmation page)
+
+- **Login** : `/auth/login` (email / mot de passe, OAuth si activé)
+- **Sign Up** : `/auth/sign-up`
+- **Forgot Password** : `/auth/forgot-password`
+- **Sign Up Success** : `/auth/sign-up-success`
+- **Update Password** : `/auth/update-password` (si présent dans le template)
+- **Auth Error** : `/auth/error`
 
 ---
 
-## ⚡ Core Application Pages
+## Core Application Pages (vision ReglePro)
 
-### Competitive Intelligence Interface
-- **Primary Analysis** — `/chat`
-  - Interactive business consultation with guided questioning
-  - Multi-agent competitive research pipeline (Planner → Researcher → Validator → Composer)
-  - Real-time competitive analysis generation with progress indicators
-  - Comprehensive competitor discovery (direct, indirect, emerging threats)
-  - Strategic recommendations and market gap identification
-  - Usage indicator showing tier limits and remaining analyses
+### Tableau de bord
 
-- **Analysis Sessions** — `/chat/[[...sessionId]]`
-  - Specific competitive analysis sessions with flexible routing
-  - Restore any previous competitive analysis for reference
-  - Continue or refine analysis with additional research
+- **Dashboard** : `/dashboard` (à créer)
+  - Vue synthèse : devis en attente de signature, factures en retard, prochains rendez-vous (Frontend)
+  - Agrégation des compteurs depuis les tables métier et événements d’usage (Backend)
+  - Rappels planifiés ou webhooks métier plus tard (Background Job, phase ultérieure)
 
-### Analysis Management
-- **History** — `/history`
-  - Complete competitive analysis sessions with business context and results
-  - Restore any previous competitive analysis to review findings and recommendations
-  - Export competitive intelligence reports as PDF with comprehensive business insights
+### Clients et dossiers
 
-### User Account  
-- **Profile** — `/profile` (Consolidated Hub)
-  - Account settings: name, email, business preferences
-  - Subscription management: current tier, analysis usage tracking, upgrade/downgrade
-  - Billing: payment methods, invoice history, competitive analysis usage analytics
-  - Notification preferences for analysis completion and research updates
-  - Tier-based competitive intelligence features clearly displayed
+- **Liste clients** : `/clients` (à créer)
+  - Recherche et filtres par nom, ville, dernier contact (Frontend)
+  - Liste paginée issue de la base (Backend)
 
----
+- **Fiche client** : `/clients/[clientId]` (à créer)
+  - Coordonnées, historique des chantiers et documents (Frontend)
+  - CRUD client et pièces jointes (Backend)
+  - Photos avant ou après stockées côté stockage objet quand prévu (Backend)
 
-## 💰 Business Model Pages
+### Devis
 
-### Billing & Subscription
-- **Billing Management** — Integrated within `/profile`
-  - Subscription management, payment methods
-  - Usage tracking and tier limits (competitive analyses, reports, features)
-  - Billing history and invoices
-  - Stripe integration for subscription lifecycle management
+- **Liste des devis** : `/devis` (à créer)
+  - Statuts : brouillon, envoyé, accepté, refusé, expiré (Frontend)
+  - Requêtes filtrées par utilisateur / entreprise (Backend)
 
-### Tier-Based Feature Access
-**Free Tier ($0/month)**
-- 3 competitive analyses per month
-- Basic competitor discovery and insights
-- Community support
+- **Édition devis** : `/devis/[quoteId]` (à créer)
+  - Lignes, TVA, totaux, modèles réutilisables (Frontend)
+  - Persistance et versioning minimal (Backend)
+  - Signature électronique ou envoi PDF selon intégration (Backend / connecteur externe, phase selon roadmap)
 
-**Basic Tier ($19.99/month) - Most Popular**
-- 25 competitive analyses per month
-- Industry trend reports
-- Email summaries of competitive insights
-- Priority support
+### Factures
 
-**Pro Tier ($49.99/month)**
-- Unlimited competitive analyses
-- Custom research parameters and deep analysis
-- Advanced strategic recommendations
-- Priority support and early feature access
+- **Liste factures** : `/factures` (à créer)
+  - Statuts de paiement, relances (Frontend)
+  - Génération numérotation et conformité Factur-X en phase ultérieure si hors MVP (Backend)
 
----
+- **Détail facture** : `/factures/[invoiceId]` (à créer)
+  - Aperçu, téléchargement PDF, lien paiement si activé (Frontend + Backend)
 
-## 📱 Navigation Structure  
+### Agenda
 
-### Main Sidebar (Responsive)
-- **Analysis** - Primary interface for competitive intelligence research and consultation
-- **History** - Previous competitive analysis sessions and reports
-- **Profile** - Account settings, subscription management, billing, and business preferences
+- **Agenda (calendrier)** : `/agenda` (à créer)
+  - Vue jour / semaine, rendez-vous liés aux clients et chantiers (Frontend)
+  - Synchronisation calendrier externe en phase 2 si besoin (Backend)
 
-### Mobile Navigation  
-- Collapsible sidebar with competitive analysis as default view
-- Quick access to analysis progress and status indicators
-- Swipe gestures for accessing history and profile
-- Optimized for business users conducting competitive research on-the-go
+### Assistant conversationnel (héritage template)
+
+- **Session assistant** : `/chat` et `/chat/[[...sessionId]]`
+  - Aujourd’hui : flux type analyse concurrentielle (ADK). **À réorienter** vers un assistant métier (relances, rédaction, questions chantier) ou retirer du parcours principal quand le produit ReglePro sera centré gestion.
+
+- **Historique** : `/history`
+  - Aujourd’hui : historique de sessions chat. **À remplacer ou fusionner** avec un historique **devis / chantiers / documents** selon priorité produit.
+
+### Compte utilisateur
+
+- **Profil et abonnement** : `/profile`
+  - Compte, préférences, usage, lien portail Stripe, paliers Free / Pro (Frontend)
+  - Lecture statut d’abonnement via Stripe comme source de vérité (Backend)
+  - Webhooks Stripe déjà prévus pour les événements critiques (API existante)
 
 ---
 
-## 🔧 Next.js App Router Structure
+## Business Model Pages
 
-### Layout Groups
+### Facturation et abonnement
+
+- **Gestion intégrée au profil** : `/profile` (pas de route séparée obligatoire)
+  - Abonnement, méthodes de paiement, usage (messages ou unités métier selon règles business)
+  - Lien vers le portail client Stripe pour le détail des factures fournisseur
+
+### Vérification d’accès
+
+- Contrôle du tier avant actions coûteuses ou premium (Server Action ou middleware), aligné Stripe
+
+---
+
+## Admin plateforme (Phase 2)
+
+- Réservé aux **opérateurs** du SaaS (pas aux artisans), si le document maître introduit un rôle admin distinct plus tard.
+- Exemples de routes possibles : `/admin/users`, `/admin/support`, `/admin/metrics` (à créer avec garde auth + rôle)
+- **Pas prioritaire MVP** pour les utilisateurs finaux artisans
+
+---
+
+## Navigation Structure
+
+### Barre latérale principale (responsive)
+
+- Tableau de bord
+- Clients
+- Devis
+- Factures
+- Agenda
+- Assistant (optionnel, tant que `/chat` existe)
+- Profil (compte, facturation)
+
+### Navigation mobile
+
+- Même ordre, menu repliable, actions terrain en tête (nouveau devis, appel client)
+
+### Accès par rôle
+
+- **Artisan / TPE:** tout le périmètre métier ci-dessus
+- **Client final (phase ultérieure):** parcours séparé ou liens magiques depuis emails de devis, hors MVP sauf décision produit
+- **Admin plateforme:** section admin dédiée, phase 2
+
+---
+
+## Next.js App Router Structure
+
+### Layout Groups (cible)
+
 ```
 app/
-├── (public)/          # Marketing and legal pages
-├── (auth)/             # Authentication flow  
-├── (protected)/        # Main authenticated app
-└── api/                # Backend endpoints
+├── (public)/           # Marketing et légal
+├── (auth)/             # Flux auth
+├── (protected)/        # App authentifiée (dashboard, clients, devis, factures, agenda, profile, legacy chat)
+└── api/                # Webhooks et intégrations externes uniquement si nécessaire
 ```
 
-### Complete Route Mapping
-**🌐 Public Routes**
-- `/` → Landing page with competitive intelligence value proposition
-- `/privacy` → Privacy policy
-- `/terms` → Terms of service  
-- `/cookies` → Cookie policy
+### Route Mapping (vision cible ReglePro)
 
-**🔐 Auth Routes**
-- `/auth/login` → User login
-- `/auth/sign-up` → User registration
-- `/auth/forgot-password` → Password reset
-- `/auth/sign-up-success` → Registration confirmation
+**Public**
 
-**🛡️ Protected Routes**  
-- `/chat` → Default competitive analysis interface
-- `/chat/[[...sessionId]]` → Specific analysis sessions with dynamic routing
-- `/history` → Previous competitive analysis sessions and reports
-- `/profile` → Consolidated account, billing, and subscription management
+- `/` : landing
+- `/privacy`, `/terms`, `/cookies` : légal
 
-**🔧 API Routes**
-- `/api/run/route.ts` → Competitive analysis execution with multi-agent pipeline
-- `/api/sessions/route.ts` → Analysis session management and history
-- `/api/webhooks/stripe/route.ts` → Subscription and billing webhooks
+**Auth**
+
+- `/auth/login`, `/auth/sign-up`, `/auth/forgot-password`, `/auth/sign-up-success`, `/auth/update-password`, `/auth/error`
+
+**Protégé (à développer progressivement)**
+
+- `/dashboard` : tableau de bord
+- `/clients`, `/clients/[clientId]` : clients
+- `/devis`, `/devis/[quoteId]` : devis
+- `/factures`, `/factures/[invoiceId]` : factures
+- `/agenda` : agenda (rendez-vous)
+- `/profile` : profil et billing
+- `/chat`, `/chat/[[...sessionId]]`, `/history` : héritage template, à fusionner avec la vision produit
+
+**API (externe / webhooks)**
+
+- `/api/webhooks/stripe` : déjà prévu pour la facturation
+- Autres webhooks (signature, SMS) quand intégrations choisies
+
+### Backend Architecture (principes)
+
+- **Server Actions** : mutations internes (création devis, mise à jour client, enregistrement des rendez-vous agenda)
+- **Lib queries** : accès Drizzle / Supabase, règles métier
+- **Routes API** : webhooks et appels entrants externes, pas la logique métier courante en JSON API si évitable
+
+**Flux**
+
+- Frontend → Server Actions → lib queries → base de données
+- Stripe → webhook → mise à jour abonnement / usage
 
 ---
 
-## 🎯 MVP Functionality Summary
+## MVP Functionality Summary
 
-This blueprint delivers your core value proposition: **Stop flying blind in the market by discovering what competitors are really doing - comprehensive competitive analysis in minutes**
+**Phase 1 (lancement aligné document maître):**
 
-**Phase 1 (Launch Ready):**
-- Universal SaaS foundation (auth, legal, responsive design)
-- Interactive business consultation with guided competitive analysis questioning
-- Multi-agent competitive research pipeline (Planner → Researcher → Validator → Composer)
-- Comprehensive competitor discovery including direct, indirect, and emerging threats
-- Strategic recommendations and market gap identification with PDF export
-- Tier-based subscription system with analysis limits and Stripe integration
+- Fondation SaaS : auth, légal, responsive, profil avec Stripe
+- **Cœur métier à construire** : clients, devis (liste + édition), factures (liste + détail), agenda minimal, tableau de bord
+- Données utilisateur isolées par compte (multi-tenant / RLS selon schéma)
 
-**Phase 2 (Growth Features):**  
-- Advanced industry-specific analysis templates
-- Competitive intelligence alerts and monitoring
-- API access for competitive analysis integration
-- Visual competitive positioning maps and trend analysis
+**Phase 2 (document maître, feuille de route):**
 
-> **Next Step:** Ready for wireframe design with this concrete blueprint
+- Relances automatiques, demandes d’avis, paiement en ligne, profil public artisan
+- Matching actif seulement avec base utilisateurs dense
+
+**Héritage template:**
+
+- Remplacer progressivement le parcours **chat / history** par des écrans **ReglePro** ou réutiliser l’assistant sous une entrée secondaire
+
+---
+
+## Next Step
+
+Ce blueprint sert de base aux **wireframes** (`prep_templates` suivants) et à la planification des sprints. La route canonique pour l’agenda est **`/agenda`**, sans changer la structure globale.

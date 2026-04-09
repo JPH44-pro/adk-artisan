@@ -9,7 +9,9 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between py-3 md:grid md:grid-cols-3">
           <div className="flex items-center justify-self-start">
-            <Logo className="text-2xl" />
+            <Link href="/" className="flex items-center" aria-label="ReglePro, accueil">
+              <Logo className="text-2xl" />
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center justify-center space-x-8 justify-self-center">
@@ -17,13 +19,13 @@ const Navbar = () => {
               href="#features"
               className="text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-4 py-2 rounded-lg transition-all duration-300"
             >
-              Features
+              Fonctionnalités
             </a>
             <a
               href="#pricing"
               className="text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-4 py-2 rounded-lg transition-all duration-300"
             >
-              Pricing
+              Tarifs
             </a>
             <a
               href="#faq"
@@ -41,14 +43,14 @@ const Navbar = () => {
               asChild
               className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base border-2 hover:bg-gray-50 dark:hover:bg-gray-800 w-full rounded-xl"
             >
-              <Link href="/auth/login">Login</Link>
+              <Link href="/auth/login">Connexion</Link>
             </Button>
             <Button
               size="lg"
               asChild
               className="hidden sm:inline-flex bg-primary hover:bg-primary/90 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base w-full rounded-xl"
             >
-              <Link href="/auth/sign-up">Get Started Free</Link>
+              <Link href="/auth/sign-up">Créer un compte</Link>
             </Button>
           </div>
         </div>

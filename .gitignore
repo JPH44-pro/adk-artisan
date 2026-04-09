@@ -80,3 +80,6 @@ dmypy.json
 
 # UV Python package manager
 uv.lock
+
+# Local reference documents (not for public repo)
+Doctolib de l'artisan.pdf

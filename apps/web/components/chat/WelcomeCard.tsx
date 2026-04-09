@@ -25,7 +25,7 @@ export function WelcomeCard({ onPromptSelect }: WelcomeCardProps) {
           {/* Title */}
           <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 flex items-center justify-center gap-1 sm:gap-3">
             Welcome to <Logo className="hidden sm:inline-flex text-primary" />
-            <span className="sm:hidden">CompetitorAI</span>
+            <span className="sm:hidden">ReglePro</span>
           </CardTitle>
 
           {/* Subtitle */}

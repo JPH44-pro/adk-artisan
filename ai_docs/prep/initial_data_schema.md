@@ -1,66 +1,128 @@
 ## Strategic Database Planning Document
 
 ### App Summary
-**End Goal:** Help entrepreneurs and business owners achieve comprehensive competitive intelligence and market analysis to make informed strategic decisions  
-**Template Used:** adk-agent-saas  
-**Core Features:** AI-powered competitive analysis, multi-agent research pipeline, session management, usage tracking, subscription tiers
+
+**End Goal:** Donner aux artisans et TPE du bâtiment en France un poste de pilotage pour devis, facturation, dossier client et agenda, avec abonnement équitable (pas de commission cachée sur les chantiers).
+
+**Template Used:** adk-agent-saas (Next.js, Supabase Auth, Drizzle, Stripe).
+
+**Core Features:** Compte et facturation Stripe, suivi d’usage type chat ADK (sessions, messages), périmètre métier ReglePro à ajouter (clients, devis, factures, agenda, tableau de bord).
 
 ---
 
-## 🗄️ Current Database State
+## Current Database State
 
-### Existing Tables (adk-agent-saas Template)
-- **`users`** - User accounts with simplified subscription tiers (free/paid) and admin role support
-- **`session_names`** - User-friendly titles for ADK competitive analysis sessions with AI generation tracking
-- **`user_usage_events`** - Usage tracking for competitive analysis limits (messages and sessions per tier)
+### Existing Tables (adk-agent-saas template)
 
-### Template Assessment  
-**✅ Excellent Fit:** Your adk-agent-saas template is ~98% perfect for CompetitorAI's competitive intelligence vision
-**❌ Minor Cleanup:** Removed unnecessary Stripe webhook complexity 
-**🔧 Ready to Build:** All core features (competitive analysis, session management, usage limits) already supported
+Schéma source : `apps/web/lib/drizzle/schema/`.
+
+- **`users`**  
+  - Colonnes : `id` (PK, aligné `auth.users`), `email`, `full_name`, `created_at`, `updated_at`, `stripe_customer_id`, `role` (`member` | `admin`).  
+  - Sert : profil applicatif, lien Stripe, garde admin plateforme.  
+  - Le palier d’abonnement **free / paid** n’est **pas** stocké en colonne : il est dérivé côté applicatif à partir des données Stripe (voir `lib/usage-tracking.ts`).
+
+- **`session_names`**  
+  - Colonnes : `id`, `session_id` (texte ADK), `user_id` → `users`, `title`, `is_ai_generated`, timestamps.  
+  - Contrainte unique `(session_id, user_id)`.  
+  - Sert : titres de sessions pour l’assistant `/chat` et l’historique `/history`.
+
+- **`user_usage_events`**  
+  - Colonnes : `id`, `user_id` → `users`, `event_type` (`message_sent`, `session_created`), `created_at`.  
+  - Sert : plafonds d’usage par fenêtre temporelle pour le produit **chat**.
+
+### Template Assessment
+
+**Fit global :** la base actuelle est **bien adaptée** à auth, Stripe customer id, admin, chat ADK et quotas messages / sessions. Elle est **insuffisante seule** pour le cœur métier ReglePro (clients, devis, factures, agenda).
+
+**Points déjà utiles pour ReglePro**
+
+- Isolation par `users.id` comme premier niveau de tenant (artisan solo).  
+- `stripe_customer_id` + webhooks pour la monétisation.  
+- `role` pour une future section admin opérateurs (hors MVP métier).
+
+**Écarts avec la vision ReglePro**
+
+- Aucune entité **client**, **devis**, **facture**, **rendez-vous**.  
+- `user_usage_events` modèle **message / session** : à **étendre** (nouveaux `event_type`) ou à **compléter** avec d’autres mécanismes si les plafonds métier (ex. nombre de devis) diffèrent des règles chat.
+
+**Prêt à construire sans migration immédiate**
+
+- Pages **profil**, **auth**, **webhooks Stripe**, garde **admin** (structure actuelle).
 
 ---
 
-## ⚡ Feature-to-Schema Mapping
+## Feature-to-Schema Mapping
 
-### Core Features (Ready to Build)
-- **Competitive Analysis Interface** → Uses ADK sessions + `session_names` for user-friendly titles - perfect design
-- **Analysis History Management** → Uses `session_names` with session_id tracking - already implemented  
-- **Usage Limit Enforcement** → Uses `user_usage_events` with time-window queries - complete foundation
-- **Subscription Tiers** → Uses `users.subscription_tier` (free/paid) + usage tracking - simplified and focused
-- **Admin Analysis Management** → Uses `users.role` admin system - fully supported
+### Fonctions déjà couvertes par le schéma actuel
 
-### No New Tables Needed
-Your competitive intelligence features map perfectly to the existing lean schema. The template architect designed this specifically for ADK-powered agent applications.
+- **Compte utilisateur + email** → `users` + Supabase Auth.  
+- **Portail facturation Stripe** → `stripe_customer_id` + intégration Stripe existante.  
+- **Assistant conversationnel / historique chat (héritage)** → `session_names`, `user_usage_events`.  
+- **Rôle admin plateforme** → `users.role` (usage futur, pas prioritaire MVP métier).
+
+### Fonctions ReglePro nécessitant de nouvelles tables (ou extensions)
+
+- **Liste et fiche clients** → table **`clients`** (minimum : lien `user_id`, identité, coordonnées, métadonnées de recherche).  
+- **Devis (liste + édition)** → tables **`quotes`** + **`quote_lines`** (ou JSON lines en MVP si vous acceptez moins de normalisation).  
+- **Factures (liste + détail)** → tables **`invoices`** + **`invoice_lines`**, lien optionnel vers devis accepté.  
+- **Agenda** → table **`agenda_events`** (ou `appointments`) : horodatage, lien `client_id`, libellé chantier, statut.  
+- **Tableau de bord** → requêtes agrégées sur les tables ci-dessus (pas obligatoire d’ajouter une table « dashboard »).  
+- **Pièces jointes / photos** → prévoir **clés de stockage** (bucket Supabase) sur client ou chantier ; une table **`attachments`** est recommandée dès que vous versionnez plusieurs fichiers par entité.
+
+### Décisions transverses (à trancher en implémentation)
+
+- **Tenant unique par utilisateur (MVP)** : toutes les FK métier pointent vers `users.id`. Si vous ajoutez des **équipes / sociétés** plus tard, introduire une table **`organizations`** et déplacer les FK de `user_id` vers `organization_id` (migration plus lourde : à anticiper seulement si la roadmap multi-poste est proche).
+
+- **Numérotation devis / factures** : champs dédiés par utilisateur ou par organisation, avec contrainte d’unicité ; souvent une table **`number_sequences`** ou colonnes sur un profil **entreprise** (à ajouter quand vous figez la conformité légale FR).
 
 ---
 
-## 📋 Recommended Changes
+## Recommended Changes
 
-**Bottom Line:** Your database is essentially **perfect as-is**. No critical changes needed for MVP launch.
+**Bottom Line :** prévoir **au minimum quatre domaines de modélisation** (clients, devis, factures, agenda) en plus du socle existant, avec migrations Drizzle itératives alignées sur les écrans du blueprint.
 
-### Decision #1: Schema is Production-Ready
-- **Current State:** 3 focused tables supporting all CompetitorAI features
-- **Assessment:** Database perfectly matches your competitive intelligence vision
-- **Action:** No changes required - proceed directly to feature development
-- **Impact:** Can launch MVP immediately with existing schema
+### Decision #1 : Conserver le socle chat pour la transition
+
+- **Problème :** le produit vise la gestion artisan ; `/chat` reste dans le template.  
+- **Action :** ne pas supprimer `session_names` ni `user_usage_events` tant que l’assistant est exposé ; documenter qu’ils sont **héritage ADK**.  
+- **Impact :** zéro régression sur l’existant ; le travail métier s’ajoute **à côté**.
+
+### Decision #2 : Modèle métier normalisé (recommandé pour la TVA et les relances)
+
+- **Problème :** lignes de devis / facture avec TVA et statuts (brouillon, envoyé, payé, en retard).  
+- **Action :** tables **quotes / quote_lines** et **invoices / invoice_lines** avec montants en centimes ou décimaux selon convention projet, références client, statuts énumérés côté schéma ou texte contrôlé par l’app.  
+- **Impact :** requêtes dashboard et conformité ultérieure (Factur-X) plus simples qu’un seul blob JSON.
+
+### Decision #3 : Agenda comme entité première classe
+
+- **Problème :** rendez-vous liés clients et chantiers (wireframe, blueprint).  
+- **Action :** table dédiée avec `user_id`, `client_id` nullable, plage horaire, titre, notes ; index sur `(user_id, start_at)`.  
+- **Impact :** synchro calendrier externe (phase 2) sans refondre le modèle.
+
+### Decision #4 : Usage et paliers ReglePro vs chat
+
+- **Problème :** les `event_type` actuels ciblent le chat.  
+- **Option A :** étendre `user_usage_events` avec de nouveaux types (ex. `quote_created`, `invoice_sent`) pour les plafonds par tier.  
+- **Option B :** métriques métier uniquement en base métier (comptages) et règles de quota dans les Server Actions.  
+- **Recommandation :** **Option A** si les paliers Stripe doivent limiter des actions métier de la même manière que les messages ; **Option B** si les quotas restent centrés chat jusqu’à un rebranding complet des offres.
 
 ### Implementation Priority
-1. **Phase 1 (MVP):** Use existing schema without modifications
-2. **Phase 2 (Growth):** All advanced features already supported by current design
+
+1. **Phase 1 (MVP métier) :** `clients` ; `quotes` + lignes ; `invoices` + lignes ; `agenda_events` ; RLS Supabase par `user_id` sur toutes les nouvelles tables.  
+2. **Phase 2 (croissance) :** pièces jointes structurées ; séquences de numérotation ; champs entreprise (SIRET, TVA intracom) ; lien facture ↔ paiement en ligne ; événements d’usage métier si besoin facturation à l’usage.
 
 ---
 
-## 🎯 Strategic Advantage
+## Strategic Advantage
 
-Your adk-agent-saas template choice was **exceptional** for CompetitorAI. The template appears specifically designed for ADK-powered competitive intelligence platforms:
+Le template **adk-agent-saas** vous donne déjà **identité, Stripe et gouvernance admin**, ce qui correspond à la couche SaaS du document maître. La dette utile est **centrée sur le domaine métier** : c’est prévisible pour un passage de **CompetitorAI** à **ReglePro**, et le schéma peut grandir **sans casser** les tables chat tant que l’assistant reste optionnel.
 
-- **ADK Session Management** ✅ - Session titles with user-friendly naming
-- **Usage-Based Subscription Tiers** ✅ - Time-window limits for competitive analysis  
-- **Clean User Management** ✅ - Simplified free/paid tiers with admin support
-- **Lean Database Design** ✅ - No unnecessary complexity or bloat
-- **Security & Performance** ✅ - RLS policies and optimized indexes included
+Points forts à exploiter :
 
-**Next Steps:** Start building features immediately - your database foundation is already optimized for competitive intelligence workflows.
+- **Un utilisateur = un propriétaire de données métier** en MVP (simple à sécuriser en RLS).  
+- **Stripe déjà branché** pour monétiser avant d’optimiser chaque rapport métier.  
+- **Drizzle** : migrations versionnées pour ajouter les tables métier fichier par fichier (`npm run db:generate` après changement de schéma).
 
-> **Development Approach:** The 3-table schema is intentionally lean and focused. Build features incrementally using existing tables. No database changes will block any planned CompetitorAI functionality.
+**Next Steps :** valider les noms de tables et champs avec une première migration **clients + quotes** ; enchaîner factures et agenda ; mettre à jour les politiques RLS et les tests de requêtes par `user_id`.
+
+> **Development Approach :** traiter `initial_data_schema.md` comme contrat évolutif : chaque sprint ajoute ou affine des tables en restant aligné avec `app_pages_and_functionality.md` et `wireframe.md`. Éviter les colonnes inutiles avant que l’écran correspondant existe.

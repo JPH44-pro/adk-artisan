@@ -4,11 +4,11 @@ import { generateLegalMetadata } from "@/lib/metadata";
 import TableOfContents from "@/components/legal/TableOfContents";
 import LegalLayout from "../legal-layout";
 
-const lastUpdated = "2025-06-30";
+const lastUpdated = "2026-04-06";
 
 export const metadata: Metadata = generateLegalMetadata(
   "Privacy Policy",
-  "Privacy Policy for ShipKit.ai - How we collect, use, and protect your personal information in compliance with GDPR and CCPA."
+  "Privacy Policy for ReglePro - How we collect, use, and protect your personal information including client and invoicing data in compliance with GDPR."
 );
 
 const tocSections = [
@@ -33,16 +33,16 @@ export default function PrivacyPolicy() {
       <LegalPageWrapper
         title="Privacy Policy"
         lastUpdated={lastUpdated}
-        description="This Privacy Policy describes how ShipKit.ai collects, uses, and protects your personal information when you use our AI chat platform."
+        description="This Privacy Policy describes how ReglePro collects, uses, and protects your personal information when you use our SaaS for tradespeople (quotes, invoices, clients, calendar, optional assistant)."
       >
         <section id="introduction">
           <h2>1. Introduction</h2>
           <p>
-            ShipKit.ai (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or
+            ReglePro (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or
             &ldquo;our&rdquo;) respects your privacy and is committed to
             protecting your personal information. This Privacy Policy explains
             how we collect, use, disclose, and safeguard your information when
-            you use our AI chat platform service.
+            you use our business management service for tradespeople.
           </p>
           <p>
             By using our Service, you consent to the collection and use of
@@ -102,10 +102,10 @@ export default function PrivacyPolicy() {
             <p className="text-sm text-muted-foreground">
               <strong>Contact our Data Protection Officer:</strong>{" "}
               <a
-                href="mailto:privacy@shipkit.ai"
+                href="mailto:privacy@reglepro.io"
                 className="text-primary hover:underline"
               >
-                privacy@shipkit.ai
+                privacy@reglepro.io
               </a>
             </p>
           </div>
@@ -129,8 +129,10 @@ export default function PrivacyPolicy() {
               choose to provide
             </li>
             <li>
-              <strong>Communication Data:</strong> Your chat conversations with
-              AI models
+              <strong>Business and client data:</strong> Information you enter
+              about your business, clients, quotes, invoices, appointments, and
+              reminders; messages you send to our support; and, if you use the
+              optional assistant, content sent to generate suggestions
             </li>
             <li>
               <strong>Contact Information:</strong> When you contact our support
@@ -157,7 +159,7 @@ export default function PrivacyPolicy() {
           <h3>2.3 Usage Information</h3>
           <ul>
             <li>
-              <strong>Service Usage:</strong> Features used, models accessed,
+              <strong>Service Usage:</strong> Features used, documents created,
               usage frequency
             </li>
             <li>
@@ -165,8 +167,8 @@ export default function PrivacyPolicy() {
               service availability
             </li>
             <li>
-              <strong>Preferences:</strong> Settings, theme choices, model
-              preferences
+              <strong>Preferences:</strong> Settings, theme choices, and
+              notification preferences
             </li>
           </ul>
 
@@ -193,10 +195,13 @@ export default function PrivacyPolicy() {
 
           <h3>3.1 Service Provision</h3>
           <ul>
-            <li>Provide and maintain our AI chat platform</li>
-            <li>Process your requests and facilitate AI model interactions</li>
+            <li>Provide and maintain our SaaS application</li>
+            <li>
+              Process your requests and operate quotes, invoices, clients, and
+              calendar features
+            </li>
             <li>Manage your account and subscription</li>
-            <li>Store and retrieve your conversation history</li>
+            <li>Store and retrieve your business data and assistant history</li>
           </ul>
 
           <h3>3.2 Communication</h3>
@@ -209,11 +214,11 @@ export default function PrivacyPolicy() {
           <h3>3.3 Service Improvement</h3>
           <ul>
             <li>
-              Analyze usage patterns to improve AI model performance and chat
+              Analyze usage patterns to improve product performance and
               interface
             </li>
             <li>Monitor service performance and reliability</li>
-            <li>Develop new AI model integrations and chat features</li>
+            <li>Develop new product features and optional assistant capabilities</li>
           </ul>
 
           <h3>3.4 Legal and Security</h3>
@@ -252,26 +257,13 @@ export default function PrivacyPolicy() {
             </li>
           </ul>
 
-          <h3>4.2 Third-Party AI Services</h3>
-          <p>Our Service integrates with third-party AI model providers:</p>
-          <ul>
-            <li>
-              <strong>OpenAI:</strong> For GPT model access and processing
-            </li>
-            <li>
-              <strong>Anthropic:</strong> For Claude model access and processing
-            </li>
-            <li>
-              <strong>Google:</strong> For Gemini model access and processing
-            </li>
-            <li>
-              <strong>Other AI Providers:</strong> Additional model providers as
-              we expand our offerings
-            </li>
-          </ul>
+          <h3>4.2 Optional AI assistance</h3>
           <p>
-            These providers may process your conversation data to generate
-            responses. We encourage you to review their privacy policies.
+            If you use the optional assistant, relevant content may be processed
+            by third-party AI providers (for example Google Vertex AI / Gemini)
+            to generate suggestions. We encourage you to review their privacy
+            policies. You are responsible for the accuracy of data you enter
+            about clients and projects.
           </p>
 
           <h3>4.3 Legal Requirements</h3>
@@ -307,8 +299,8 @@ export default function PrivacyPolicy() {
               account plus 30 days for backup purposes
             </li>
             <li>
-              <strong>Conversation History:</strong> Until you delete it or
-              close your account
+              <strong>Business records and assistant history:</strong> Until you
+              delete them or close your account
             </li>
             <li>
               <strong>Payment Information:</strong> As required by law and for
@@ -413,7 +405,7 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <strong>Data Protection Officer:</strong> You can contact our DPO
-              at privacy@shipkit.ai
+              at privacy@reglepro.io
             </li>
             <li>
               <strong>Supervisory Authority:</strong> You have the right to
@@ -550,10 +542,10 @@ export default function PrivacyPolicy() {
           </p>
           <div className="bg-muted/30 p-4 rounded-lg border">
             <p>
-              <strong>Privacy Officer:</strong> privacy@shipkit.ai
+              <strong>Privacy Officer:</strong> privacy@reglepro.io
             </p>
             <p>
-              <strong>General Contact:</strong> support@shipkit.ai
+              <strong>General Contact:</strong> contact@reglepro.io
             </p>
             <p>
               <strong>Address:</strong> [Your Company Address]
