@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "ReglePro est-il une marketplace qui prend un pourcentage sur mes chantiers ?",
     answer:
-      "Non. Le positionnement est un abonnement SaaS pour votre gestion (devis, factures, clients, agenda). Pas de commission cachée sur les chantiers obtenus via la plateforme, contrairement à beaucoup de places de marché à leads.",
+      "Non. ReglePro est un abonnement pour votre gestion quotidienne : devis, factures, dossier clients, agenda. On ne vous revend pas de chantiers et on ne prélève pas de pourcentage sur ce que vos clients vous paient — contrairement à certains sites qui vendent des contacts et prennent une commission sur les travaux.",
   },
   {
     question: "Quelles données sont traitées ?",

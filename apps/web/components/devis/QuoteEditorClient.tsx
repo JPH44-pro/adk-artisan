@@ -5,7 +5,7 @@ import type { ReactElement } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, Copy, FileText, Trash2 } from "lucide-react";
+import { ChevronLeft, Copy, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,7 +34,7 @@ import {
   saveQuote,
   setQuoteStatus,
 } from "@/app/actions/devis";
-import { createInvoiceFromQuote } from "@/app/actions/factures";
+import { CreateInvoiceFromQuoteButton } from "@/components/devis/CreateInvoiceFromQuoteButton";
 
 interface QuoteEditorClientProps {
   quote: Quote;
@@ -199,18 +199,6 @@ export function QuoteEditorClient({
     });
   }
 
-  function handleCreateInvoice(): void {
-    startTransition(async () => {
-      const result = await createInvoiceFromQuote(quote.id);
-      if ("error" in result) {
-        toast.error(result.error);
-        return;
-      }
-      router.push(`/factures/${result.id}`);
-      router.refresh();
-    });
-  }
-
   function handleDelete(): void {
     startTransition(async () => {
       const result = await deleteQuote(quote.id);
@@ -254,18 +242,16 @@ export function QuoteEditorClient({
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {quote.status === "accepted" ? (
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={handleCreateInvoice}
-                disabled={pending}
-              >
-                <FileText className="h-4 w-4 mr-1" />
-                Créer une facture
-              </Button>
-            ) : null}
+            <CreateInvoiceFromQuoteButton
+              quoteId={quote.id}
+              variant="secondary"
+              size="sm"
+              disabledReason={
+                status === "sent" || status === "accepted"
+                  ? undefined
+                  : "Passez le devis en « Envoyé » ou « Accepté » pour générer une facture."
+              }
+            />
             <Button
               type="button"
               variant="outline"

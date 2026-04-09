@@ -2,11 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { and, eq } from "drizzle-orm";
+import * as XLSX from "xlsx";
 import { z } from "zod";
 import { requireUserId } from "@/lib/auth";
 import { db } from "@/lib/drizzle/db";
 import { clients, type Client } from "@/lib/drizzle/schema";
+import { parseClientImportMatrix } from "@/lib/clients/import-parse";
 import { queryClientsForUser } from "@/lib/queries/clients";
+
+const MAX_CLIENT_IMPORT_ROWS = 500;
+const MAX_CLIENT_IMPORT_FILE_BYTES = 2 * 1024 * 1024;
 
 const optionalTrimmed = z
   .string()
@@ -184,4 +189,152 @@ export async function deleteClient(
 
   revalidatePath("/clients");
   return { success: true };
+}
+
+export type ImportClientsResult =
+  | {
+      success: true;
+      created: number;
+      failed: number;
+      errors: { line: number; message: string }[];
+      warnings: string[];
+    }
+  | { error: string };
+
+/**
+ * Importe des clients depuis un fichier CSV ou Excel (première feuille).
+ * La première ligne non vide doit contenir des en-têtes reconnus (ex. nom, email).
+ */
+export async function importClientsFromFile(
+  formData: FormData
+): Promise<ImportClientsResult> {
+  const userId = await requireUserId();
+  const file = formData.get("file");
+
+  if (!file || !(file instanceof File)) {
+    return { error: "Aucun fichier sélectionné." };
+  }
+
+  if (file.size > MAX_CLIENT_IMPORT_FILE_BYTES) {
+    return { error: "Fichier trop volumineux (maximum 2 Mo)." };
+  }
+
+  const lower = file.name.toLowerCase();
+  if (
+    !lower.endsWith(".csv") &&
+    !lower.endsWith(".xlsx") &&
+    !lower.endsWith(".xls")
+  ) {
+    return {
+      error: "Format non pris en charge. Utilisez un fichier .csv, .xlsx ou .xls.",
+    };
+  }
+
+  let buffer: Buffer;
+  try {
+    buffer = Buffer.from(await file.arrayBuffer());
+  } catch {
+    return { error: "Impossible de lire le fichier." };
+  }
+
+  let matrix: unknown[][];
+  try {
+    const workbook = XLSX.read(buffer, {
+      type: "buffer",
+      raw: false,
+      codepage: 65001,
+    });
+    const firstSheet = workbook.SheetNames[0];
+    if (!firstSheet) {
+      return { error: "Le classeur ne contient aucune feuille." };
+    }
+    const sheet = workbook.Sheets[firstSheet];
+    matrix = XLSX.utils.sheet_to_json(sheet, {
+      header: 1,
+      defval: "",
+      raw: false,
+    }) as unknown[][];
+  } catch {
+    return {
+      error:
+        "Impossible d’analyser le fichier. Vérifiez qu’il s’ouvre correctement dans Excel ou LibreOffice.",
+    };
+  }
+
+  const { rows: parsedRows, warnings } = parseClientImportMatrix(matrix);
+
+  if (parsedRows.length === 0) {
+    const extra =
+      warnings.length > 0 ? ` ${warnings.slice(0, 5).join(" ")}` : "";
+    return {
+      error: `Aucune ligne importable : chaque client doit avoir un « nom » dans une colonne reconnue.${extra}`,
+    };
+  }
+
+  if (parsedRows.length > MAX_CLIENT_IMPORT_ROWS) {
+    return {
+      error: `Trop de lignes : maximum ${MAX_CLIENT_IMPORT_ROWS} clients par import.`,
+    };
+  }
+
+  const errors: { line: number; message: string }[] = [];
+  const toInsert: z.infer<typeof clientInputBaseSchema>[] = [];
+
+  for (const { lineNumber, data } of parsedRows) {
+    const parsed = clientInputBaseSchema.safeParse(data);
+    if (!parsed.success) {
+      const msg = parsed.error.issues.map((i) => i.message).join(" ");
+      errors.push({ line: lineNumber, message: msg || "Données invalides." });
+      continue;
+    }
+    toInsert.push(parsed.data);
+  }
+
+  if (toInsert.length === 0) {
+    return {
+      success: true,
+      created: 0,
+      failed: errors.length,
+      errors,
+      warnings,
+    };
+  }
+
+  const CHUNK = 80;
+  let created = 0;
+  try {
+    for (let i = 0; i < toInsert.length; i += CHUNK) {
+      const chunk = toInsert.slice(i, i + CHUNK);
+      const values = chunk.map((data) => ({
+        userId,
+        name: data.name,
+        companyName: data.companyName ?? null,
+        email: data.email ?? null,
+        phone: data.phone ?? null,
+        addressLine1: data.addressLine1 ?? null,
+        city: data.city ?? null,
+        postalCode: data.postalCode ?? null,
+        country: data.country,
+        notes: data.notes ?? null,
+      }));
+      await db.insert(clients).values(values);
+      created += values.length;
+    }
+  } catch (e) {
+    console.error("importClientsFromFile insert error", e);
+    return {
+      error:
+        "Erreur lors de l’enregistrement en base. Vérifiez les données et réessayez.",
+    };
+  }
+
+  revalidatePath("/clients");
+
+  return {
+    success: true,
+    created,
+    failed: errors.length,
+    errors,
+    warnings,
+  };
 }

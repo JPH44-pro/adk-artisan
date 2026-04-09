@@ -79,3 +79,23 @@ export async function queryInvoiceWithLinesForUser(
 
   return { invoice: inv, lines };
 }
+
+/** Première facture liée à ce devis (un seul brouillon / cycle par devis côté métier). */
+export async function queryInvoiceIdByQuoteForUser(
+  userId: string,
+  quoteId: string
+): Promise<string | null> {
+  if (!uuidSchema.safeParse(quoteId).success) {
+    return null;
+  }
+
+  const [row] = await db
+    .select({ id: invoices.id })
+    .from(invoices)
+    .where(
+      and(eq(invoices.userId, userId), eq(invoices.quoteId, quoteId))
+    )
+    .limit(1);
+
+  return row?.id ?? null;
+}

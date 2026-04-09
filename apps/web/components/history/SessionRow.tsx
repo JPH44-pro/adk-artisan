@@ -23,9 +23,9 @@ export function SessionRow({ session, onRenamed, onDeleted }: SessionRowProps) {
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  const displayTitle = session.title || "New Session";
+  const displayTitle = session.title || "Nouvelle conversation";
   const formattedDate = new Date(session.updated_at).toLocaleDateString(
-    "en-US",
+    "fr-FR",
     {
       month: "short",
       day: "numeric",
@@ -66,7 +66,7 @@ export function SessionRow({ session, onRenamed, onDeleted }: SessionRowProps) {
                 size="sm"
                 className="h-8 w-8 p-0 hover:bg-foreground/10 text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setShowRenameDialog(true)}
-                title="Rename session"
+                title="Renommer"
               >
                 <Edit className="h-4 w-4" />
               </Button>
@@ -75,7 +75,7 @@ export function SessionRow({ session, onRenamed, onDeleted }: SessionRowProps) {
                 size="sm"
                 className="h-8 w-8 p-0 hover:bg-red-500/10 text-muted-foreground hover:text-red-500 transition-colors"
                 onClick={() => setShowDeleteDialog(true)}
-                title="Delete session"
+                title="Supprimer"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -96,7 +96,7 @@ export function SessionRow({ session, onRenamed, onDeleted }: SessionRowProps) {
                 className="h-8 w-8 p-0 transition-all bg-white/5"
               >
                 <MoreHorizontal className="h-4 w-4" />
-                <span className="sr-only">More options</span>
+                <span className="sr-only">Plus d’options</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32 dark:bg-muted">
@@ -105,14 +105,14 @@ export function SessionRow({ session, onRenamed, onDeleted }: SessionRowProps) {
                 className="text-foreground"
               >
                 <Edit className="h-4 w-4 mr-2 text-foreground" />
-                Rename
+                Renommer
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => setShowDeleteDialog(true)}
                 className="text-red-500"
               >
                 <Trash2 className="h-4 w-4 mr-2 text-red-500" />
-                Delete
+                Supprimer
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

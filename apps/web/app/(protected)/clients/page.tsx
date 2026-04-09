@@ -4,6 +4,7 @@ import { listClients } from "@/app/actions/clients";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CreateClientDialog } from "@/components/clients/CreateClientDialog";
+import { ImportClientsDialog } from "@/components/clients/ImportClientsDialog";
 import { ClientsTable } from "@/components/clients/ClientsTable";
 import { ClientsPagination } from "@/components/clients/ClientsPagination";
 
@@ -32,7 +33,10 @@ export default async function ClientsPage({
             Dossier clients : recherche, liste et fiches détaillées.
           </p>
         </div>
-        <CreateClientDialog />
+        <div className="flex flex-wrap gap-2">
+          <CreateClientDialog />
+          <ImportClientsDialog />
+        </div>
       </div>
 
       <form

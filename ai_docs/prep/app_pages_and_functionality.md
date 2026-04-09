@@ -8,7 +8,9 @@
 
 **Target Users:** Artisans indépendants et micro-entreprises (BTP, entretien, espaces verts), clients finaux en accès limité selon les phases produit.
 
-**Template technique du dépôt:** base **adk-agent-saas** (Next.js, Supabase, Stripe). La **vision produit** cible ReglePro (gestion artisan) : certaines routes du template (**chat**, **history**) restent des **héritages** à remplacer ou réorienter quand les écrans métier seront livrés.
+**Template technique du dépôt:** base **adk-agent-saas** (Next.js, Supabase, Stripe). La **vision produit** cible ReglePro (gestion artisan) : les routes **chat** et **history** restent des **héritages** ADK (historique des sessions **localisé en français** depuis 2026-04) ; réorientation assistant métier toujours prévue.
+
+**État d’implémentation (2026-04-09) :** les pages métier **dashboard, clients, devis, factures, agenda** sont **implémentées** avec persistance Drizzle + RLS Supabase (voir `roadmap.md` phases 3–7). Détails complémentaires ci-dessous.
 
 ---
 
@@ -19,8 +21,8 @@
 - **Landing Page** : `/`
   - Hero aligné ReglePro : gestion pro, devis rapides, confiance (pas une marketplace à leads)
   - Fonctions clés : devis et factures, dossier client, relances, agenda (MVP)
-  - Offres : rappel des paliers d’abonnement (gratuit, standard, pro) cohérents avec le document maître
-  - CTA vers inscription puis **tableau de bord** (ou parcours actuel `/chat` tant que le dashboard métier n’existe pas)
+  - Offres : rappel des paliers d’abonnement cohérents avec le document maître
+  - CTA vers inscription puis tableau de bord
 
 - **Legal Pages** : `/privacy`, `/terms`, `/cookies`
   - Politique de confidentialité, CGU, cookies (RGPD, données clients et facturation)
@@ -40,62 +42,62 @@
 
 ### Tableau de bord
 
-- **Dashboard** : `/dashboard` (à créer)
-  - Vue synthèse : devis en attente de signature, factures en retard, prochains rendez-vous (Frontend)
-  - Agrégation des compteurs depuis les tables métier et événements d’usage (Backend)
-  - Rappels planifiés ou webhooks métier plus tard (Background Job, phase ultérieure)
+- **Dashboard** : `/dashboard` **(livré)**
+  - Synthèse : devis en attente, factures en retard, prochains rendez-vous
+  - Requêtes : `lib/queries/dashboard.ts`
 
 ### Clients et dossiers
 
-- **Liste clients** : `/clients` (à créer)
-  - Recherche et filtres par nom, ville, dernier contact (Frontend)
-  - Liste paginée issue de la base (Backend)
+- **Liste clients** : `/clients` **(livré)**
+  - Recherche, pagination
+  - **Import fichier** : CSV / Excel (`.csv`, `.xlsx`, `.xls`) via dialogue **Importer** — modèle CSV fourni, mapping d’en-têtes FR/EN (`lib/clients/import-parse.ts`, action `importClientsFromFile`)
 
-- **Fiche client** : `/clients/[clientId]` (à créer)
-  - Coordonnées, historique des chantiers et documents (Frontend)
-  - CRUD client et pièces jointes (Backend)
-  - Photos avant ou après stockées côté stockage objet quand prévu (Backend)
+- **Fiche client** : `/clients/[clientId]` **(livré)**
+  - Coordonnées, édition ; zone d’extension historique documents
 
 ### Devis
 
-- **Liste des devis** : `/devis` (à créer)
-  - Statuts : brouillon, envoyé, accepté, refusé, expiré (Frontend)
-  - Requêtes filtrées par utilisateur / entreprise (Backend)
+- **Liste des devis** : `/devis` **(livré)**
+  - Filtres par statut ; colonne **Facturer** pour devis **envoyé** ou **accepté** (création facture brouillon liée au devis)
 
-- **Édition devis** : `/devis/[quoteId]` (à créer)
-  - Lignes, TVA, totaux, modèles réutilisables (Frontend)
-  - Persistance et versioning minimal (Backend)
-  - Signature électronique ou envoi PDF selon intégration (Backend / connecteur externe, phase selon roadmap)
+- **Édition devis** : `/devis/[quoteId]` **(livré)**
+  - Lignes, TVA, totaux, client, statuts
+  - **Créer une facture** : visible dès que le statut permet (envoyé / accepté) ; sinon bouton désactivé avec infobulle explicative
+  - Duplication, suppression
 
 ### Factures
 
-- **Liste factures** : `/factures` (à créer)
-  - Statuts de paiement, relances (Frontend)
-  - Génération numérotation et conformité Factur-X en phase ultérieure si hors MVP (Backend)
+- **Liste factures** : `/factures` **(livré)**
+  - Filtres statut, pagination
 
-- **Détail facture** : `/factures/[invoiceId]` (à créer)
-  - Aperçu, téléchargement PDF, lien paiement si activé (Frontend + Backend)
+- **Détail facture** : `/factures/[invoiceId]` **(livré)**
+  - Édition lignes / totaux ; champ **`quote_id`** en base pour traçabilité devis → facture
+  - **Création depuis devis** : `createInvoiceFromQuote` — une seule facture « source » par devis (message d’erreur + lien vers facture existante si doublon)
 
 ### Agenda
 
-- **Agenda (calendrier)** : `/agenda` (à créer)
-  - Vue jour / semaine, rendez-vous liés aux clients et chantiers (Frontend)
-  - Synchronisation calendrier externe en phase 2 si besoin (Backend)
+- **Agenda** : `/agenda` **(livré)**
+  - **5 semaines** consécutives (lundi → dimanche), fuseau **UTC** affiché
+  - **Grille** : ligne d’en-têtes Lun–Dim, puis **5 lignes** de **7 tuiles carrées** ; rendez-vous dans les tuiles
+  - **Survol** : infobulle récapitulative ; **clic** : formulaire création / édition / suppression
+  - **Nature** : **Rendez-vous** ou **Rappel** (icône calendrier vs cloche, couleur dédiée pour les rappels)
+  - **Typologie** (rendez-vous) : visite chantier, devis/commercial, intervention, administratif, autre — **couleurs** par type
+  - **Dictée vocale** (navigateurs compatibles, `fr-FR`) sur titre, lieu, notes
+  - Données : `agenda_events` avec `event_kind`, `typology` (migration **0006**)
 
 ### Assistant conversationnel (héritage template)
 
 - **Session assistant** : `/chat` et `/chat/[[...sessionId]]`
-  - Aujourd’hui : flux type analyse concurrentielle (ADK). **À réorienter** vers un assistant métier (relances, rédaction, questions chantier) ou retirer du parcours principal quand le produit ReglePro sera centré gestion.
+  - Flux ADK hérité. **À réorienter** vers un assistant métier selon roadmap phase 8.
 
-- **Historique** : `/history`
-  - Aujourd’hui : historique de sessions chat. **À remplacer ou fusionner** avec un historique **devis / chantiers / documents** selon priorité produit.
+- **Historique** : `/history` **(livré, UI française)**
+  - Liste des sessions chat groupées (aujourd’hui, hier, semaine, plus anciennes) ; renommer / supprimer ; messages d’erreur en français
+  - **À terme** : fusion possible avec un historique métier (devis / chantiers) selon priorité produit
 
 ### Compte utilisateur
 
-- **Profil et abonnement** : `/profile`
-  - Compte, préférences, usage, lien portail Stripe, paliers Free / Pro (Frontend)
-  - Lecture statut d’abonnement via Stripe comme source de vérité (Backend)
-  - Webhooks Stripe déjà prévus pour les événements critiques (API existante)
+- **Profil et abonnement** : `/profile` **(livré, cohérence ReglePro)**
+  - Compte, usage, Stripe, paliers
 
 ---
 
@@ -103,9 +105,9 @@
 
 ### Facturation et abonnement
 
-- **Gestion intégrée au profil** : `/profile` (pas de route séparée obligatoire)
-  - Abonnement, méthodes de paiement, usage (messages ou unités métier selon règles business)
-  - Lien vers le portail client Stripe pour le détail des factures fournisseur
+- **Gestion intégrée au profil** : `/profile`
+  - Abonnement, méthodes de paiement, usage
+  - Portail client Stripe
 
 ### Vérification d’accès
 
@@ -116,7 +118,6 @@
 ## Admin plateforme (Phase 2)
 
 - Réservé aux **opérateurs** du SaaS (pas aux artisans), si le document maître introduit un rôle admin distinct plus tard.
-- Exemples de routes possibles : `/admin/users`, `/admin/support`, `/admin/metrics` (à créer avec garde auth + rôle)
 - **Pas prioritaire MVP** pour les utilisateurs finaux artisans
 
 ---
@@ -147,17 +148,17 @@
 
 ## Next.js App Router Structure
 
-### Layout Groups (cible)
+### Layout Groups (réel)
 
 ```
 app/
 ├── (public)/           # Marketing et légal
 ├── (auth)/             # Flux auth
-├── (protected)/        # App authentifiée (dashboard, clients, devis, factures, agenda, profile, legacy chat)
-└── api/                # Webhooks et intégrations externes uniquement si nécessaire
+├── (protected)/        # Dashboard, clients, devis, factures, agenda, profile, chat, history
+└── api/                # Webhooks et intégrations (ex. Stripe, ADK)
 ```
 
-### Route Mapping (vision cible ReglePro)
+### Route Mapping ReglePro (implémenté sauf mention)
 
 **Public**
 
@@ -168,26 +169,26 @@ app/
 
 - `/auth/login`, `/auth/sign-up`, `/auth/forgot-password`, `/auth/sign-up-success`, `/auth/update-password`, `/auth/error`
 
-**Protégé (à développer progressivement)**
+**Protégé**
 
 - `/dashboard` : tableau de bord
-- `/clients`, `/clients/[clientId]` : clients
-- `/devis`, `/devis/[quoteId]` : devis
+- `/clients`, `/clients/[clientId]` : clients (+ import CSV/Excel sur la liste)
+- `/devis`, `/devis/[quoteId]` : devis (+ conversion facture)
 - `/factures`, `/factures/[invoiceId]` : factures
-- `/agenda` : agenda (rendez-vous)
+- `/agenda` : agenda multi-semaines, tuiles, typologies, rappels, dictée
 - `/profile` : profil et billing
-- `/chat`, `/chat/[[...sessionId]]`, `/history` : héritage template, à fusionner avec la vision produit
+- `/chat`, `/chat/[[...sessionId]]`, `/history` : héritage ADK (history en FR)
 
-**API (externe / webhooks)**
+**API**
 
-- `/api/webhooks/stripe` : déjà prévu pour la facturation
-- Autres webhooks (signature, SMS) quand intégrations choisies
+- `/api/webhooks/stripe` : facturation
+- Routes agent / run selon template
 
 ### Backend Architecture (principes)
 
-- **Server Actions** : mutations internes (création devis, mise à jour client, enregistrement des rendez-vous agenda)
-- **Lib queries** : accès Drizzle / Supabase, règles métier
-- **Routes API** : webhooks et appels entrants externes, pas la logique métier courante en JSON API si évitable
+- **Server Actions** : mutations métier (clients, import, devis, factures, agenda)
+- **Lib queries** : accès Drizzle, `user_id` systématique
+- **Routes API** : webhooks et appels externes
 
 **Flux**
 
@@ -198,18 +199,18 @@ app/
 
 ## MVP Functionality Summary
 
-**Phase 1 (lancement aligné document maître):**
+**Livré (aligné document maître, 2026-04) :**
 
-- Fondation SaaS : auth, légal, responsive, profil avec Stripe
-- **Cœur métier à construire** : clients, devis (liste + édition), factures (liste + détail), agenda minimal, tableau de bord
-- Données utilisateur isolées par compte (multi-tenant / RLS selon schéma)
+- Fondation SaaS : auth, légal, responsive, profil Stripe
+- **Cœur métier** : clients (dont **import fichier**), devis, factures (dont **émission depuis devis**), **agenda avancé** (grille tuiles, typologies, rappels, dictée), tableau de bord
+- Données isolées par compte (RLS Supabase sur tables métier)
 
-**Phase 2 (document maître, feuille de route):**
+**Phase 2 (document maître) :**
 
 - Relances automatiques, demandes d’avis, paiement en ligne, profil public artisan
 - Matching actif seulement avec base utilisateurs dense
 
-**Héritage template:**
+**Héritage template :**
 
 - Remplacer progressivement le parcours **chat / history** par des écrans **ReglePro** ou réutiliser l’assistant sous une entrée secondaire
 
@@ -217,4 +218,4 @@ app/
 
 ## Next Step
 
-Ce blueprint sert de base aux **wireframes** (`prep_templates` suivants) et à la planification des sprints. La route canonique pour l’agenda est **`/agenda`**, sans changer la structure globale.
+Ce blueprint sert de base aux **wireframes** et à la planification des sprints. La route canonique pour l’agenda est **`/agenda`**. Pour le détail technique des migrations et fichiers, croiser avec **`roadmap.md`** et **`initial_data_schema.md`**.

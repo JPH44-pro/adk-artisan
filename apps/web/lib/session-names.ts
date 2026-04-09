@@ -172,7 +172,7 @@ export async function updateSessionTitle(
     if (!newTitle?.trim()) {
       return {
         success: false,
-        error: "Title cannot be empty",
+        error: "Le titre ne peut pas être vide",
       };
     }
 
@@ -208,7 +208,7 @@ export async function updateSessionTitle(
     if (result.length === 0) {
       return {
         success: false,
-        error: "Session name not found",
+        error: "Conversation introuvable",
       };
     }
 
@@ -219,11 +219,11 @@ export async function updateSessionTitle(
   } catch (error) {
     console.error("Failed to update session title:", error);
     const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
+      error instanceof Error ? error.message : "erreur inconnue";
 
     return {
       success: false,
-      error: `Database error: ${errorMessage}`,
+      error: `Erreur : ${errorMessage}`,
     };
   }
 }

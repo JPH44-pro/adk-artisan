@@ -17,7 +17,7 @@ interface EditableSessionTitleProps {
 export function EditableSessionTitle({
   sessionId,
   initialTitle,
-  fallbackTitle = "New Session",
+  fallbackTitle = "Nouvelle conversation",
   className = "",
 }: EditableSessionTitleProps) {
   const [isEditing, setIsEditing] = useState(false);
@@ -51,7 +51,7 @@ export function EditableSessionTitle({
     }
 
     if (!tempTitle.trim()) {
-      toast.error("Title cannot be empty");
+      toast.error("Le titre ne peut pas être vide");
       return;
     }
 
@@ -64,13 +64,13 @@ export function EditableSessionTitle({
         setTitle(tempTitle.trim());
         setIsEditing(false);
         setTempTitle("");
-        toast.success("Session title updated");
+        toast.success("Titre mis à jour");
       } else {
-        toast.error(result.error || "Failed to update title");
+        toast.error(result.error || "Impossible de mettre à jour le titre");
       }
     } catch (error) {
       console.error("Failed to update session title:", error);
-      toast.error("Failed to update title");
+      toast.error("Impossible de mettre à jour le titre");
     } finally {
       setIsSaving(false);
     }
@@ -104,7 +104,7 @@ export function EditableSessionTitle({
           onKeyDown={handleKeyDown}
           onClick={(e) => e.stopPropagation()}
           className="text-sm font-medium h-8"
-          placeholder="Enter session title..."
+          placeholder="Titre de la conversation…"
           disabled={isSaving}
         />
         <div className="flex items-center gap-1">
@@ -118,7 +118,7 @@ export function EditableSessionTitle({
               saveTitle();
             }}
             disabled={isSaving}
-            title="Save title"
+            title="Enregistrer"
           >
             <Check className="h-3 w-3" />
           </Button>
@@ -132,7 +132,7 @@ export function EditableSessionTitle({
               cancelEditing();
             }}
             disabled={isSaving}
-            title="Cancel"
+            title="Annuler"
           >
             <X className="h-3 w-3" />
           </Button>
@@ -155,7 +155,7 @@ export function EditableSessionTitle({
           e.stopPropagation();
           startEditing();
         }}
-        title="Edit title"
+        title="Modifier le titre"
       >
         <Edit3 className="h-3 w-3" />
       </Button>

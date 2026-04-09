@@ -79,12 +79,13 @@ export default function FeaturesSection() {
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-800 dark:text-white mb-8">
             Tout ce qu&apos;il faut pour{" "}
-            <span className="text-primary">piloter l’atelier</span>
+            <span className="text-primary">piloter votre entreprise</span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto leading-relaxed">
-            ReglePro regroupe les usages quotidiens des artisans et TPE du
-            bâtiment : devis, factures, clients, agenda, sans vous enfermer dans
-            une marketplace à leads.
+            Chaque fonction sert votre métier : chiffrer un devis, facturer un
+            chantier, retrouver l’historique client, noter un rendez-vous — le tout
+            dans un seul outil, avec un abonnement clair et sans commission sur vos
+            travaux.
           </p>
         </div>
 

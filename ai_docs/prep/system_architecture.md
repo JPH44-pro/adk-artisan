@@ -6,7 +6,7 @@
 
 **Template Foundation:** **adk-agent-saas** : Next.js (App Router), Supabase (Auth, PostgreSQL, stockage objet), Drizzle ORM, Stripe (abonnement, webhooks), assistant **ADK** en Python déployé séparément du front.
 
-**Required Extensions:** Écrans et logique métier **ReglePro** (tableau de bord, clients, devis, factures, agenda) via **Server Actions** et schéma Postgres étendu ; **stockage objet** pour pièces jointes et PDF ; trajectoire future pour **assistant métier** (réutilisation ou remplacement du graphe d’agents « analyse concurrentielle » hérité).
+**Required Extensions (largement en place au 2026-04-09) :** Écrans et logique métier **ReglePro** (tableau de bord, clients, devis, factures, agenda) via **Server Actions** et schéma Postgres (**`clients`**, **`quotes` / `quote_lines`**, **`invoices` / `invoice_lines`**, **`agenda_events`** avec champs **`event_kind`** et **`typology`**). **Import clients** CSV/Excel côté serveur (lib **`xlsx`** + parsing dédié). **Conversion devis → facture** dans les actions facturation. **Dictée agenda** : API Web Speech dans le navigateur (**`fr-FR`**), sans service serveur vocal. **Stockage objet** pour pièces jointes et PDF reste à généraliser ; trajectoire **assistant métier** toujours prévue (phase roadmap 8).
 
 ---
 
@@ -70,8 +70,8 @@ flowchart TB
         TUse["Table user_usage_events"]
     end
 
-    subgraph DLE["Data Layer - Extensions"]
-        M1["Futur schéma clients quotes invoices agenda_events"]
+    subgraph DLE["Data Layer - Extensions ReglePro"]
+        M1["clients quotes quote_lines invoices invoice_lines agenda_events"]
     end
 
     subgraph STG["Storage Layer"]
@@ -145,7 +145,7 @@ flowchart TB
 
 **Template foundation flow:** L’utilisateur s’authentifie via Supabase, le middleware protège `(protected)`, le profil et Stripe utilisent `users` et les webhooks. Le chat crée des sessions ADK, enregistre les titres dans `session_names`, et les quotas via `user_usage_events`.
 
-**Extension integration:** Les écrans ReglePro appellent des **Server Actions** qui appliquent les règles métier puis des requêtes Drizzle sur les **nouvelles tables** (après migrations). Les PDF et PJ passent par **Supabase Storage** avec des références en base.
+**Extension integration:** Les écrans ReglePro appellent des **Server Actions** qui appliquent les règles métier puis des requêtes Drizzle sur les tables métier (migrations **`0000`–`0006`** dans `apps/web/drizzle/migrations/`, dont agenda **`0006`** pour types d’événements). Les PDF et PJ passeront par **Supabase Storage** avec des références en base (**`pdf_storage_key`** déjà prévu sur les factures).
 
 **Data flow:** **UI** vers **actions serveur** vers **Postgres** pour le métier. **UI chat** vers **couche ADK** (pointillés) vers **Gemini / sous-agents** et retour **flux temps réel** vers l’interface, en parallèle des écritures `session_names` / usage.
 
@@ -223,4 +223,4 @@ Cette architecture supporte la proposition de valeur centrale : **un poste de pi
 
 **Complexité maîtrisée:** Évite files, microservices et APIs publiques superflues au MVP.
 
-> **Next Steps:** Implémenter les migrations et RLS du domaine **clients / devis (ou factures)** en premier lot, puis enchaîner agenda et tableau de bord. Paralléliser la clarification produit sur le **rôle futur de l’assistant** par rapport au cœur gestion.
+> **Next Steps (post MVP métier livré) :** pièces jointes et PDF factures ; relances ; évolution **assistant ADK** vers tâches métier (**`ai_docs/prep/reglepro_agent_workflow.md`** à produire, phase roadmap 8). Maintenir **RLS** aligné sur chaque nouvelle colonne / table.

@@ -42,7 +42,7 @@ export function RenameDialog({
 
     const trimmedTitle = title.trim();
     if (!trimmedTitle) {
-      setError("Title cannot be empty");
+      setError("Le titre ne peut pas être vide");
       return;
     }
 
@@ -58,10 +58,10 @@ export function RenameDialog({
       const result = await updateSessionTitle(sessionId, trimmedTitle);
 
       if (!result.success) {
-        setError(result.error || "Failed to rename session");
+        setError(result.error || "Impossible de renommer la conversation");
       } else {
         onSuccess?.(sessionId, trimmedTitle);
-        toast.success("Session renamed successfully");
+        toast.success("Conversation renommée");
         onOpenChange(false);
         setError(null);
       }
@@ -87,10 +87,10 @@ export function RenameDialog({
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Rename Session</DialogTitle>
+            <DialogTitle>Renommer la conversation</DialogTitle>
             <DialogDescription>
-              Give your session a memorable name to make it easier to find
-              later.
+              Donnez un nom à cette conversation pour la retrouver plus
+              facilement.
             </DialogDescription>
           </DialogHeader>
 
@@ -100,7 +100,7 @@ export function RenameDialog({
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter a new title for your session"
+                placeholder="Nouveau titre"
                 maxLength={100}
                 disabled={isLoading}
                 autoFocus
@@ -117,7 +117,7 @@ export function RenameDialog({
               onClick={() => handleOpenChange(false)}
               disabled={isLoading}
             >
-              Cancel
+              Annuler
             </Button>
             <Button
               type="submit"
@@ -125,7 +125,7 @@ export function RenameDialog({
                 isLoading || !title.trim() || title.trim() === currentTitle
               }
             >
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Enregistrement…" : "Enregistrer"}
             </Button>
           </DialogFooter>
         </form>

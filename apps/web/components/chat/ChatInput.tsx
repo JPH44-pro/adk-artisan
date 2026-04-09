@@ -27,16 +27,16 @@ export function ChatInput() {
 
   // Generate dynamic placeholder text based on state
   const getPlaceholder = (): string => {
-    if (usageLoading || isLoading) return "Loading...";
+    if (usageLoading || isLoading) return "Chargement…";
 
     if (session) {
       return isMessageLimitReached
-        ? "Message limit reached - upgrade to continue"
-        : "Type your message here...";
+        ? "Limite de messages atteinte — passez à l’offre supérieure pour continuer"
+        : "Écrivez votre message ici…";
     } else {
       return isSessionLimitReached
-        ? "Session limit reached - upgrade to continue"
-        : "Type your message here...";
+        ? "Limite de sessions atteinte — passez à l’offre supérieure pour continuer"
+        : "Écrivez votre message ici…";
     }
   };
 
@@ -44,17 +44,19 @@ export function ChatInput() {
   const getHelperText = (): string => {
     if (isInputBlocked) {
       return session
-        ? "Upgrade to Pro for unlimited messages and chat sessions"
-        : "Upgrade to Pro for unlimited sessions and messages";
+        ? "Passez à Pro pour des messages et sessions de chat illimités"
+        : "Passez à Pro pour des sessions et messages illimités";
     }
-    return "Press Enter to send, Shift+Enter for new line";
+    return "Entrée pour envoyer, Maj+Entrée pour un saut de ligne";
   };
 
   // Generate upgrade badge text based on state
   const getUpgradeBadgeText = (): { default: string; hover: string } => {
     return {
-      default: session ? "Message limit reached" : "Session limit reached",
-      hover: "Upgrade to Pro",
+      default: session
+        ? "Limite de messages atteinte"
+        : "Limite de sessions atteinte",
+      hover: "Passer à Pro",
     };
   };
 
@@ -90,7 +92,7 @@ export function ChatInput() {
             size="icon"
             className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px]"
             disabled={isSubmitDisabled}
-            title="Send message"
+            title="Envoyer le message"
           >
             {usageLoading || isLoading || isWaitingForAgent ? (
               <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
@@ -132,7 +134,7 @@ function UpgradeBadge({ defaultText, hoverText }: UpgradeBadgeProps) {
   return (
     <Link
       href="/profile"
-      aria-label="Upgrade to Pro"
+      aria-label="Passer à l’offre Pro"
       className="group shrink-0"
     >
       <Badge className="whitespace-nowrap opacity-50 transition-all duration-800 group-hover:opacity-100">

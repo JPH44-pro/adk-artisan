@@ -4,6 +4,7 @@ import { formatDate } from "@/lib/utils";
 import { formatCentsEUR } from "@/lib/quotes/calc";
 import { QUOTE_STATUS_LABELS } from "@/lib/quotes/labels";
 import type { QuoteListRow } from "@/lib/queries/quotes";
+import { CreateInvoiceFromQuoteButton } from "@/components/devis/CreateInvoiceFromQuoteButton";
 
 interface DevisTableProps {
   items: QuoteListRow[];
@@ -20,7 +21,7 @@ export function DevisTable({ items }: DevisTableProps): ReactElement {
 
   return (
     <div className="rounded-md border overflow-x-auto">
-      <table className="w-full text-sm min-w-[640px]">
+      <table className="w-full text-sm min-w-[760px]">
         <thead>
           <tr className="border-b bg-muted/40 text-left">
             <th className="p-3 font-medium">Devis</th>
@@ -28,6 +29,9 @@ export function DevisTable({ items }: DevisTableProps): ReactElement {
             <th className="p-3 font-medium">Statut</th>
             <th className="p-3 font-medium text-right">Total TTC</th>
             <th className="p-3 font-medium hidden md:table-cell">Modifié</th>
+            <th className="p-3 font-medium text-right w-[1%] whitespace-nowrap">
+              Facture
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +63,18 @@ export function DevisTable({ items }: DevisTableProps): ReactElement {
               </td>
               <td className="p-3 hidden md:table-cell text-muted-foreground whitespace-nowrap">
                 {formatDate(q.updatedAt)}
+              </td>
+              <td className="p-3 text-right align-middle">
+                {q.status === "sent" || q.status === "accepted" ? (
+                  <CreateInvoiceFromQuoteButton
+                    quoteId={q.id}
+                    variant="outline"
+                    size="sm"
+                    compact
+                  />
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
               </td>
             </tr>
           ))}

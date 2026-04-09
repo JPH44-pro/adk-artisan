@@ -89,7 +89,7 @@ function getSuccessRedirect(customNext?: string | null): string {
   }
 
   // Default to main application
-  return "/chat";
+  return "/dashboard";
 }
 
 // Determine redirect destination after successful email verification
@@ -107,8 +107,8 @@ function getVerificationRedirect(
     case "recovery":
       return "/auth/update-password"; // Password reset → update password form
     case "signup":
-      return "/chat"; // Email verification → main app
+      return "/dashboard"; // Email verification → tableau de bord
     default:
-      return "/chat"; // Default to main app
+      return "/dashboard"; // Default to main app
   }
 }

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /** Masque l’indicateur de dev (logo / badge) en bas à gauche ; les erreurs s’affichent toujours. */
+  devIndicators: false,
   images: {
     remotePatterns: [
       // Supabase Storage - signed URLs (private buckets)

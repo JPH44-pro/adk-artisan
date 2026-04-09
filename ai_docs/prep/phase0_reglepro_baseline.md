@@ -1,7 +1,8 @@
 # Phase 0 : socle projet (terminée)
 
-**Date:** 2026-04-05  
-**Référence:** `ai_docs/prep/roadmap.md` (section Phase 0).
+**Date:** 2026-04-05 (mise à jour pointeur doc : 2026-04-09)  
+**Référence:** `ai_docs/prep/roadmap.md` (section Phase 0).  
+**Suite du produit documentée** : phases 3–7 et extensions récentes (import clients, facture depuis devis, agenda avancé, `/history` FR) dans **`roadmap.md`** et **`app_pages_and_functionality.md`**.
 
 ---
 

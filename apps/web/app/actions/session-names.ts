@@ -118,7 +118,7 @@ export async function updateSessionTitle(
     if (!newTitle?.trim()) {
       return {
         success: false,
-        error: "Title cannot be empty",
+        error: "Le titre ne peut pas être vide",
       };
     }
 
@@ -133,7 +133,7 @@ export async function updateSessionTitle(
 
     return {
       success: false,
-      error: `Failed to update session title: ${errorMessage}`,
+      error: `Impossible de mettre à jour le titre : ${errorMessage}`,
     };
   }
 }

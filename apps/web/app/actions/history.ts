@@ -17,6 +17,6 @@ export async function deleteSession(
     return { success: true };
   } catch (error) {
     console.error("Failed to delete session:", error);
-    return { error: "Failed to delete conversation" };
+    return { error: "Impossible de supprimer la conversation." };
   }
 }

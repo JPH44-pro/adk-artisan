@@ -3,6 +3,8 @@
 Roadmap séquentielle pour un **développeur solo**, générée selon `prep_templates/09_adk_generate_build_order.md` et les documents `ai_docs/prep/`.  
 **Séquence choisie:** parcours **métier d’abord** (clients, devis, factures, agenda, tableau de bord), puis **assistant ADK** (héritage puis évolution), car la valeur produit ReglePro est la gestion artisan, pas l’analyse concurrentielle.
 
+**Documentation synchronisée (2026-04-09) :** import clients, facture depuis devis, agenda (tuiles, typologies, rappels, dictée), historique chat en français — détail dans les phases 3 à 6 et 9 ci-dessous, et dans `app_pages_and_functionality.md`, `initial_data_schema.md`, `wireframe.md`.
+
 **Note:** Ne pas dupliquer les tâches déjà couvertes par la procédure **`SETUP.md`** à la racine du dépôt (Supabase, Stripe, GCP, variables d’environnement). Le roadmap commence après un setup template supposé réalisé ou en cours.
 
 ---
@@ -133,6 +135,7 @@ Roadmap séquentielle pour un **développeur solo**, générée selon `prep_temp
 - [x] Implémenter **`apps/web/app/(protected)/clients/[clientId]/page.tsx`** (coordonnées, zone pour historique documents plus tard)
 - [x] Créer **`apps/web/app/actions/clients.ts`** (ou équivalent) pour création, mise à jour, suppression avec validation Zod
 - [x] Ajouter composants sous **`apps/web/components/clients/`** pour formulaires et lignes de liste
+- [x] **Import CSV / Excel** : action serveur **`importClientsFromFile`** (`apps/web/app/actions/clients.ts`), parsing **`lib/clients/import-parse.ts`** (en-têtes FR/EN), limite taille / lignes ; dialogue **`ImportClientsDialog`** + modèle CSV sur la liste clients
 
 ---
 
@@ -155,6 +158,7 @@ Roadmap séquentielle pour un **développeur solo**, générée selon `prep_temp
 - [x] **`apps/web/app/(protected)/devis/page.tsx`** avec filtres par statut
 - [x] **`apps/web/app/(protected)/devis/[quoteId]/page.tsx`** avec édition des lignes, totaux, lien client
 - [x] Server actions **`apps/web/app/actions/devis.ts`** (création, duplication, changement de statut, enregistrement lignes)
+- [x] **Facturation depuis devis** : action **`createInvoiceFromQuote`** dans **`apps/web/app/actions/factures.ts`** (devis **envoyé** ou **accepté**, pas de doublon facture pour le même `quote_id`) ; bouton **Créer une facture** / **Facturer** sur fiche devis et liste devis (**`CreateInvoiceFromQuoteButton`**, **`DevisTable`**)
 
 ---
 
@@ -192,9 +196,16 @@ Roadmap séquentielle pour un **développeur solo**, générée selon `prep_temp
 
 ### Interface
 
-**[Goal: Vue jour ou semaine minimal viable.]**
+**[Goal: Vue multi-semaines, tuiles, typologies et rappels.]**
 
-- [x] **`apps/web/app/(protected)/agenda/page.tsx`** avec création et édition d’événements *(vue **semaine** 7 colonnes, navigation `?week=`, fuseau **UTC** affiché pour cohérence du filtre)*
+- [x] **`apps/web/app/(protected)/agenda/page.tsx`** avec création et édition d’événements
+- [x] **Grille calendrier** : **5 semaines** visibles (constante **`AGENDA_VISIBLE_WEEK_COUNT`** dans **`lib/agenda/week.ts`**), plage chargée en une requête ; navigation **`?week=`** par pas d’une semaine ; affichage **UTC** explicite
+- [x] **Tuiles carrées** : une ligne d’en-têtes Lun–Dim, puis **une ligne par semaine** de **7 tuiles** (`aspect-square`), événements empilés dans la tuile avec défilement interne
+- [x] **Survol** : infobulle (détail synthétique) ; **clic** sur un événement : dialogue d’édition / suppression
+- [x] **Typologies** (`typology`) : visite chantier, devis/commercial, intervention, administratif, autre — **couleurs** distinctes (**`lib/agenda/event-meta.ts`**)
+- [x] **Rappels** vs **rendez-vous** : colonne **`event_kind`** (`appointment` | `reminder`) — rappels : **icône cloche**, style **rose**, fin proposée à **+15 min** à la sélection « Rappel »
+- [x] **Dictée** : Web Speech API (**`fr-FR`**), boutons micro sur titre, lieu et notes (**`lib/agenda/speech.ts`**) si le navigateur le permet
+- [x] Migration Drizzle **`0006_tan_cloak`** : colonnes **`event_kind`**, **`typology`** sur **`agenda_events`**
 - [x] Actions **`apps/web/app/actions/agenda.ts`**
 
 ---
@@ -243,6 +254,7 @@ Roadmap séquentielle pour un **développeur solo**, générée selon `prep_temp
 
 **Goal:** Aucun oubli mineur des documents `ai_docs/prep/` (accessibilité copy, cohérence nom **ReglePro**, liens footer).
 
+- [x] **Historique chat `/history`** : interface entièrement en **français** (titres, listes par période, dialogues renommer / supprimer, messages d’erreur côté actions et lib session-names pour les chemins utilisateur)
 - [ ] Repasser **`ai_docs/prep/app_pages_and_functionality.md`** ligne par ligne et cocher les écarts résiduels (ex. `/history` vs futur historique métier)
 - [ ] Mettre à jour chaînes utilisateur restantes dans **`components/billing/`** si elles mentionnent encore l’ancien positionnement produit
 - [ ] Aligner **`apps/web/app/(public)/terms/page.tsx`** et **`privacy/page.tsx`** avec **`app_name.md`** si des mentions légales de marque sont requises

@@ -123,6 +123,43 @@ Points forts à exploiter :
 - **Stripe déjà branché** pour monétiser avant d’optimiser chaque rapport métier.  
 - **Drizzle** : migrations versionnées pour ajouter les tables métier fichier par fichier (`npm run db:generate` après changement de schéma).
 
-**Next Steps :** valider les noms de tables et champs avec une première migration **clients + quotes** ; enchaîner factures et agenda ; mettre à jour les politiques RLS et les tests de requêtes par `user_id`.
+**Next Steps :** pièces jointes structurées, numérotation légale, Factur-X, événements d’usage métier si besoin.
 
 > **Development Approach :** traiter `initial_data_schema.md` comme contrat évolutif : chaque sprint ajoute ou affine des tables en restant aligné avec `app_pages_and_functionality.md` et `wireframe.md`. Éviter les colonnes inutiles avant que l’écran correspondant existe.
+
+---
+
+## État implémenté ReglePro (synthèse 2026-04-09)
+
+Les tables métier suivantes existent dans **`apps/web/lib/drizzle/schema/`** avec migrations Drizzle sous **`apps/web/drizzle/migrations/`** et politiques RLS documentées sous **`apps/web/supabase/policies/`** (à appliquer dans Supabase selon les instructions du projet).
+
+### `clients`
+
+- Lien **`user_id`** → `users`, champs identité / coordonnées / adresse (ville, CP, pays, etc.).
+- **Import en masse** : pas de table dédiée ; parsing côté application (**`lib/clients/import-parse.ts`**) puis insert par lots via Server Action.
+
+### `quotes` / `quote_lines`
+
+- Devis par utilisateur, **`client_id`** optionnel, statuts (brouillon, envoyé, accepté, refusé, expiré), montants HT/TVA/TTC en centimes, lignes normalisées.
+
+### `invoices` / `invoice_lines`
+
+- Factures par utilisateur, **`client_id`**, **`quote_id`** optionnel (lien devis source), statuts (brouillon, envoyé, payé, en retard, annulé), montants comme les devis.
+- Contrainte métier applicative : **au plus une facture** créée « depuis ce devis » pour un même `quote_id` (vérification dans **`createInvoiceFromQuote`**).
+
+### `agenda_events`
+
+- **`user_id`**, **`client_id`** optionnel, **`title`**, **`notes`**, **`location`**, **`start_at`**, **`end_at`**, timestamps.
+- **Extension migration `0006_tan_cloak` :**
+  - **`event_kind`** : `appointment` | `reminder` (défaut `appointment`).
+  - **`typology`** : `site_visit` | `quote` | `work` | `admin` | `other` (défaut `other`) — utilisé pour le **style couleur** des rendez-vous ; les **rappels** ont un rendu UI distinct (icône / couleur) même si `typology` peut rester `other` côté persistance.
+
+### Tableau de bord
+
+- Aucune table dédiée : agrégations dans **`lib/queries/dashboard.ts`**.
+
+---
+
+## Mise à jour du document
+
+Ce bloc **État implémenté** reflète le code au **2026-04-09**. En cas de nouvelle migration, mettre à jour cette section et **`roadmap.md`**.

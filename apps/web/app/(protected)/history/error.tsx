@@ -16,9 +16,9 @@ export default function HistoryError({ error, reset }: HistoryErrorProps) {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Chat History</h1>
+        <h1 className="text-3xl font-bold mb-2">Historique</h1>
         <p className="text-muted-foreground">
-          View and manage your previous sessions and chat sessions.
+          Consultez et gérez vos conversations passées.
         </p>
       </div>
       <div className="flex flex-col items-center justify-center text-center py-12">
@@ -37,26 +37,26 @@ export default function HistoryError({ error, reset }: HistoryErrorProps) {
             />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold mb-2">Something went wrong</h2>
+        <h2 className="text-xl font-semibold mb-2">Un problème est survenu</h2>
         <p className="text-muted-foreground mb-4 max-w-sm">
-          We encountered an error while loading your session history. This might
-          be a temporary issue.
+          Une erreur s’est produite lors du chargement de l’historique. Il peut
+          s’agir d’un problème temporaire.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button onClick={reset} className="px-6">
-            Try Again
+            Réessayer
           </Button>
           <Button
             variant="outline"
             onClick={() => (window.location.href = "/chat")}
             className="px-6"
           >
-            Go to Chat
+            Aller au chat
           </Button>
         </div>
         {error.digest && (
           <p className="text-xs text-muted-foreground mt-4">
-            Error ID: {error.digest}
+            Réf. d’erreur : {error.digest}
           </p>
         )}
       </div>

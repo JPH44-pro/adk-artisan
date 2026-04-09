@@ -12,10 +12,10 @@ export function SessionTable({
   const [sessions, setSessions] = useState(initialSessions);
 
   const sections = [
-    { key: "today", title: "Today", data: sessions.today },
-    { key: "yesterday", title: "Yesterday", data: sessions.yesterday },
-    { key: "thisWeek", title: "This Week", data: sessions.thisWeek },
-    { key: "older", title: "Older", data: sessions.older },
+    { key: "today", title: "Aujourd’hui", data: sessions.today },
+    { key: "yesterday", title: "Hier", data: sessions.yesterday },
+    { key: "thisWeek", title: "Cette semaine", data: sessions.thisWeek },
+    { key: "older", title: "Plus anciennes", data: sessions.older },
   ].filter((section) => section.data.length > 0);
 
   const handleSessionRenamed = (sessionId: string, newTitle: string) => {
@@ -76,7 +76,7 @@ export function SessionTable({
         {/* Table Header */}
         <div className="border-b bg-muted/50 p-4">
           <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-4 text-sm font-medium text-muted-foreground">
-            <div>Name</div>
+            <div>Titre</div>
             <div className="hidden md:block">Date</div>
           </div>
         </div>

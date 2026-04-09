@@ -5,7 +5,11 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { requireUserId } from "@/lib/auth";
 import { db } from "@/lib/drizzle/db";
-import { agendaEvents } from "@/lib/drizzle/schema";
+import {
+  agendaEvents,
+  AGENDA_EVENT_KINDS,
+  AGENDA_TYPOLOGIES,
+} from "@/lib/drizzle/schema";
 import { queryClientExistsForUser } from "@/lib/queries/quotes";
 
 const uuidSchema = z.string().uuid("Identifiant invalide");
@@ -16,7 +20,12 @@ const optionalTrimmed = z
   .optional()
   .transform((v) => (v === undefined || v === "" ? undefined : v.trim()));
 
+const kindSchema = z.enum(AGENDA_EVENT_KINDS);
+const typologySchema = z.enum(AGENDA_TYPOLOGIES);
+
 const eventInputSchema = z.object({
+  eventKind: kindSchema.default("appointment"),
+  typology: typologySchema.default("other"),
   title: z.string().trim().min(1, "Le titre est obligatoire").max(300),
   notes: z
     .string()
@@ -72,6 +81,8 @@ export async function createAgendaEvent(
     .values({
       userId,
       clientId: data.clientId ?? null,
+      eventKind: data.eventKind,
+      typology: data.typology,
       title: data.title,
       notes: data.notes ?? null,
       location: data.location ?? null,
@@ -126,6 +137,8 @@ export async function updateAgendaEvent(
     .update(agendaEvents)
     .set({
       clientId: data.clientId ?? null,
+      eventKind: data.eventKind,
+      typology: data.typology,
       title: data.title,
       notes: data.notes ?? null,
       location: data.location ?? null,

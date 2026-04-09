@@ -12,6 +12,7 @@ import {
   type InvoiceStatus,
 } from "@/lib/drizzle/schema";
 import { aggregateQuoteTotals, lineTotalHtCents } from "@/lib/quotes/calc";
+import { queryInvoiceIdByQuoteForUser } from "@/lib/queries/invoices";
 import {
   queryClientExistsForUser,
   queryQuoteWithLinesForUser,
@@ -109,7 +110,10 @@ export async function createInvoice(
 
 export async function createInvoiceFromQuote(
   quoteId: string
-): Promise<{ success: true; id: string } | { error: string }> {
+): Promise<
+  | { success: true; id: string }
+  | { error: string; existingInvoiceId?: string }
+> {
   const userId = await requireUserId();
   const idParsed = uuidSchema.safeParse(quoteId);
   if (!idParsed.success) {
@@ -121,15 +125,26 @@ export async function createInvoiceFromQuote(
     return { error: "Devis introuvable." };
   }
 
-  if (data.quote.status !== "accepted") {
+  if (data.quote.status !== "sent" && data.quote.status !== "accepted") {
     return {
       error:
-        "Pour créer une facture depuis un devis, le devis doit être au statut « Accepté ».",
+        "Pour facturer, le devis doit être au statut « Envoyé » ou « Accepté ».",
     };
   }
 
   if (data.lines.length === 0) {
     return { error: "Le devis ne contient aucune ligne." };
+  }
+
+  const existingInvoiceId = await queryInvoiceIdByQuoteForUser(
+    userId,
+    idParsed.data
+  );
+  if (existingInvoiceId) {
+    return {
+      error: "Une facture existe déjà pour ce devis.",
+      existingInvoiceId,
+    };
   }
 
   try {
@@ -175,6 +190,7 @@ export async function createInvoiceFromQuote(
 
     revalidatePath("/factures");
     revalidatePath("/devis");
+    revalidatePath(`/devis/${idParsed.data}`);
     return { success: true, id: newId };
   } catch (e) {
     console.error("createInvoiceFromQuote", e);

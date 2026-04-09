@@ -43,6 +43,13 @@
       "when": 1775505625262,
       "tag": "0005_wise_maginty",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1775768735675,
+      "tag": "0006_tan_cloak",
+      "breakpoints": true
     }
   ]
 }

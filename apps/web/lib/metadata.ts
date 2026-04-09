@@ -7,48 +7,46 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: {
-    template: "%s | ADK Agent SaaS",
-    default: "ADK Agent SaaS: AI-Powered Competitor Analysis Platform",
+    template: "%s | ReglePro",
+    default: "ReglePro — Gestion pour artisans et TPE du bâtiment",
   },
   description:
-    "AI-powered competitor analysis platform. Transform your market research with intelligent insights and strategic analysis powered by Google's Agent Development Kit.",
+    "Devis, factures, dossier clients et agenda : un outil de gestion pour artisans et très petites entreprises du bâtiment, avec un abonnement clair.",
   keywords: [
-    "AI Competitor Analysis",
-    "Market Research",
-    "Business Intelligence",
-    "Strategic Analysis",
-    "ADK Agent",
-    "Competitive Intelligence",
-    "Market Insights",
-    "Agent Development Kit",
-    "AI Platform",
-    "Business Analysis",
-    "Market Strategy",
-    "Research Assistant",
+    "ReglePro",
+    "artisan",
+    "BTP",
+    "devis",
+    "factures",
+    "gestion",
+    "TPE",
+    "agenda",
+    "clients",
+    "SaaS",
   ],
   openGraph: {
-    title: "ADK Agent SaaS: AI-Powered Competitor Analysis Platform",
+    title: "ReglePro — Gestion pour artisans et TPE du bâtiment",
     description:
-      "AI-powered competitor analysis platform. Transform your market research with intelligent insights and strategic analysis powered by Google's Agent Development Kit.",
+      "Devis, factures, clients et agenda au même endroit. Pensé pour le terrain et le bureau.",
     url: new URL(defaultUrl),
-    siteName: "ADK Agent SaaS",
+    siteName: "ReglePro",
     images: [
       {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ADK Agent SaaS - AI-powered competitor analysis platform showing market insights and strategic analysis.",
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "ReglePro — logo",
       },
     ],
-    locale: "en_US",
+    locale: "fr_FR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ADK Agent SaaS: AI-Powered Competitor Analysis Platform",
+    title: "ReglePro — Gestion pour artisans et TPE du bâtiment",
     description:
-      "AI-powered competitor analysis platform. Transform your market research with intelligent insights and strategic analysis.",
-    images: ["/twitter-image.png"],
+      "Devis, factures, clients et agenda au même endroit. Pensé pour le terrain et le bureau.",
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
@@ -63,6 +61,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -71,14 +70,14 @@ export const generateLegalMetadata = (
   description: string
 ): Metadata => {
   return {
-    title: `${title} | ADK Agent SaaS`,
+    title: `${title} | ReglePro`,
     description,
     robots: {
       index: true,
       follow: true,
     },
     openGraph: {
-      title: `${title} | ADK Agent SaaS`,
+      title: `${title} | ReglePro`,
       description,
       type: "website",
     },

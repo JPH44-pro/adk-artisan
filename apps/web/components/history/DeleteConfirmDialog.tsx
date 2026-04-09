@@ -42,13 +42,13 @@ export function DeleteConfirmDialog({
         setError(result.error);
       } else {
         onSuccess?.(sessionId);
-        toast.success("Session deleted successfully");
+        toast.success("Conversation supprimée");
         onOpenChange(false);
         setError(null);
       }
     } catch (error) {
       console.error("Error deleting session:", error);
-      setError("Failed to delete session");
+      setError("Impossible de supprimer la conversation.");
     } finally {
       setIsLoading(false);
     }
@@ -67,12 +67,12 @@ export function DeleteConfirmDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete Session</DialogTitle>
+          <DialogTitle>Supprimer la conversation</DialogTitle>
           <DialogDescription className="break-words">
-            Are you sure you want to delete &ldquo;
-            <span className="break-all sm:break-words">{sessionTitle}</span>
-            &rdquo;? This action cannot be undone and all messages in this
-            session will be permanently removed.
+            Voulez-vous vraiment supprimer «{" "}
+            <span className="break-all sm:break-words">{sessionTitle}</span>{" "}
+            » ? Cette action est irréversible et tous les messages de cette
+            session seront définitivement supprimés.
           </DialogDescription>
         </DialogHeader>
 
@@ -89,7 +89,7 @@ export function DeleteConfirmDialog({
             onClick={() => handleOpenChange(false)}
             disabled={isLoading}
           >
-            Cancel
+            Annuler
           </Button>
           <Button
             type="button"
@@ -97,7 +97,7 @@ export function DeleteConfirmDialog({
             onClick={handleDelete}
             disabled={isLoading}
           >
-            {isLoading ? "Deleting..." : "Delete"}
+            {isLoading ? "Suppression…" : "Supprimer"}
           </Button>
         </DialogFooter>
       </DialogContent>

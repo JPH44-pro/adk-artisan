@@ -17,9 +17,13 @@ export function formatYmdUtc(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
 
+/** Nombre de semaines calendaires UTC affichées sur l’agenda (lundi → dimanche). */
+export const AGENDA_VISIBLE_WEEK_COUNT = 5;
+
 /**
  * `week` = n’importe quel jour (YYYY-MM-DD) ou absent : ancre sur aujourd’hui UTC.
- * Retourne le lundi UTC et la fin d’intervalle (lundi + 7 jours) pour requêtes [start, end).
+ * Retourne le lundi UTC de la 1re semaine visible et la fin d’intervalle [start, end)
+ * couvrant `AGENDA_VISIBLE_WEEK_COUNT` semaines complètes.
  */
 export function resolveWeekRangeFromParam(weekParam: string | undefined): {
   monday: Date;
@@ -36,6 +40,6 @@ export function resolveWeekRangeFromParam(weekParam: string | undefined): {
     anchor = new Date();
   }
   const monday = getUtcMonday(anchor);
-  const rangeEnd = addUtcDays(monday, 7);
+  const rangeEnd = addUtcDays(monday, 7 * AGENDA_VISIBLE_WEEK_COUNT);
   return { monday, rangeEnd };
 }

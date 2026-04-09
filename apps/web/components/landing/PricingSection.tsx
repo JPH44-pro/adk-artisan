@@ -174,7 +174,7 @@ export default function PricingSection() {
 
         <div className="text-center">
           <h3 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-8">
-            Pourquoi pas une marketplace à leads ?
+            Pourquoi pas un site qui vous vend des chantiers ?
           </h3>
           <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-xl p-6 border border-slate-200/50 dark:border-slate-600/50">
@@ -206,13 +206,13 @@ export default function PricingSection() {
 
             <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-xl p-6 border border-slate-200/50 dark:border-slate-600/50">
               <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-3">
-                Places à leads
+                Intermédiaires & contacts payants
               </h4>
               <div className="text-2xl font-bold text-slate-600 dark:text-slate-400 mb-2">
                 Commission
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Souvent opaque sur la marge
+                Un pourcentage sur vos factures, peu lisible au quotidien
               </p>
             </div>
           </div>

@@ -2,6 +2,8 @@
 
 **Contexte :** Ce document suit `prep_templates/01_generate_master_idea.md` et reprend l’analyse métier de `Doctolib de l'artisan.pdf` (mars 2026). Il définit la vision produit d’une plateforme pour **les métiers de l’artisanat et du bâtiment en France**. L’implémentation technique pourra réutiliser ou adapter la stack existante (Next.js, Supabase, agents IA optionnels) dans les étapes de préparation ultérieures.
 
+**Point de situation technique (2026-04-09) :** le dépôt **adk-artisan** (marque **ReglePro**) implémente déjà le cœur **MVP gestion** : clients (dont **import CSV/Excel**), devis, factures (dont **émission depuis devis**), **agenda** multi-semaines (tuiles, **rappels**, **typologies** colorées, **dictée** navigateur), tableau de bord. L’écran **Historique** des sessions chat est **en français**. Détail des fichiers, migrations et routes : **`roadmap.md`**, **`app_pages_and_functionality.md`**, **`initial_data_schema.md`**, **`system_architecture.md`**, **`page_navigation_routes.md`**.
+
 ### Objectif final
 
 Le produit aide **les artisans et travailleurs indépendants français** (électriciens, plombiers, jardiniers, plaquistes, et métiers assimilés) à obtenir **une planification fiable, une gestion de la relation client et des devis / factures plus rapides** grâce à une **plateforme d’exploitation centrée SaaS** (sur le modèle de ce qui a fait le succès de Doctolib : **agenda, rappels et flux métier**, et non « un intermédiaire de leads de plus »). La **prise de rendez-vous côté client** et les **avis vérifiés** sont **secondaires** : ils interviennent **après** que l’artisan tire chaque jour une valeur concrète des outils de gestion.

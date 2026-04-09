@@ -27,13 +27,13 @@ export type GroupedSessions = {
  */
 function generateTimestampBasedTitle(session: AdkSession): string {
   const date = new Date(session.last_update_time || Date.now());
-  const timeStr = date.toLocaleDateString("en-US", {
+  const timeStr = date.toLocaleDateString("fr-FR", {
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
   });
-  return `Session from ${timeStr}`;
+  return `Conversation du ${timeStr}`;
 }
 
 /**
@@ -235,7 +235,7 @@ export async function getSessionsGrouped(
     };
   } catch (error) {
     console.error("Error fetching sessions:", error);
-    throw new Error("Failed to fetch sessions");
+    throw new Error("Impossible de récupérer les conversations");
   }
 }
 

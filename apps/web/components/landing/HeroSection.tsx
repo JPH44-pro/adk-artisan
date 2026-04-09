@@ -17,7 +17,7 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-3 py-2 sm:px-4 sm:py-2 mb-4 sm:mb-6 animate-fade-in">
             <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
             <span className="text-xs sm:text-sm font-medium text-primary">
-              Gestion pro, pas marketplace à leads
+              Logiciel de gestion — pas d’intermédiaire sur vos chantiers
             </span>
           </div>
 

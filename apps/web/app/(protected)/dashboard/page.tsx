@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Calendar,
-  FileText,
-  Users,
-  Wallet,
-} from "lucide-react";
+import { ArrowRight, Users } from "lucide-react";
 import { requireUserId } from "@/lib/auth";
 import { formatYmdUtc } from "@/lib/agenda/week";
 import { queryDashboardForUser } from "@/lib/queries/dashboard";
@@ -58,7 +52,7 @@ export default async function DashboardPage(): Promise<ReactElement> {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-10">
+      <div className="mb-10 max-w-sm">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Clients</CardTitle>
@@ -79,62 +73,18 @@ export default async function DashboardPage(): Promise<ReactElement> {
             </CardDescription>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Devis en attente
-            </CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums">
-              {kpi.pendingQuotesCount}
-            </div>
-            <CardDescription className="mt-1">
-              Brouillons et envoyés
-            </CardDescription>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Factures en retard
-            </CardTitle>
-            <Wallet className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums text-destructive">
-              {kpi.overdueInvoicesCount}
-            </div>
-            <CardDescription className="mt-1">
-              Statut « en retard » ou échéance dépassée
-            </CardDescription>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">RDV à venir</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums">
-              {kpi.upcomingEventsNext30DaysCount}
-            </div>
-            <CardDescription className="mt-1">
-              Sur les 30 prochains jours
-            </CardDescription>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1">
           <CardHeader className="flex flex-row items-start justify-between gap-2">
             <div>
-              <CardTitle>Devis à traiter</CardTitle>
+              <CardTitle className="flex flex-wrap items-baseline gap-2">
+                Devis à traiter
+                <span className="text-2xl font-bold tabular-nums">
+                  {kpi.pendingQuotesCount}
+                </span>
+              </CardTitle>
               <CardDescription>
                 Brouillons et devis envoyés (les plus récents d’abord)
               </CardDescription>
@@ -177,7 +127,12 @@ export default async function DashboardPage(): Promise<ReactElement> {
         <Card className="lg:col-span-1">
           <CardHeader className="flex flex-row items-start justify-between gap-2">
             <div>
-              <CardTitle>Factures en retard</CardTitle>
+              <CardTitle className="flex flex-wrap items-baseline gap-2">
+                Factures en retard
+                <span className="text-2xl font-bold tabular-nums text-destructive">
+                  {kpi.overdueInvoicesCount}
+                </span>
+              </CardTitle>
               <CardDescription>
                 Échéance dépassée ou statut « en retard »
               </CardDescription>
@@ -221,8 +176,15 @@ export default async function DashboardPage(): Promise<ReactElement> {
         <Card className="lg:col-span-1">
           <CardHeader className="flex flex-row items-start justify-between gap-2">
             <div>
-              <CardTitle>Prochains rendez-vous</CardTitle>
-              <CardDescription>Les 5 prochains événements</CardDescription>
+              <CardTitle className="flex flex-wrap items-baseline gap-2">
+                Prochains rendez-vous
+                <span className="text-2xl font-bold tabular-nums">
+                  {kpi.upcomingEventsNext30DaysCount}
+                </span>
+              </CardTitle>
+              <CardDescription>
+                Sur les 30 prochains jours — aperçu des 5 prochains
+              </CardDescription>
             </div>
             <Button variant="outline" size="sm" asChild>
               <Link href="/agenda">Agenda</Link>

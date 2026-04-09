@@ -1,0 +1,22 @@
+ReglePro — e-mails d’authentification Supabase
+==============================================
+
+1) Ouvrir le projet Supabase → Authentication → Emails (ou « Email templates »).
+
+2) Modèle « Confirm signup »
+   - Subject (objet) : Finalisez votre inscription — ReglePro
+   - Message body : coller le contenu de confirm-signup.html (sans les lignes de commentaire <!-- ... --> en tête si vous préférez).
+
+3) Modèle « Reset password »
+   - Subject : Réinitialisation de votre mot de passe — ReglePro
+   - Message body : coller reset-password.html (idem commentaires).
+
+4) Nom d’expéditeur « ReglePro » au lieu de « Supabase Auth »
+   Avec l’envoi e-mail par défaut Supabase, l’expéditeur affiché côté boîte mail reste souvent lié à Supabase.
+   Pour que l’e-mail parte clairement comme ReglePro (ex. noreply@votredomaine.fr + nom d’affichage ReglePro) :
+   Project Settings → Authentication → SMTP Settings → configurer un SMTP personnalisé (SendGrid, Resend, Brevo, etc.)
+   puis définir l’adresse et le nom d’affichage souhaités.
+
+5) Vérifier aussi Authentication → URL configuration : Site URL et Redirect URLs pointent vers votre app (prod Vercel + localhost en dev).
+
+Fichiers : confirm-signup.html, reset-password.html dans ce dossier.

@@ -1,27 +1,27 @@
 import { Badge } from "@/components/ui/badge";
-import { Clock, FileWarning, Wallet, AlertTriangle } from "lucide-react";
+import { Clock, FileWarning, Wallet, AlertTriangle, Hammer } from "lucide-react";
 
 const problems = [
   {
     icon: FileWarning,
-    title: "L’admin éclatée entre plusieurs outils",
+    title: "Papier et fichiers dans tous les sens",
     description:
-      "Devis dans un tableur, factures ailleurs, relances par mémoire : vous perdez du temps et des informations entre le chantier et le bureau.",
-    impact: "Erreurs, doublons et soirées de rattrapage",
+      "Devis dans un tableur, factures ailleurs, relances « de tête » : entre le camion et le bureau, l’info se perd et vous repassez deux fois la même chose.",
+    impact: "Erreurs, doublons et soirées à rattraper l’admin",
   },
   {
     icon: Wallet,
-    title: "Impossible de voir ce qui bloque la trésorerie",
+    title: "La trésorerie, sans tableau clair",
     description:
-      "Sans suivi clair des factures et des relances, les retards de paiement s’accumulent sans vue d’ensemble.",
-    impact: "Trésorerie tendue sans visibilité",
+      "Sans vue d’ensemble sur les factures et les relances, les retards de paiement s’empilent — et vous ne voyez pas tout de suite ce qui coince.",
+    impact: "Encaissements qui traînent, stress en fin de mois",
   },
   {
     icon: Clock,
-    title: "Agenda et rendez-vous ingérables",
+    title: "Rendez-vous et déplacements mal cadrés",
     description:
-      "Changements de dernière minute, oublis et déplacements mal planifiés : le manque de centralisation coûte cher.",
-    impact: "No-shows et temps de route mal utilisés",
+      "Imprévus, oublis, trajets mal enchaînés : quand l’agenda n’est pas au même endroit que le reste, ça vous coûte du temps et des kilomètres.",
+    impact: "Créneaux perdus et journées plus longues qu’il ne faudrait",
   },
 ];
 
@@ -34,20 +34,22 @@ export default function ProblemSection() {
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="text-center mb-20">
-          <Badge className="rounded-lg mb-6 bg-red-50 dark:bg-red-500/20 text-red-600 dark:text-red-400 border-red-200 dark:border-red-400 hover:bg-red-100 dark:hover:bg-red-950/70 transition-all duration-300 text-sm">
+          <Badge className="rounded-lg mb-6 bg-primary/10 dark:bg-primary/20 text-primary border-primary/25 dark:border-primary/40 hover:bg-primary/15 dark:hover:bg-primary/25 transition-all duration-300 text-sm">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="w-3 h-3" />
-              Les freins du quotidien artisan
+              <Hammer className="w-3 h-3" />
+              Ce que ReglePro vous apporte
             </div>
           </Badge>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-800 dark:text-white mb-8">
-            Le marché est saturé de{" "}
-            <span className="text-red-500">places de marché à leads</span>
+            Un seul outil pour{" "}
+            <span className="text-primary">
+              vos devis, factures, clients et rendez-vous
+            </span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto leading-relaxed">
-            Beaucoup d’offres prennent une commission sur vos chantiers ou restent
-            superficielles. Les vraies douleurs : charge administrative, impayés,
-            planning et confiance dans un outil au tarif lisible.
+            ReglePro sert à faire tourner votre activité au quotidien : rédiger et
+            suivre vos devis, émettre vos factures, tenir le dossier client et
+            noter vos déplacements. Tarif en abonnement lisible.
           </p>
         </div>
 
@@ -98,14 +100,15 @@ export default function ProblemSection() {
         <div className="relative bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl rounded-3xl py-12 px-10 sm:p-12 border border-primary/10 dark:border-primary/20 shadow-2xl shadow-primary/5">
           <div className="text-center">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4 sm:mb-6">
-              Un poste de pilotage{" "}
-              <span className="text-primary">pour l’exploitation</span>
+              Moins de dispersion,{" "}
+              <span className="text-primary">plus de temps sur le métier</span>
             </h3>
 
             <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed">
-              ReglePro vise d’abord la valeur quotidienne : devis, factures,
-              dossier client, agenda. Pas une marketplace qui prélève sur vos
-              chantiers : un abonnement clair, aligné sur votre activité.
+              Vous gardez la main sur vos prix et vos chantiers : ReglePro ne vous
+              vend pas de « contacts » et ne prend pas sa part sur vos factures.
+              L’objectif, c’est un carnet de gestion propre, du premier devis à la
+              dernière relance.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 lg:gap-12 max-w-4xl mx-auto">
@@ -114,8 +117,8 @@ export default function ProblemSection() {
                   <FileWarning className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <div className="font-bold text-base sm:text-lg">Flux métier</div>
-                  <div className="text-sm sm:text-base opacity-75">au même endroit</div>
+                  <div className="font-bold text-base sm:text-lg">Tout au même endroit</div>
+                  <div className="text-sm sm:text-base opacity-75">devis, factures, clients</div>
                 </div>
               </div>
 
@@ -124,8 +127,8 @@ export default function ProblemSection() {
                   <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <div className="font-bold text-base sm:text-lg">Équité</div>
-                  <div className="text-sm sm:text-base opacity-75">sans commission cachée</div>
+                  <div className="font-bold text-base sm:text-lg">Prix carré</div>
+                  <div className="text-sm sm:text-base opacity-75">abonnement, pas de % sur vos chantiers</div>
                 </div>
               </div>
 
@@ -134,8 +137,8 @@ export default function ProblemSection() {
                   <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <div className="font-bold text-base sm:text-lg">Terrain</div>
-                  <div className="text-sm sm:text-base opacity-75">mobile friendly</div>
+                  <div className="font-bold text-base sm:text-lg">Sur le terrain</div>
+                  <div className="text-sm sm:text-base opacity-75">utilisable au chantier comme au bureau</div>
                 </div>
               </div>
             </div>

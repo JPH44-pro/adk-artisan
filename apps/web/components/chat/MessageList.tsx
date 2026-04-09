@@ -117,15 +117,15 @@ function AgentHeader({ message }: { message: Message }) {
       <div className="flex items-center gap-2 flex-wrap">
         <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-chat-assistant-fg" />
         <h4 className="text-sm sm:text-base font-semibold text-chat-assistant-fg">
-          {message.agent ? getAgentTitle(message.agent) : "Agent Activity"}
+          {message.agent ? getAgentTitle(message.agent) : "Assistant"}
         </h4>
 
         {/* Source Count Badge */}
         {message.sources && message.sources.length > 0 && (
           <Badge variant="secondary">
             <LinkIcon className="w-3 h-3 mr-1" />
-            {message.sources.length} source
-            {message.sources.length !== 1 ? "s" : ""}
+            {message.sources.length}{" "}
+            {message.sources.length !== 1 ? "sources" : "source"}
           </Badge>
         )}
       </div>
@@ -173,7 +173,7 @@ function LoadingIndicator() {
     <Card className="p-3 sm:p-4 bg-primary text-chat-assistant-fg mr-2 sm:mr-4 md:mr-6 lg:mr-8">
       <div className="flex items-center space-x-2">
         <Loader2 className="h-4 w-4 animate-spin" />
-        <span className="text-sm">Agent generating response...</span>
+        <span className="text-sm">L’assistant prépare une réponse…</span>
       </div>
     </Card>
   );

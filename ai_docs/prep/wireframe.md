@@ -75,11 +75,10 @@ Dashboard  `/dashboard`
 
 Liste clients  `/clients`
 +----------------------------------------------------------+
-| [Sidebar]              | [Titre + bouton Nouveau client]  |
-|                        | [Barre recherche + filtres]      |
-|                        | [Table ou cartes : nom, ville,   |
-|                        |  dernier contact, actions]       |
-|                        | [Pagination]                     |
+| [Sidebar]              | [Titre + Nouveau client + Importer|
+|                        |  CSV/Excel]                      |
+|                        | [Barre recherche + pagination]   |
+|                        | [Table : nom, ville, …]          |
 +----------------------------------------------------------+
 
 Fiche client  `/clients/[clientId]`
@@ -96,22 +95,19 @@ Fiche client  `/clients/[clientId]`
 Liste devis  `/devis`
 +----------------------------------------------------------+
 | [Sidebar]              | [Titre + Nouveau devis]          |
-|                        | [Filtres statut : brouillon,     |
-|                        |  envoyé, accepté, refusé, expiré]|
-|                        | [Liste lignes avec statut badge] |
+|                        | [Filtres statut]                 |
+|                        | [Table + colonne Facturer si     |
+|                        |  envoyé/accepté → facture]       |
 |                        | [Pagination]                     |
 +----------------------------------------------------------+
 
 Édition devis  `/devis/[quoteId]`
 +----------------------------------------------------------+
-| [Sidebar]              | [En-tête : titre, statut, actions|
-|                        |  enregistrer, envoyer, PDF]      |
+| [Sidebar]              | [En-tête : titre, statut,        |
+|                        |  Créer une facture si OK statut, |
+|                        |  dupliquer, supprimer]           |
 |                        | [Bloc client lié]                |
-|                        | [Tableau lignes : désignation,    |
-|                        |  qté, PU, TVA, sous-totaux]      |
-|                        | [Totaux HT / TVA / TTC]          |
-|                        | [Zone notes / conditions]        |
-|                        | [Historique version minimal si MVP] |
+|                        | [Tableau lignes, totaux, notes]  |
 +----------------------------------------------------------+
 
 Liste factures  `/factures`
@@ -133,11 +129,15 @@ Détail facture  `/factures/[invoiceId]`
 
 Agenda  `/agenda`
 +----------------------------------------------------------+
-| [Sidebar]              | [Switch vue : jour / semaine]    |
-|                        | [Grille ou liste créneaux]       |
-|                        | [Créneau : client, chantier,     |
-|                        |  lien fiche]                     |
-|                        | [Bouton nouveau rendez-vous]     |
+| [Sidebar]              | [Titre + Nouvel événement]       |
+|                        | [Nav semaine + plage 5 semaines] |
+|                        | [Légende : RDV / rappel / types] |
+|                        | [Lun…Dim en-tête]                |
+|                        | [5 × 7 tuiles carrées : jour +   |
+|                        |  pastilles colorées ; survol =   |
+|                        |  infobulle ; clic = édition]     |
+|                        | [Formulaire : rappel vs RDV,     |
+|                        |  typologie, micro dictée]        |
 +----------------------------------------------------------+
 
 Profil et facturation  `/profile`
@@ -159,9 +159,12 @@ Héritage template  `/chat`  et  `/chat/[[...sessionId]]`
 
 Historique template  `/history`
 +----------------------------------------------------------+
-| [Sidebar]              | [Liste sessions chat passées]    |
-|                        | (À fusionner avec historique     |
-|                        |  métier devis / chantiers)       |
+| [Sidebar]              | [Historique — titres FR]         |
+|                        | [Groupes : Aujourd’hui, Hier,    |
+|                        |  Cette semaine, Plus anciennes]  |
+|                        | [Renommer / supprimer session]   |
+|                        | (Fusion historique métier plus   |
+|                        |  tard selon produit)             |
 +----------------------------------------------------------+
 ```
 

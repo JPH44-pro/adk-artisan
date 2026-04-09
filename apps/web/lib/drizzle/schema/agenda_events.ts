@@ -10,6 +10,20 @@ import type { InferSelectModel } from "drizzle-orm";
 import { users } from "./users";
 import { clients } from "./clients";
 
+/** Rendez-vous classique ou rappel (affichage et icône distincts). */
+export const AGENDA_EVENT_KINDS = ["appointment", "reminder"] as const;
+export type AgendaEventKind = (typeof AGENDA_EVENT_KINDS)[number];
+
+/** Typologie métier pour la couleur des rendez-vous. */
+export const AGENDA_TYPOLOGIES = [
+  "site_visit",
+  "quote",
+  "work",
+  "admin",
+  "other",
+] as const;
+export type AgendaTypology = (typeof AGENDA_TYPOLOGIES)[number];
+
 export const agendaEvents = pgTable(
   "agenda_events",
   {
@@ -20,6 +34,14 @@ export const agendaEvents = pgTable(
     clientId: uuid("client_id").references(() => clients.id, {
       onDelete: "set null",
     }),
+    /** `reminder` = rappel (icône cloche, style dédié). */
+    eventKind: text("event_kind", { enum: AGENDA_EVENT_KINDS })
+      .notNull()
+      .default("appointment"),
+    /** Sous-type pour la couleur (rappels : souvent `other`). */
+    typology: text("typology", { enum: AGENDA_TYPOLOGIES })
+      .notNull()
+      .default("other"),
     title: text("title").notNull(),
     notes: text("notes"),
     /** Chantier / lieu (optionnel). */
