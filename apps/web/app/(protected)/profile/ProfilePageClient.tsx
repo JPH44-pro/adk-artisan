@@ -4,6 +4,7 @@ import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { AccountInformationCard } from "@/components/profile/AccountInformationCard";
+import { QuoteBrandingCard } from "@/components/profile/QuoteBrandingCard";
 import { UsageStatisticsCard } from "@/components/profile/UsageStatisticsCard";
 import { SubscriptionPlansCard } from "@/components/profile/SubscriptionPlansCard";
 import { BillingManagementCard } from "@/components/billing/BillingManagementCard";
@@ -94,6 +95,8 @@ function ProfilePageContent() {
       <div className="grid gap-6 md:grid-cols-2">
         {/* Account Information */}
         <AccountInformationCard />
+
+        <QuoteBrandingCard />
 
         {/* Billing & Subscription Management */}
         <BillingManagementCard />

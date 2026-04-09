@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import Stripe from "stripe";
 import { stripe, STRIPE_CONFIG } from "@/lib/stripe";
 import { db } from "@/lib/drizzle/db";
+import { selectUserByIdFullOrLegacy } from "@/lib/drizzle/select-user-by-id";
 import { users } from "@/lib/drizzle/schema";
 import { env } from "@/lib/env";
 import { getCurrentUserId } from "@/lib/auth";
@@ -90,11 +91,7 @@ export async function createCheckoutSession() {
     }
 
     // Get or create user in our database
-    const [dbUser] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
+    const dbUser = await selectUserByIdFullOrLegacy(userId);
 
     if (!dbUser) {
       throw new Error("User not found");
@@ -177,11 +174,7 @@ export async function createCustomerPortalSession(): Promise<{
       return { success: false, error: "Authentication required" };
     }
 
-    const [dbUser] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
+    const dbUser = await selectUserByIdFullOrLegacy(userId);
 
     if (!dbUser?.stripe_customer_id) {
       return { success: false, error: "No Stripe customer found" };
@@ -302,11 +295,7 @@ export async function createCancelSession(): Promise<void> {
       throw new Error("Authentication required");
     }
 
-    const [dbUser] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
+    const dbUser = await selectUserByIdFullOrLegacy(userId);
 
     if (!dbUser?.stripe_customer_id) {
       throw new Error("No Stripe customer found");

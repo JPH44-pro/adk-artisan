@@ -7,6 +7,8 @@ export interface UserContextType {
   id: string;
   email: string | null;
   full_name: string | null;
+  quoteCompanyName: string | null;
+  quoteLetterhead: string | null;
   role: UserRole;
   created_at: Date | null;
   stripe_customer_id: string | null;

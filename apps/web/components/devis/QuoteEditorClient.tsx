@@ -5,7 +5,7 @@ import type { ReactElement } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ChevronLeft, Copy, Trash2 } from "lucide-react";
+import { ChevronLeft, Copy, FileDown, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -242,6 +242,16 @@ export function QuoteEditorClient({
             )}
           </div>
           <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" size="sm" asChild title="Ouvre le PDF : impression ou pièce jointe e-mail.">
+              <a
+                href={`/api/quotes/${quote.id}/pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileDown className="h-4 w-4 mr-1" />
+                PDF
+              </a>
+            </Button>
             <CreateInvoiceFromQuoteButton
               quoteId={quote.id}
               variant="secondary"
@@ -273,6 +283,11 @@ export function QuoteEditorClient({
               Supprimer
             </Button>
           </div>
+          <p className="text-xs text-muted-foreground lg:text-right lg:max-w-md lg:ml-auto">
+            Le PDF reflète la dernière version enregistrée en base. Enregistrez
+            le devis avant de le générer. Personnalisez l’en-tête (société) dans
+            le profil.
+          </p>
         </div>
       </div>
 

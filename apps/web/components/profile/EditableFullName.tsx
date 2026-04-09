@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit2, X, Check } from "lucide-react";
 import { toast } from "sonner";
 import { useUser } from "@/contexts/UserContext";
+import { updateUserFullName } from "@/app/actions/profile";
 
 export function EditableFullName() {
+  const router = useRouter();
   const { full_name } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(full_name || "");
@@ -26,30 +29,24 @@ export function EditableFullName() {
 
   const handleSaveEdit = async () => {
     if (!editValue.trim()) {
-      toast.error("Name cannot be empty");
+      toast.error("Le nom ne peut pas être vide.");
       return;
     }
 
     setIsSaving(true);
     try {
-      const response = await fetch("/api/user", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: editValue.trim() }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update name");
+      const result = await updateUserFullName(editValue.trim());
+      if ("error" in result && result.error) {
+        toast.error(result.error);
+        return;
       }
-
       setCurrentFullName(editValue.trim());
       setIsEditing(false);
-      toast.success(
-        "Name updated successfully. Please refresh to see changes."
-      );
+      toast.success("Nom mis à jour.");
+      router.refresh();
     } catch (error) {
       console.error("Error updating full name:", error);
-      toast.error("Failed to update name");
+      toast.error("Impossible de mettre à jour le nom.");
     } finally {
       setIsSaving(false);
     }

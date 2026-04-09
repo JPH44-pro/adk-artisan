@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { db } from "@/lib/drizzle/db";
+import { selectUserByIdFullOrLegacy } from "@/lib/drizzle/select-user-by-id";
 import { users, type User, type UserRole } from "@/lib/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
@@ -43,18 +44,11 @@ export async function getCurrentUserWithRole(): Promise<{
       return null;
     }
 
-    // Get user data with role from our database
-    const userData = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, authUser.id))
-      .limit(1);
+    const user = await selectUserByIdFullOrLegacy(authUser.id);
 
-    if (userData.length === 0) {
+    if (!user) {
       return null;
     }
-
-    const user = userData[0];
     return {
       user,
       isAdmin: user.role === "admin",

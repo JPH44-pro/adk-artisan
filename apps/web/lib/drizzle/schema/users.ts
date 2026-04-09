@@ -10,6 +10,11 @@ export const users = pgTable(
     email: text("email").notNull().unique(), // Synced from auth.users
     full_name: text("full_name"),
 
+    /** Raison sociale / nom affiché sur les devis PDF (optionnel). */
+    quoteCompanyName: text("quote_company_name"),
+    /** Bloc libre (adresse, SIRET, TVA, téléphone…) sur les devis PDF. */
+    quoteLetterhead: text("quote_letterhead"),
+
     // Metadata
     created_at: timestamp("created_at", { withTimezone: true })
       .defaultNow()

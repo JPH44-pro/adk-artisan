@@ -50,6 +50,13 @@
       "when": 1775768735675,
       "tag": "0006_tan_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1775770433982,
+      "tag": "0007_crazy_millenium_guard",
+      "breakpoints": true
     }
   ]
 }
